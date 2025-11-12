@@ -82,6 +82,37 @@ jobs:
                  packages/analyzer/bindings/index.js
                  packages/analyzer/bindings/index.d.ts
 
+   universalize:
+      name: Create Universal Binary
+      runs-on: macos-latest
+      needs: build
+      steps:
+         - uses: actions/checkout@v5
+         - uses: pnpm/action-setup@v4
+         - uses: actions/setup-node@v4
+
+         - name: Download x64 binary
+           uses: actions/download-artifact@v4
+           with:
+              name: bindings-x86_64-apple-darwin
+              path: packages/analyzer/bindings
+
+         - name: Download arm64 binary
+           uses: actions/download-artifact@v4
+           with:
+              name: bindings-aarch64-apple-darwin
+              path: packages/analyzer/bindings
+
+         - name: Create universal binary
+           working-directory: packages/analyzer
+           run: pnpm napi universalize
+
+         - name: Upload universal binary
+           uses: actions/upload-artifact@v4
+           with:
+              name: bindings-universal-apple-darwin
+              path: packages/analyzer/bindings/*.darwin-universal.node
+
    publish:
       name: Publish
       runs-on: ubuntu-latest

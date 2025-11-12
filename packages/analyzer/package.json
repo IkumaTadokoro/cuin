@@ -1,6 +1,6 @@
 {
   "name": "cuin-analyzer",
-  "version": "0.0.2-fix-10",
+  "version": "0.0.2-fix-11",
   "description": "component usage analyzer",
   "type": "module",
   "main": "bindings/index.js",
@@ -19,6 +19,7 @@
     "targets": [
       "x86_64-apple-darwin",
       "aarch64-apple-darwin",
+      "universal-apple-darwin",
       "x86_64-pc-windows-msvc",
       "x86_64-unknown-linux-gnu",
       "aarch64-unknown-linux-gnu"
