@@ -1,0 +1,31 @@
+name: Rust
+
+on:
+   push:
+      branches:
+         - main
+   pull_request:
+      branches:
+         - main
+
+concurrency:
+   group: ${{ github.workflow }}-${{ github.ref }}
+   cancel-in-progress: true
+
+jobs:
+   rust:
+      name: Rust Lint & Test
+      runs-on: ubuntu-latest
+      defaults:
+         run:
+            working-directory: packages/analyzer
+      steps:
+         - uses: actions/checkout@v5.0.0
+         - uses: dtolnay/rust-toolchain@stable
+           with:
+              toolchain: "1.88.0"
+              components: rustfmt, clippy
+         - uses: Swatinem/rust-cache@v2.8.1
+         - run: cargo clippy -- -D warnings
+         - run: cargo fmt -- --check
+         - run: cargo test

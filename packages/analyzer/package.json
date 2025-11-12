@@ -1,0 +1,45 @@
+{
+  "name": "cuin-analyzer",
+  "version": "0.0.0",
+  "description": "component usage analyzer",
+  "type": "module",
+  "main": "bindings/index.js",
+  "types": "bindings/index.d.ts",
+  "files": [
+    "bindings/index.js",
+    "bindings/index.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IkumaTadokoro/cuin-poc-rust.git",
+    "directory": "packages/analyzer"
+  },
+  "napi": {
+    "binaryName": "cuin",
+    "targets": [
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu"
+    ]
+  },
+  "scripts": {
+    "build": "napi build --release --platform --esm --output-dir bindings",
+    "build:debug": "napi build --platform --esm --output-dir bindings",
+    "artifacts": "napi artifacts --npm-dir npm",
+    "check": "cargo clippy -- -D warnings && cargo fmt -- --check",
+    "fix": "cargo clippy --fix --allow-dirty --allow-staged && cargo fmt",
+    "test": "cargo test"
+  },
+  "keywords": [],
+  "author": "ikuma-t",
+  "license": "MIT",
+  "packageManager": "pnpm@10.18.3",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "catalog:analyzer"
+  }
+}

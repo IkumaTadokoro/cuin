@@ -1,0 +1,20 @@
+{
+  "name": "cuin",
+  "version": "0.0.0",
+  "description": "Component Usage Inspector for React Project.",
+  "type": "module",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test"
+  },
+  "keywords": [],
+  "author": "ikuma-t",
+  "license": "MIT",
+  "packageManager": "pnpm@10.18.3",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "devDependencies": {
+    "turbo": "catalog:"
+  }
+}

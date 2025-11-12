@@ -1,0 +1,12 @@
+packages:
+   - packages/*
+
+catalog:
+   "@types/node": 24.8.0
+   turbo: 2.6.0
+
+catalogMode: strict
+
+catalogs:
+   analyzer:
+      "@napi-rs/cli": 3.3.1
