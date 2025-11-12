@@ -96,6 +96,7 @@ jobs:
            with:
               node-version: 22
               cache: pnpm
+              registry-url: "https://registry.npmjs.org/"
 
          - run: pnpm install --frozen-lockfile
 
@@ -118,7 +119,7 @@ jobs:
 
          - name: Publish
            working-directory: packages/analyzer
-           run: pnpm napi pre-publish --tag-style npm　--gh-release=false
+           run: pnpm napi pre-publish --tag-style npm --gh-release=false
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
