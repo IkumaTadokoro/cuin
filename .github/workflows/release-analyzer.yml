@@ -119,7 +119,7 @@ jobs:
 
          - name: Publish
            working-directory: packages/analyzer
-           run: pnpm napi pre-publish --tag-style npm --gh-release=false
+           run: pnpm napi pre-publish --tag-style npm
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
