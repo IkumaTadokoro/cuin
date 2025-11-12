@@ -122,6 +122,7 @@ jobs:
            run: pnpm napi pre-publish --tag-style npm
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          - name: Publish main package
            working-directory: packages/analyzer
