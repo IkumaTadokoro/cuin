@@ -97,6 +97,11 @@ jobs:
               node-version: 22
               cache: pnpm
 
+         - name: Install npm 11.5.1+ for OIDC support
+           run: |
+              npm install -g npm@^11.5.1
+              echo "npm version: $(npm --version)"
+
          - run: pnpm install --frozen-lockfile
 
          - name: Download all artifacts
