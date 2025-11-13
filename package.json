@@ -1,6 +1,6 @@
 {
   "name": "cuin",
-  "version": "0.0.3-fix5",
+  "version": "0.0.3-fix6",
   "description": "Component Usage Inspector for React Project.",
   "type": "module",
   "scripts": {
