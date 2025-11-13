@@ -1,5 +1,5 @@
 import { TbComponents as ComponentIcon } from "solid-icons/tb";
-import { createMemo } from "solid-js";
+import { createEffect, createMemo } from "solid-js";
 import ComponentList from "~/components/component-list";
 import { ComponentListCount } from "~/components/component-list-count";
 import { ComponentNameFilter } from "~/components/component-name-filter";
@@ -21,13 +21,18 @@ export default function Index() {
   const { setHeader } = useHeader();
   const data = useData();
 
-  setHeader({
-    title: {
-      icon: <ComponentIcon class="text-2xl" />,
-      text: "Components",
-    },
-    description: `All components used in ${data()?.meta.basePath}`,
-    breadcrumbs: ["cuin"],
+  createEffect(() => {
+    const d = data();
+    if (d) {
+      setHeader({
+        title: {
+          icon: <ComponentIcon class="text-2xl" />,
+          text: "Components",
+        },
+        description: `All components used in ${d.meta.basePath}`,
+        breadcrumbs: ["cuin"],
+      });
+    }
   });
 
   const filterStore = createComponentFilters();
