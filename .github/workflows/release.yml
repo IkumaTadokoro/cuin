@@ -1,4 +1,4 @@
-name: Release cuin-analyzer
+name: Release cuin
 
 on:
    push:
@@ -154,7 +154,7 @@ jobs:
 
          - name: PrePublish cuin-analyzer
            working-directory: packages/analyzer
-           run: pnpm napi pre-publish --tag-style npm
+           run: pnpm napi pre-publish --tag-style npm --no-gh-release
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

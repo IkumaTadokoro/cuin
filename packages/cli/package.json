@@ -1,6 +1,6 @@
 {
   "name": "cuin",
-  "version": "0.0.3",
+  "version": "0.0.3-fix1",
   "description": "Component Usage Inspector for React Project",
   "type": "module",
   "private": false,
@@ -36,7 +36,6 @@
     "open": "catalog:cli"
   },
   "devDependencies": {
-    "@cuin/ui": "workspace:*",
     "@types/node": "catalog:",
     "tsdown": "catalog:build",
     "tsx": "catalog:build",

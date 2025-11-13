@@ -22,7 +22,7 @@ catalogs:
       tsx: 4.20.6
    cli:
       consola: 3.4.2
-      cuin-analyzer: 0.0.2-fix-14
+      cuin-analyzer: 0.0.3
       get-port-please: 3.2.0
       gunshi: 0.26.3
       h3: 2.0.1-rc.5
