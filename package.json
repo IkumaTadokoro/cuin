@@ -6,7 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev:ui": "turbo run dev --filter=@cuin/ui",
-    "dev:cli": "turbo run dev --filter=cuin",
+    "dev:cli": "turbo run dev --filter=@ikuma-t/cuin",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "check": "ultracite check",
