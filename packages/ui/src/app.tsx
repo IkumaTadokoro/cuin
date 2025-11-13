@@ -16,7 +16,7 @@ export default function App() {
               <output>
                 <svg
                   aria-hidden="true"
-                  class="h-8 w-8 animate-spin fill-brand text-brand-500"
+                  class="h-8 w-8 animate-spin fill-brand-900 text-brand-100"
                   fill="none"
                   viewBox="0 0 100 101"
                   xmlns="http://www.w3.org/2000/svg"
