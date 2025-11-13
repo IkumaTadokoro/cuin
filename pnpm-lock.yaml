@@ -21,8 +21,8 @@ catalogs:
       specifier: 3.4.2
       version: 3.4.2
     cuin-analyzer:
-      specifier: 0.0.2-fix-14
-      version: 0.0.2-fix-14
+      specifier: 0.0.3
+      version: 0.0.3
     get-port-please:
       specifier: 3.2.0
       version: 3.2.0
@@ -181,7 +181,7 @@ importers:
         version: 3.4.2
       cuin-analyzer:
         specifier: catalog:cli
-        version: 0.0.2-fix-14
+        version: 0.0.3
       get-port-please:
         specifier: catalog:cli
         version: 3.2.0
@@ -198,9 +198,6 @@ importers:
         specifier: catalog:cli
         version: 10.2.0
     devDependencies:
-      '@cuin/ui':
-        specifier: workspace:*
-        version: link:../ui
       '@types/node':
         specifier: 'catalog:'
         version: 24.8.0
@@ -2623,43 +2620,43 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  cuin-analyzer-darwin-arm64@0.0.2-fix-14:
-    resolution: {integrity: sha512-ii+2IdgF+9aeOkXnTgWDXQVLkpCU67mjzXNt663vzSs+tavTovCW3Rtxlec049utmN/aDxROf7Scumb84pwigQ==}
+  cuin-analyzer-darwin-arm64@0.0.3:
+    resolution: {integrity: sha512-fmVRcv6BJin7tQQf/HWNWit0ixuj3aMQp7Z/qEWxgB88Se/HDxfXofdwEZyl4mmBANDecAreYX0p+FDrdAVf5Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  cuin-analyzer-darwin-universal@0.0.2-fix-14:
-    resolution: {integrity: sha512-V70Lk/pIaFdytn5WO4Cj8IcwVYmj62cMPWSC18K4CNGCnorui8zq1xPdclLEUPYVCc9UEBnnxxiYby0P23L3pg==}
+  cuin-analyzer-darwin-universal@0.0.3:
+    resolution: {integrity: sha512-SNl3eoVnapsBSztr84s7icI8kWWnBhkZorPrtAwHei1VtK5BCRg+L+Z2MDveIPlQIPErFOeSGMKE0CLvDz3exw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     os: [darwin]
 
-  cuin-analyzer-darwin-x64@0.0.2-fix-14:
-    resolution: {integrity: sha512-ZVb5a40laS46bLuEK7knOdqKclyK0pDrV8cWDmb0gzopIDdeMpHaMVLR5hNvX/3/tjWpdefi6Ue4AOhG9tbn9A==}
+  cuin-analyzer-darwin-x64@0.0.3:
+    resolution: {integrity: sha512-bMgeQfJYA8TJe1AShiXgH1pR9si04LP8/oynuxXHtA9BDqYKpPHWEIxVo0ooGJgs49g6kMvaO0sspaxqofTGLQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  cuin-analyzer-linux-arm64-gnu@0.0.2-fix-14:
-    resolution: {integrity: sha512-+URefw1oS0mQnmrU82OLivmsow0vYx1rUHDQWHKCWUhi7kGtSF+3IjmMgdvbs20Jb4nN+jweER7jRer0Q9XM/Q==}
+  cuin-analyzer-linux-arm64-gnu@0.0.3:
+    resolution: {integrity: sha512-7F9+b5F74x8NdbPmtYITdjIElFZRSTeCxNcYHLeveRRBe7peKdOvG2BsdxaeyNI1EQOmhc6hAHz6GvMkzwO4Iw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
 
-  cuin-analyzer-linux-x64-gnu@0.0.2-fix-14:
-    resolution: {integrity: sha512-xiICkk5A54d/RK6GeDEM+M4CII9rdro+uvbrZ1xaRaf/7ZgNO24GfO7sLxqCmkjeoTyxOuxM7rHApFARYLJGKg==}
+  cuin-analyzer-linux-x64-gnu@0.0.3:
+    resolution: {integrity: sha512-kpFK1huqKMjzzJVAaMTLmw0uj7sQoQ6E8biMq+9w8V3A1tD0oIBoheuMy3GTVbtLoaShcrH3a/69ePs6w/0xoA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
 
-  cuin-analyzer-win32-x64-msvc@0.0.2-fix-14:
-    resolution: {integrity: sha512-eA1Z0anF+4eB1nCiV0ml4irw9QO2Qz3xvGZQ4jQHxiznEBlWPdMc1ZCdpZnpRpbrSBEbSzMJooyk1W0BixScZg==}
+  cuin-analyzer-win32-x64-msvc@0.0.3:
+    resolution: {integrity: sha512-s9sVzsu40eeehfkNyhqScaV2Mt7YfH0JJh8Xs54nn16pRmffV4AaK8xyZ89rTe+xEFrem+Gy+DrIKBdXSXK++g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
 
-  cuin-analyzer@0.0.2-fix-14:
-    resolution: {integrity: sha512-2M0GQFsRsiQNTCmQAgZUbcAKXmPjQOYi58zU3SE/yONxHLftk0xqoc3oOE76jOsghX+xblZw0mAzq5K/PmIsSA==}
+  cuin-analyzer@0.0.3:
+    resolution: {integrity: sha512-IKqJGO97/NLKJi0qm7w2l5ia2WVRIqFlK2KeLVbGMVNSI48h38YncZIfLYWdxjkUPHgV+bYSxRJiIFd6br+PMg==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   data-urls@6.0.0:
@@ -7260,32 +7257,32 @@ snapshots:
 
   csstype@3.1.3: {}
 
-  cuin-analyzer-darwin-arm64@0.0.2-fix-14:
+  cuin-analyzer-darwin-arm64@0.0.3:
     optional: true
 
-  cuin-analyzer-darwin-universal@0.0.2-fix-14:
+  cuin-analyzer-darwin-universal@0.0.3:
     optional: true
 
-  cuin-analyzer-darwin-x64@0.0.2-fix-14:
+  cuin-analyzer-darwin-x64@0.0.3:
     optional: true
 
-  cuin-analyzer-linux-arm64-gnu@0.0.2-fix-14:
+  cuin-analyzer-linux-arm64-gnu@0.0.3:
     optional: true
 
-  cuin-analyzer-linux-x64-gnu@0.0.2-fix-14:
+  cuin-analyzer-linux-x64-gnu@0.0.3:
     optional: true
 
-  cuin-analyzer-win32-x64-msvc@0.0.2-fix-14:
+  cuin-analyzer-win32-x64-msvc@0.0.3:
     optional: true
 
-  cuin-analyzer@0.0.2-fix-14:
+  cuin-analyzer@0.0.3:
     optionalDependencies:
-      cuin-analyzer-darwin-arm64: 0.0.2-fix-14
-      cuin-analyzer-darwin-universal: 0.0.2-fix-14
-      cuin-analyzer-darwin-x64: 0.0.2-fix-14
-      cuin-analyzer-linux-arm64-gnu: 0.0.2-fix-14
-      cuin-analyzer-linux-x64-gnu: 0.0.2-fix-14
-      cuin-analyzer-win32-x64-msvc: 0.0.2-fix-14
+      cuin-analyzer-darwin-arm64: 0.0.3
+      cuin-analyzer-darwin-universal: 0.0.3
+      cuin-analyzer-darwin-x64: 0.0.3
+      cuin-analyzer-linux-arm64-gnu: 0.0.3
+      cuin-analyzer-linux-x64-gnu: 0.0.3
+      cuin-analyzer-win32-x64-msvc: 0.0.3
 
   data-urls@6.0.0:
     dependencies:

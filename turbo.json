@@ -1,26 +1,14 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "tsconfig.base.json"
-  ],
+  "globalDependencies": ["tsconfig.base.json"],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**",
-        "bindings/**",
-        ".output/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "bindings/**", ".output/**"]
     },
     "cuin#build": {
-      "dependsOn": [
-        "@cuin/ui#build"
-      ],
-      "outputs": [
-        "dist/**"
-      ]
+      "dependsOn": ["@cuin/ui#build"],
+      "outputs": ["dist/**"]
     },
     "dev": {
       "cache": false,
