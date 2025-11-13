@@ -179,7 +179,8 @@ jobs:
               cache: pnpm
 
          - run: pnpm install --frozen-lockfile
-         - run: pnpm build --filter='!cuin-analyzer'
+         - run: pnpm build --filter="@cuin/ui"
+         - run: pnpm build --filter="@ikuma-t/cuin"
          - run: pnpm publish --no-git-checks --access public
            working-directory: packages/cli
            env:

@@ -1,6 +1,6 @@
 {
   "name": "cuin-analyzer",
-  "version": "0.0.3-fix4",
+  "version": "0.0.3-fix5",
   "description": "component usage analyzer",
   "type": "module",
   "main": "bindings/index.js",
