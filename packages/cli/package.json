@@ -1,0 +1,45 @@
+{
+  "name": "cuin",
+  "version": "0.0.1",
+  "description": "Component Usage Inspector for React Project",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "bin": "bin.mjs",
+  "files": [
+    "bin.mjs",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IkumaTadokoro/cuin.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [],
+  "author": "ikuma-t",
+  "license": "MIT",
+  "packageManager": "pnpm@10.18.3",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "dependencies": {
+    "cuin-analyzer": "catalog:cli",
+    "consola": "catalog:cli",
+    "get-port-please": "catalog:cli",
+    "gunshi": "catalog:cli",
+    "h3": "catalog:cli",
+    "mrmime": "catalog:cli",
+    "open": "catalog:cli"
+  },
+  "devDependencies": {
+    "@cuin/ui": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:build",
+    "tsx": "catalog:build",
+    "typescript": "catalog:"
+  }
+}

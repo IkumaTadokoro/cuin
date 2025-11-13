@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite/core", "ultracite/solid"],
+  "files": {
+    "includes": [
+      "!packages/ui/src/entry-client.tsx",
+      "!packages/ui/src/entry-server.tsx"
+    ]
+  }
+}

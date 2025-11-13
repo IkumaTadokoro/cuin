@@ -1,0 +1,31 @@
+name: TypeScript
+
+on:
+   push:
+      branches:
+         - main
+   pull_request:
+      branches:
+         - main
+
+concurrency:
+   group: ${{ github.workflow }}-${{ github.ref }}
+   cancel-in-progress: true
+
+jobs:
+   node-lint:
+      name: Node Lint
+      runs-on: ubuntu-latest
+      steps:
+         - uses: actions/checkout@v5.0.0
+         - uses: pnpm/action-setup@v4
+         - uses: actions/setup-node@v4
+           with:
+              node-version-file: .node-version
+              cache: pnpm
+         - run: pnpm install --frozen-lockfile
+         - run: pnpm check
+         - run: pnpm typecheck
+         - run: pnpm exec playwright install --with-deps chromium
+           working-directory: packages/ui
+         - run: pnpm test

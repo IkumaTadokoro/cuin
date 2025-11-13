@@ -1,0 +1,50 @@
+{
+  "name": "@cuin/ui",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ark-ui/solid": "catalog:ui",
+    "@corvu/resizable": "catalog:ui",
+    "@shikijs/core": "catalog:ui",
+    "@shikijs/engine-javascript": "catalog:ui",
+    "@shikijs/langs": "catalog:ui",
+    "@shikijs/langs-precompiled": "catalog:ui",
+    "@shikijs/themes": "catalog:ui",
+    "@shikijs/types": "catalog:ui",
+    "@solid-primitives/scheduled": "catalog:ui",
+    "@solidjs/router": "catalog:ui",
+    "@solidjs/start": "catalog:ui",
+    "class-variance-authority": "catalog:ui",
+    "es-toolkit": "catalog:",
+    "shiki": "catalog:ui",
+    "solid-icons": "catalog:ui",
+    "solid-js": "catalog:ui",
+    "tailwind-merge": "catalog:ui",
+    "type-fest": "catalog:",
+    "valibot": "catalog:",
+    "vinxi": "catalog:ui"
+  },
+  "devDependencies": {
+    "@solidjs/testing-library": "catalog:test",
+    "@tailwindcss/vite": "catalog:ui",
+    "@testing-library/jest-dom": "catalog:test",
+    "@testing-library/user-event": "catalog:test",
+    "@vitest/browser-playwright": "catalog:test",
+    "@vitest/ui": "catalog:test",
+    "jsdom": "catalog:test",
+    "playwright": "catalog:test",
+    "tailwindcss": "catalog:ui",
+    "vite-plugin-solid": "catalog:ui",
+    "vitest": "catalog:test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
