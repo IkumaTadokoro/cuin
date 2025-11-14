@@ -92,13 +92,9 @@ export default function PropValueFilterSection(
   };
 
   return (
-    <div
-      class={`rounded border transition ${
-        isFiltered() ? "border-primary bg-primary/5" : "border-brand-200"
-      }`}
-    >
+    <div class={"rounded border border-brand-200 transition"}>
       <div class="p-2">
-        <div class="mb-1 flex items-center justify-between">
+        <div class="flex items-center justify-between">
           <button
             class="group flex min-w-0 flex-1 items-center gap-1 text-left"
             onClick={() => setIsExpanded(!isExpanded())}
@@ -132,17 +128,10 @@ export default function PropValueFilterSection(
             </Show>
           </div>
         </div>
-
-        <div class="flex items-center gap-2 text-subtext-color text-xs">
-          <span class="tabular-nums">{props.prop.totalCount}</span>
-          <span class="tabular-nums">
-            {props.prop.totalPercentage.toFixed(0)}%
-          </span>
-        </div>
       </div>
 
       <Show when={isExpanded()}>
-        <div class="border-brand-200 border-t bg-white">
+        <div class="rounded-b border-brand-200 border-t bg-white">
           <div class="border-brand-200 border-b p-2">
             <div class="relative">
               <SearchIcon class="-translate-y-1/2 absolute top-1/2 left-2 h-3 w-3 text-subtext-color" />
