@@ -63,6 +63,13 @@ export default function Index() {
         <ComponentPackageFilter
           allPackages={() => data()?.packages ?? []}
           isPackageSelected={filterStore.isPackageSelected}
+          selectAllPackages={filterStore.selectAllPackages}
+          selectOnlyPackage={(packageKey) =>
+            filterStore.selectOnlyPackage(
+              packageKey,
+              data()?.packages.map((p) => p.key) ?? []
+            )
+          }
           togglePackage={filterStore.togglePackage}
         />
       </ResizablePanel>

@@ -32,11 +32,25 @@ export function createComponentFilters() {
     setFilters("sortBy", sortBy);
   };
 
+  const selectOnlyPackage = (
+    packageKey: PackageKey,
+    allPackages: PackageKey[]
+  ) => {
+    const packagesToExclude = allPackages.filter((key) => key !== packageKey);
+    setFilters("excludedPackages", new Set(packagesToExclude));
+  };
+
+  const selectAllPackages = () => {
+    setFilters("excludedPackages", new Set<PackageKey>());
+  };
+
   return {
     filters,
     isPackageSelected,
     togglePackage,
     setNameQuery,
     setSortBy,
+    selectOnlyPackage,
+    selectAllPackages,
   };
 }

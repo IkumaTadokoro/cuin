@@ -1,10 +1,10 @@
-import { createSignal, Show } from "solid-js";
+import { createSignal, type JSX, Show } from "solid-js";
 
 export type CheckboxMode = "toggle" | "only" | "all";
 
 type SmartCheckboxProps = {
   checked: boolean;
-  label: string;
+  label: string | JSX.Element;
   count?: number;
   disabled?: boolean;
   isOnlyChecked: boolean;

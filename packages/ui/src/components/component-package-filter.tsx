@@ -3,14 +3,34 @@ import { For } from "solid-js";
 import type { PackageKey, PackageWithCount } from "~/dataflow/core/payload";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Package } from "./package/package";
+import SmartCheckbox from "./smart-checkbox";
 
 type FilterPanelProps = {
   allPackages: Accessor<PackageWithCount[]>;
   isPackageSelected: (packageKey: PackageKey) => boolean;
   togglePackage: (packageKey: PackageKey) => void;
+  selectOnlyPackage: (packageKey: PackageKey) => void;
+  selectAllPackages: () => void;
 };
 
 export default function ComponentPackageFilter(props: FilterPanelProps) {
+  const getSelectedPackagesCount = () =>
+    props.allPackages().filter((pkg) => props.isPackageSelected(pkg.key))
+      .length;
+
+  const isOnlyChecked = (packageKey: PackageKey) => {
+    const selectedCount = getSelectedPackagesCount();
+    return selectedCount === 1 && props.isPackageSelected(packageKey);
+  };
+
+  const hasOthersChecked = (packageKey: PackageKey) => {
+    const selectedCount = getSelectedPackagesCount();
+    if (selectedCount === 0) {
+      return false;
+    }
+    return !props.isPackageSelected(packageKey) || selectedCount > 1;
+  };
+
   return (
     <ScrollArea class="min-h-0 flex-1 pr-2">
       <div class="grid gap-2">
@@ -18,15 +38,16 @@ export default function ComponentPackageFilter(props: FilterPanelProps) {
         <div class="grid gap-1">
           <For each={props.allPackages()}>
             {(pkg) => (
-              <label class="grid grid-cols-[auto_1fr_max-content] items-center gap-2 text-sm">
-                <input
-                  checked={props.isPackageSelected(pkg.key)}
-                  onChange={() => props.togglePackage(pkg.key)}
-                  type="checkbox"
-                />
-                <Package {...pkg} />
-                <p class="text-subtext-color">{pkg.count}</p>
-              </label>
+              <SmartCheckbox
+                checked={props.isPackageSelected(pkg.key)}
+                count={pkg.count}
+                hasOthersChecked={hasOthersChecked(pkg.key)}
+                isOnlyChecked={isOnlyChecked(pkg.key)}
+                label={<Package {...pkg} />}
+                onAll={props.selectAllPackages}
+                onOnly={() => props.selectOnlyPackage(pkg.key)}
+                onToggle={() => props.togglePackage(pkg.key)}
+              />
             )}
           </For>
         </div>
