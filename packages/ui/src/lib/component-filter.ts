@@ -1,10 +1,17 @@
 import { orderBy } from "es-toolkit";
-import type { Component, PackageKey } from "../dataflow/core/payload";
+import type {
+  Component,
+  MergedPackageKey,
+  PackageKey,
+} from "../dataflow/core/payload";
+import { getMergedKeyFromPackageKey } from "../dataflow/core/payload";
 
 export type FilterState = {
   nameQuery: string;
   excludedPackages: Set<PackageKey>;
+  excludedMergedPackages: Set<MergedPackageKey>;
   sortBy: SortOption;
+  mergeInternalExternal: boolean;
 };
 
 export function filterComponents(
@@ -17,6 +24,11 @@ export function filterComponents(
       !component.name.toLowerCase().includes(filters.nameQuery.toLowerCase())
     ) {
       return false;
+    }
+
+    if (filters.mergeInternalExternal) {
+      const mergedKey = getMergedKeyFromPackageKey(component.package.key);
+      return !filters.excludedMergedPackages.has(mergedKey);
     }
 
     return !filters.excludedPackages.has(component.package.key);

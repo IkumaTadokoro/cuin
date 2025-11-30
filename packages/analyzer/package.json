@@ -31,7 +31,7 @@
     "artifacts": "napi artifacts --npm-dir npm",
     "check": "cargo clippy -- -D warnings && cargo fmt -- --check",
     "fix": "cargo clippy --fix --allow-dirty --allow-staged && cargo fmt",
-    "test": "cargo test"
+    "test": "cargo test --no-default-features"
   },
   "keywords": [],
   "author": "ikuma-t",
