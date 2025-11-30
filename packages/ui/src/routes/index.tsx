@@ -63,6 +63,7 @@ export default function Index() {
         <ComponentPackageFilter
           allPackages={() => data()?.packages ?? []}
           isPackageSelected={filterStore.isPackageSelected}
+          mergeInternalExternal={filterStore.filters.mergeInternalExternal}
           selectAllPackages={filterStore.selectAllPackages}
           selectOnlyPackage={(packageKey) =>
             filterStore.selectOnlyPackage(

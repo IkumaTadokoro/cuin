@@ -11,10 +11,26 @@ export type PackageKey =
   | `${NonNative["type"]}:${NonNative["name"]}@${NonNative["version"]}`
   | `native`;
 
+export type MergedPackageKey =
+  | `${NonNative["name"]}@${NonNative["version"]}`
+  | `native`;
+
 const PackageKey = (pkg: ComponentSchema["package"]): PackageKey =>
   pkg.type === "native"
     ? "native"
     : (`${pkg.type}:${pkg.name}@${pkg.version}` as const);
+
+export const getMergedPackageKey = (pkg: Package): MergedPackageKey =>
+  pkg.type === "native" ? "native" : (`${pkg.name}@${pkg.version}` as const);
+
+const PACKAGE_KEY_PREFIX_REGEX = /^(internal|external):/;
+
+export const getMergedKeyFromPackageKey = (
+  key: PackageKey
+): MergedPackageKey =>
+  key === "native"
+    ? "native"
+    : (key.replace(PACKAGE_KEY_PREFIX_REGEX, "") as MergedPackageKey);
 
 type ComponentId = ComponentSchema["id"];
 type ComponentName = ComponentSchema["name"];
