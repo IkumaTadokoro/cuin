@@ -34,6 +34,9 @@ const resolveDistDir = () => {
 
 const distDir = resolveDistDir();
 
+// biome-ignore lint/suspicious/noEmptyBlockStatements: <no-operation>
+const noop = (..._args: unknown[]) => {};
+
 export const createDevServer = (options: DevServerOptions) => {
   const app = new H3();
 
@@ -55,7 +58,7 @@ export const createDevServer = (options: DevServerOptions) => {
       fallthrough: true,
       getContents: (id) => readCachedFile(join(distDir, id)),
       getMeta: async (id) => {
-        const stats = await stat(join(distDir, id)).catch();
+        const stats = await stat(join(distDir, id)).catch(noop);
         if (!stats?.isFile()) {
           return;
         }
