@@ -104,8 +104,8 @@ fn test_workspace_package_symlink_resolved_to_internal() {
     let json = serde_json::to_string_pretty(&report).unwrap();
     println!("Analysis result for app-a:\n{}", json);
 
-    let has_internal_shared = json.contains(r#""type": "internal""#)
-        && json.contains(r#""name": "@test/shared""#);
+    let has_internal_shared =
+        json.contains(r#""type": "internal""#) && json.contains(r#""name": "@test/shared""#);
 
     println!("Has internal @test/shared: {}", has_internal_shared);
 
@@ -202,8 +202,8 @@ fn test_injected_workspace_package_detected_as_external() {
     let json = serde_json::to_string_pretty(&report).unwrap();
     println!("Analysis result for app-a (injected):\n{}", json);
 
-    let has_external_shared = json.contains(r#""type": "external""#)
-        && json.contains(r#""name": "@test/shared""#);
+    let has_external_shared =
+        json.contains(r#""type": "external""#) && json.contains(r#""name": "@test/shared""#);
 
     println!(
         "Has external @test/shared (injected): {}",
@@ -265,8 +265,8 @@ export function App() {
     let json = serde_json::to_string_pretty(&report).unwrap();
     println!("Analysis result:\n{}", json);
 
-    let has_external = json.contains(r#""type": "external""#)
-        && json.contains(r#""name": "external-ui-lib""#);
+    let has_external =
+        json.contains(r#""type": "external""#) && json.contains(r#""name": "external-ui-lib""#);
 
     println!("Has external external-ui-lib: {}", has_external);
 
