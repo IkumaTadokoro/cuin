@@ -130,6 +130,7 @@ describe("filters-predicate", () => {
           state,
           propGroupKey("variant"),
           "tertiary",
+          // biome-ignore lint/style/noNonNullAssertion: <test>
           context.allPropValues.get("variant")!
         );
 
@@ -235,6 +236,7 @@ describe("filters-predicate", () => {
           state,
           propGroupKey("className"),
           "w-full",
+          // biome-ignore lint/style/noNonNullAssertion: <test>
           singleValueContext.allPropValues.get("className")!
         );
 

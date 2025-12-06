@@ -123,7 +123,9 @@ export function createFiltersStore(
 
   const selectOnlyValues = (propKey: string, values: string[]): void => {
     // Select the first value, then toggle the rest on
-    if (values.length === 0) return;
+    if (values.length === 0) {
+      return;
+    }
 
     const groupKey = propGroupKey(propKey);
     let state = selectOnly(filters(), groupKey, values[0]);

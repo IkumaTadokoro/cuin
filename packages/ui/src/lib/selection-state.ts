@@ -11,7 +11,9 @@ export type NonEmptySet<T> = Set<T> & { readonly [NonEmptySetBrand]: true };
  */
 export const nonEmptySet = <T>(values: Iterable<T>): NonEmptySet<T> | null => {
   const set = new Set(values);
-  if (set.size === 0) return null;
+  if (set.size === 0) {
+    return null;
+  }
   return set as NonEmptySet<T>;
 };
 
