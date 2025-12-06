@@ -104,6 +104,7 @@ export default function ComponentPackageFilter(props: FilterPanelProps) {
                   onAll={props.selectAllPackages}
                   onOnly={() => props.selectOnlyPackage(packageKey)}
                   onToggle={() => props.togglePackage(packageKey)}
+                  totalCount={displayPackages().length}
                 />
               );
             }}

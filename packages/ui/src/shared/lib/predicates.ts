@@ -43,6 +43,16 @@ export const InstancePredicates = {
       return !excludedPackages.has(name);
     },
 
+  packageIn:
+    (includedPackages: Set<string>): Predicate<Instance> =>
+    (instance) => {
+      const name =
+        instance.package.type === "native"
+          ? "(no package)"
+          : instance.package.name;
+      return includedPackages.has(name);
+    },
+
   hasProp:
     (key: string): Predicate<Instance> =>
     (instance) =>

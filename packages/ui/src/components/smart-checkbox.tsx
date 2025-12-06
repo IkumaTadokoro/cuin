@@ -9,6 +9,7 @@ type SmartCheckboxProps = {
   disabled?: boolean;
   isOnlyChecked: boolean;
   hasOthersChecked: boolean;
+  totalCount: number;
   onToggle: () => void;
   onOnly: () => void;
   onAll: () => void;
@@ -22,6 +23,11 @@ export default function SmartCheckbox(props: SmartCheckboxProps) {
 
   const getLabelMode = (): CheckboxMode | null => {
     if (props.checked && props.isOnlyChecked) {
+      // Only 1 value exists in total -> toggle to deselect
+      if (props.totalCount === 1) {
+        return "toggle";
+      }
+      // Multiple values exist but only this one is selected -> All to select all
       return "all";
     }
     if (props.hasOthersChecked) {
@@ -68,7 +74,9 @@ export default function SmartCheckbox(props: SmartCheckboxProps) {
 
   const handleClick = () => {
     const currentMode = mode();
-    if (currentMode === "only") {
+    if (currentMode === "toggle") {
+      props.onToggle();
+    } else if (currentMode === "only") {
       props.onOnly();
     } else if (currentMode === "all") {
       props.onAll();

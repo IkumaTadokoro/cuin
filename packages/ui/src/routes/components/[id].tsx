@@ -8,7 +8,6 @@ import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
-import { getInstancePackages } from "~/lib/instance-filter";
 import { analyzeProps } from "~/lib/props-analyze";
 import { Details } from "~/shared/ui/details/details";
 import {
@@ -22,7 +21,7 @@ import {
 } from "~/shared/ui/resizable/resizable";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
-import { createInstanceFilters } from "~/store/instance-filter";
+import { createFiltersStore } from "~/store/filters-store";
 
 const MAX_OPEN_ITEMS = 300;
 
@@ -87,13 +86,9 @@ function ComponentPageContent(props: { component: ComponentType }) {
     analyzeProps(props.component.instances)
   );
 
-  const filterStore = createInstanceFilters(
+  const filterStore = createFiltersStore(
     () => props.component.instances,
     propsAnalysis
-  );
-
-  const availablePackages = createMemo(() =>
-    getInstancePackages(props.component.instances)
   );
 
   const filteredInstances = () => filterStore.filteredInstances();
@@ -104,24 +99,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
         class="flex flex-col overflow-y-auto border-neutral-border border-l px-4 py-4"
         initialSize={0.2}
       >
-        <InstanceFilter
-          clearAllFilters={filterStore.clearAllFilters}
-          clearPropFilter={filterStore.clearPropFilter}
-          getAllValuesCount={filterStore.getAllValuesCount}
-          getCheckedCount={filterStore.getCheckedCount}
-          getFilteredCount={filterStore.getFilteredCount}
-          hasActiveFilters={filterStore.hasActiveFilters()}
-          isPackageSelected={filterStore.isPackageSelected}
-          isPropFiltered={filterStore.isPropFiltered} // 追加
-          isValueChecked={filterStore.isValueChecked}
-          packages={availablePackages}
-          propsAnalysis={propsAnalysis}
-          selectAllValues={filterStore.selectAllValues}
-          selectOnlyValue={filterStore.selectOnlyValue}
-          selectOnlyValues={filterStore.selectOnlyValues}
-          togglePackage={filterStore.togglePackage}
-          toggleValue={filterStore.toggleValue}
-        />
+        <InstanceFilter store={filterStore} />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel
