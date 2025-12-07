@@ -6,26 +6,23 @@ import {
   BiRegularX as XIcon,
 } from "solid-icons/bi";
 import { createMemo, createSignal, For, Show } from "solid-js";
-import type { PropAnalysis } from "~/lib/props-analyze";
-import SmartCheckbox from "./smart-checkbox";
+import type { InstanceDetailStore } from "~/dataflow/instance";
+import type { PropAnalysis } from "~/dataflow/instance/props-analyze";
+import { Root } from "~/shared/ui/exclusive-checkbox-group";
+import { Count } from "./count";
+import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 
 type PropValueFilterSectionProps = {
   prop: PropAnalysis;
-  isValueChecked: (propKey: string, value: string) => boolean;
-  toggleValue: (propKey: string, value: string) => void;
-  selectOnlyValue: (propKey: string, value: string) => void;
-  selectAllValues: (propKey: string) => void;
-  clearPropFilter: (propKey: string) => void;
-  isPropFiltered: (propKey: string) => boolean;
-  getCheckedCount: (propKey: string) => number;
-  getAllValuesCount: (propKey: string) => number;
-  getFilteredCount: (propKey: string, value: string) => number;
-  selectOnlyValues: (propKey: string, values: string[]) => void;
+  store: InstanceDetailStore;
 };
 
 export default function PropValueFilterSection(
   props: PropValueFilterSectionProps
 ) {
+  const { store } = props;
+  const propKey = () => props.prop.key;
+
   const [isExpanded, setIsExpanded] = createSignal(false);
   const [searchQuery, setSearchQuery] = createSignal("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = createSignal("");
@@ -39,6 +36,8 @@ export default function PropValueFilterSection(
     setSearchQuery(value);
     debouncedSetSearch(value);
   };
+
+  const allValues = createMemo(() => props.prop.values.map((v) => v.value));
 
   const filteredValues = createMemo(() => {
     const query = debouncedSearchQuery().toLowerCase().trim();
@@ -55,22 +54,22 @@ export default function PropValueFilterSection(
   const hasSearchQuery = () => searchQuery().trim().length > 0;
   const isSearching = () => searchQuery() !== debouncedSearchQuery();
 
-  const isFiltered = () => props.isPropFiltered(props.prop.key);
-  const checkedCount = () => props.getCheckedCount(props.prop.key);
-  const totalCount = () => props.getAllValuesCount(props.prop.key);
+  const isFiltered = () => store.isPropFiltered(propKey());
+  const checkedCount = () => store.getCheckedCount(propKey());
+  const totalCount = () => store.getAllValuesCount(propKey());
 
   const areAllSearchResultsChecked = () => {
     const results = filteredValues();
     if (results.length === 0) {
       return false;
     }
-    return results.every((v) => props.isValueChecked(props.prop.key, v.value));
+    return results.every((v) => store.isValueChecked(propKey(), v.value));
   };
 
   const isFilteringBySearchResults = () => {
     const results = filteredValues();
-    const currentCheckedCount = props.getCheckedCount(props.prop.key);
-    const currentTotalCount = props.getAllValuesCount(props.prop.key);
+    const currentCheckedCount = store.getCheckedCount(propKey());
+    const currentTotalCount = store.getAllValuesCount(propKey());
 
     if (currentCheckedCount === currentTotalCount) {
       return false;
@@ -85,9 +84,9 @@ export default function PropValueFilterSection(
     const values = filteredValues().map((v) => v.value);
 
     if (isFilteringBySearchResults()) {
-      props.selectAllValues(props.prop.key);
+      store.selectAllValues(propKey());
     } else {
-      props.selectOnlyValues(props.prop.key, values);
+      store.selectOnlyValues(propKey(), values);
     }
   };
 
@@ -106,7 +105,7 @@ export default function PropValueFilterSection(
               }`}
             />
             <span class="truncate font-mono font-semibold text-xs group-hover:text-primary">
-              {props.prop.key}
+              {propKey()}
             </span>
           </button>
 
@@ -119,7 +118,7 @@ export default function PropValueFilterSection(
             <Show when={isFiltered()}>
               <button
                 class="rounded p-0.5 hover:bg-brand-100"
-                onClick={() => props.clearPropFilter(props.prop.key)}
+                onClick={() => store.clearPropFilter(propKey())}
                 title="Clear filter"
                 type="button"
               >
@@ -197,39 +196,27 @@ export default function PropValueFilterSection(
               }
               when={searchResultCount() > 0}
             >
-              <For each={filteredValues()}>
-                {(valueData) => {
-                  const isChecked = () =>
-                    props.isValueChecked(props.prop.key, valueData.value);
-                  const isOnlyChecked = () =>
-                    isChecked() && checkedCount() === 1;
-                  const hasOthersChecked = () => checkedCount() > 1;
-                  const filteredCount = () =>
-                    props.getFilteredCount(props.prop.key, valueData.value);
-
-                  return (
-                    <SmartCheckbox
-                      checked={isChecked()}
-                      class="px-2 py-1"
-                      count={filteredCount()}
-                      hasOthersChecked={hasOthersChecked()}
-                      isOnlyChecked={isOnlyChecked()}
-                      label={
-                        valueData.value === "(no value)"
-                          ? "(no value)"
-                          : valueData.value
+              <Root
+                onSelectionChange={(state) =>
+                  store.setPropSelection(propKey(), state)
+                }
+                selection={() => store.getPropSelection(propKey())}
+                values={allValues}
+              >
+                <For each={filteredValues()}>
+                  {({ value }) => (
+                    <StyledExclusiveCheckboxItem
+                      label={<span class="text-xs">{value}</span>}
+                      rightAddon={
+                        <Count
+                          value={store.getFilteredCount(propKey(), value)}
+                        />
                       }
-                      onAll={() => props.selectAllValues(props.prop.key)}
-                      onOnly={() =>
-                        props.selectOnlyValue(props.prop.key, valueData.value)
-                      }
-                      onToggle={() =>
-                        props.toggleValue(props.prop.key, valueData.value)
-                      }
+                      value={value}
                     />
-                  );
-                }}
-              </For>
+                  )}
+                </For>
+              </Root>
             </Show>
           </div>
         </div>

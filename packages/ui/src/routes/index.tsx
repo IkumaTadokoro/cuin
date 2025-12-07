@@ -1,5 +1,5 @@
 import { TbComponents as ComponentIcon } from "solid-icons/tb";
-import { createEffect, createMemo } from "solid-js";
+import { createEffect } from "solid-js";
 import ComponentList from "~/components/component-list";
 import { ComponentListCount } from "~/components/component-list-count";
 import { ComponentNameFilter } from "~/components/component-name-filter";
@@ -8,14 +8,13 @@ import ComponentPackageFilter from "~/components/component-package-filter";
 import { useHeader } from "~/components/header/header-provider";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
-import { filterComponents, sortComponents } from "~/lib/component-filter";
+import { createComponentListStore } from "~/dataflow/component";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizableRoot,
 } from "~/shared/ui/resizable/resizable";
 import { Spacer } from "~/shared/ui/space";
-import { createComponentFilters } from "~/store/component-filter";
 
 export default function Index() {
   const { setHeader } = useHeader();
@@ -35,16 +34,9 @@ export default function Index() {
     }
   });
 
-  const filterStore = createComponentFilters();
-
-  const filteredAndSortedComponents = createMemo(() => {
-    const d = data();
-    if (!d) {
-      return [];
-    }
-    const filtered = filterComponents(d.components, filterStore.filters);
-
-    return sortComponents(filtered, filterStore.filters.sortBy);
+  const store = createComponentListStore({
+    components: () => data()?.components ?? [],
+    packages: () => data()?.packages ?? [],
   });
 
   return (
@@ -57,21 +49,13 @@ export default function Index() {
           Filter By
         </p>
         <ComponentNameFilter
-          onChange={filterStore.setNameQuery}
-          value={filterStore.filters.nameQuery}
+          onChange={store.setNameFilter}
+          value={store.state.nameFilter}
         />
         <ComponentPackageFilter
           allPackages={() => data()?.packages ?? []}
-          isPackageSelected={filterStore.isPackageSelected}
-          mergeInternalExternal={filterStore.filters.mergeInternalExternal}
-          selectAllPackages={filterStore.selectAllPackages}
-          selectOnlyPackage={(packageKey) =>
-            filterStore.selectOnlyPackage(
-              packageKey,
-              data()?.packages.map((p) => p.key) ?? []
-            )
-          }
-          togglePackage={filterStore.togglePackage}
+          onSelectionChange={store.setPackageFilter}
+          selection={store.getPackageFilter}
         />
       </ResizablePanel>
       <ResizableHandle />
@@ -80,15 +64,16 @@ export default function Index() {
         initialSize={0.7}
       >
         <div class="flex items-center justify-between gap-2">
-          <ComponentListCount count={filteredAndSortedComponents().length} />
+          <ComponentListCount count={store.sortedComponents().length} />
           <Spacer />
           <ComponentOrderSelect
-            onChange={filterStore.setSortBy}
-            value={filterStore.filters.sortBy}
+            onChange={store.setSort}
+            sortKey={store.state.sortKey}
+            sortOrder={store.state.sortOrder}
           />
         </div>
         <Separator />
-        <ComponentList components={filteredAndSortedComponents} />
+        <ComponentList components={store.sortedComponents} />
       </ResizablePanel>
     </ResizableRoot>
   );

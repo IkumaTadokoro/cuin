@@ -6,11 +6,8 @@ import {
   useContext,
 } from "solid-js";
 import { parse } from "valibot";
-import {
-  type TransformedPayload,
-  transformPayload,
-} from "../dataflow/core/payload";
-import { JsonSchema } from "../dataflow/core/schema";
+import { type TransformedPayload, transformPayload } from "~/dataflow/payload";
+import { JsonSchema } from "~/dataflow/schema";
 
 const DataContext = createContext<Accessor<TransformedPayload | undefined>>();
 

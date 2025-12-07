@@ -1,38 +1,58 @@
-import {
-  ark,
-  type HTMLProps,
-  type PolymorphicProps,
-} from "@ark-ui/solid/factory";
+import { ark, type HTMLProps } from "@ark-ui/solid/factory";
+import type { Accessor, JSX } from "solid-js";
+import type { SelectionState } from "../../../lib/selection-state";
 import { createSplitProps } from "../../lib/create-split-props";
-import {
-  type UseExclusiveCheckboxGroupProps,
-  useExclusiveCheckboxGroup,
-} from "./use-exclusive-checkbox-group";
+import { useExclusiveCheckboxGroup } from "./use-exclusive-checkbox-group";
 import { ExclusiveCheckboxGroupProvider } from "./use-exclusive-checkbox-group-context";
 
-export interface ExclusiveCheckboxGroupRootBaseProps
-  extends UseExclusiveCheckboxGroupProps,
-    PolymorphicProps<"div"> {}
+type RootSpecificProps<T> = {
+  /**
+   * All possible values in the group
+   */
+  values: Accessor<T[]>;
 
-export interface ExclusiveCheckboxGroupRootProps
-  extends HTMLProps<"div">,
-    ExclusiveCheckboxGroupRootBaseProps {}
+  /**
+   * Controlled selection state (optional)
+   */
+  selection?: Accessor<SelectionState<T>>;
 
-export const ExclusiveCheckboxGroupRoot = (
-  props: ExclusiveCheckboxGroupRootProps
-) => {
-  const [useGroupProps, localProps] =
-    createSplitProps<UseExclusiveCheckboxGroupProps>()(props, [
-      "items",
-      "defaultValue",
-      "onValueChange",
-    ]);
+  /**
+   * Called when selection changes
+   */
+  onSelectionChange?: (state: SelectionState<T>) => void;
 
-  const group = useExclusiveCheckboxGroup(useGroupProps);
+  /**
+   * Default selection state for uncontrolled mode
+   */
+  defaultSelection?: SelectionState<T>;
+
+  /**
+   * Children
+   */
+  children?: JSX.Element;
+};
+
+export type ExclusiveCheckboxGroupRootProps<T> = RootSpecificProps<T> &
+  Omit<HTMLProps<"div">, keyof RootSpecificProps<T>>;
+
+export function ExclusiveCheckboxGroupRoot<T>(
+  props: ExclusiveCheckboxGroupRootProps<T>
+) {
+  const [groupProps, localProps] = createSplitProps<RootSpecificProps<T>>()(
+    props,
+    ["values", "selection", "onSelectionChange", "defaultSelection", "children"]
+  );
+
+  const group = useExclusiveCheckboxGroup({
+    values: groupProps.values,
+    selection: groupProps.selection,
+    onSelectionChange: groupProps.onSelectionChange,
+    defaultSelection: groupProps.defaultSelection,
+  });
 
   return (
     <ExclusiveCheckboxGroupProvider value={group}>
-      <ark.div {...localProps} />
+      <ark.div {...localProps}>{groupProps.children}</ark.div>
     </ExclusiveCheckboxGroupProvider>
   );
-};
+}

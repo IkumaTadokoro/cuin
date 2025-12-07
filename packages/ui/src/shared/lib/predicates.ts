@@ -1,5 +1,3 @@
-import type { Instance } from "~/dataflow/core/schema";
-
 export type Predicate<T> = (item: T) => boolean;
 
 export const and = <T>(...predicates: Predicate<T>[]): Predicate<T> =>
@@ -22,48 +20,7 @@ export const always =
   () =>
     true;
 
-export const InstancePredicates = {
-  hasPackage:
-    (packageName: string): Predicate<Instance> =>
-    (instance) => {
-      const name =
-        instance.package.type === "native"
-          ? "(no package)"
-          : instance.package.name;
-      return name === packageName;
-    },
-
-  packageNotIn:
-    (excludedPackages: Set<string>): Predicate<Instance> =>
-    (instance) => {
-      const name =
-        instance.package.type === "native"
-          ? "(no package)"
-          : instance.package.name;
-      return !excludedPackages.has(name);
-    },
-
-  hasProp:
-    (key: string): Predicate<Instance> =>
-    (instance) =>
-      instance.props.some((p) => p.key === key),
-
-  propEquals:
-    (key: string, value: string): Predicate<Instance> =>
-    (instance) =>
-      instance.props.some((p) => p.key === key && p.raw === value),
-
-  propContains:
-    (key: string, value: string): Predicate<Instance> =>
-    (instance) => {
-      const prop = instance.props.find((p) => p.key === key);
-      if (!prop) {
-        return false;
-      }
-      return prop.raw.toLowerCase().includes(value.toLowerCase());
-    },
-  filePathContains:
-    (pattern: string): Predicate<Instance> =>
-    (instance) =>
-      instance.filePath.includes(pattern),
-};
+export const never =
+  <T>(): Predicate<T> =>
+  () =>
+    false;

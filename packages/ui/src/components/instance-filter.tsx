@@ -1,37 +1,36 @@
-import type { Accessor } from "solid-js";
-import { For, Show } from "solid-js";
-import type { PackageInfo } from "~/lib/instance-filter";
-import type { PropAnalysis } from "~/lib/props-analyze";
+import { createMemo, For, Show } from "solid-js";
+import type { InstanceDetailStore } from "~/dataflow/instance";
 import PropValueFilterSection from "./prop-value-filter-section";
 
 type InstanceFilterProps = {
-  packages: Accessor<PackageInfo[]>;
-  propsAnalysis: Accessor<PropAnalysis[]>;
-  isPackageSelected: (packageName: string) => boolean;
-  togglePackage: (packageName: string) => void;
-  isValueChecked: (propKey: string, value: string) => boolean;
-  toggleValue: (propKey: string, value: string) => void;
-  selectOnlyValue: (propKey: string, value: string) => void;
-  selectOnlyValues: (propKey: string, values: string[]) => void;
-  selectAllValues: (propKey: string) => void;
-  clearPropFilter: (propKey: string) => void;
-  isPropFiltered: (propKey: string) => boolean;
-  getCheckedCount: (propKey: string) => number;
-  getAllValuesCount: (propKey: string) => number;
-  getFilteredCount: (propKey: string, value: string) => number;
-  clearAllFilters: () => void;
-  hasActiveFilters: boolean;
+  store: InstanceDetailStore;
 };
 
 export default function InstanceFilter(props: InstanceFilterProps) {
+  const { store } = props;
+
+  const packages = createMemo(() => {
+    const packagesMap = new Map<string, number>();
+    for (const instance of store.filteredInstances()) {
+      const name =
+        instance.package.type === "native"
+          ? "(no package)"
+          : instance.package.name;
+      packagesMap.set(name, (packagesMap.get(name) || 0) + 1);
+    }
+    return Array.from(packagesMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  });
+
   return (
     <div class="flex h-full flex-col gap-6">
       <div class="flex items-center justify-between">
         <h3 class="font-semibold text-sm text-text-color">Filters</h3>
-        <Show when={props.hasActiveFilters}>
+        <Show when={store.hasActiveFilters()}>
           <button
             class="text-primary text-xs hover:underline"
-            onClick={props.clearAllFilters}
+            onClick={store.clearAllFilters}
             type="button"
           >
             Clear all
@@ -44,13 +43,13 @@ export default function InstanceFilter(props: InstanceFilterProps) {
           Package
         </h4>
         <div class="max-h-64 space-y-1 overflow-y-auto">
-          <For each={props.packages()}>
+          <For each={packages()}>
             {(pkg) => (
               <label class="group flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-brand-50">
                 <input
-                  checked={props.isPackageSelected(pkg.name)}
+                  checked={store.isPackageSelected(pkg.name)}
                   class="rounded border-gray-300"
-                  onChange={() => props.togglePackage(pkg.name)}
+                  onChange={() => store.togglePackage(pkg.name)}
                   type="checkbox"
                 />
                 <span class="flex-1 truncate font-mono text-xs">
@@ -70,22 +69,8 @@ export default function InstanceFilter(props: InstanceFilterProps) {
           Props
         </h4>
         <div class="space-y-2 overflow-y-auto">
-          <For each={props.propsAnalysis()}>
-            {(prop) => (
-              <PropValueFilterSection
-                clearPropFilter={props.clearPropFilter}
-                getAllValuesCount={props.getAllValuesCount}
-                getCheckedCount={props.getCheckedCount}
-                getFilteredCount={props.getFilteredCount}
-                isPropFiltered={props.isPropFiltered}
-                isValueChecked={props.isValueChecked}
-                prop={prop}
-                selectAllValues={props.selectAllValues}
-                selectOnlyValue={props.selectOnlyValue}
-                selectOnlyValues={props.selectOnlyValues}
-                toggleValue={props.toggleValue}
-              />
-            )}
+          <For each={store.propsAnalysis()}>
+            {(prop) => <PropValueFilterSection prop={prop} store={store} />}
           </For>
         </div>
       </section>

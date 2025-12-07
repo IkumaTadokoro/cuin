@@ -1,9 +1,21 @@
 import { type Component, For } from "solid-js";
-import { SORT_OPTIONS, type SortOption } from "~/lib/component-filter";
+import {
+  SORT_OPTIONS,
+  type SortKey,
+  type SortOrder,
+} from "~/dataflow/component/sort";
 
 type Props = {
-  value: SortOption;
-  onChange: (value: SortOption) => void;
+  sortKey: SortKey;
+  sortOrder: SortOrder;
+  onChange: (key: SortKey, order: SortOrder) => void;
+};
+
+const toValue = (key: SortKey, order: SortOrder) => `${key}-${order}`;
+
+const fromValue = (value: string): [SortKey, SortOrder] => {
+  const [key, order] = value.split("-") as [SortKey, SortOrder];
+  return [key, order];
 };
 
 export const ComponentOrderSelect: Component<Props> = (props) => (
@@ -11,11 +23,18 @@ export const ComponentOrderSelect: Component<Props> = (props) => (
     <p class="text-subtext-color text-xs">Order By:</p>
     <select
       class="text-sm"
-      onChange={(e) => props.onChange(e.currentTarget.value as SortOption)}
-      value={props.value}
+      onChange={(e) => {
+        const [key, order] = fromValue(e.currentTarget.value);
+        props.onChange(key, order);
+      }}
+      value={toValue(props.sortKey, props.sortOrder)}
     >
       <For each={SORT_OPTIONS}>
-        {(option) => <option value={option.value}>{option.label}</option>}
+        {(option) => (
+          <option value={toValue(option.key, option.order)}>
+            {option.label}
+          </option>
+        )}
       </For>
     </select>
   </label>

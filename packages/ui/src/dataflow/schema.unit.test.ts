@@ -5,7 +5,7 @@ import { JsonSchema } from "./schema";
 test("parse json as object", () => {
   const json = {
     meta: {
-      base_path: "path/to/base",
+      basePath: "path/to/base",
     },
     components: [
       {
@@ -16,25 +16,25 @@ test("parse json as object", () => {
         },
         instances: [
           {
-            file_path: "path/to/component1.ts",
+            filePath: "path/to/component1.ts",
             props: [
               {
                 key: "prop1",
                 raw: "value1",
-                prop_type: "string",
+                propType: "string",
               },
             ],
             raw: "<Component1 prop1='value1' />",
             span: {
               start: 1,
               end: 2,
-              start_line: 1,
-              end_line: 1,
-              start_col: 1,
-              end_col: 2,
+              startLine: 1,
+              endLine: 1,
+              startCol: 1,
+              endCol: 2,
             },
-            import_specifier: "Component1",
-            resolved_path: "path/to/component1.ts",
+            importSpecifier: "Component1",
+            resolvedPath: "path/to/component1.ts",
             package: {
               type: "external",
               name: "ui",

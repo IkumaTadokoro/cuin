@@ -1,33 +1,28 @@
-import type { HTMLProps, PolymorphicProps } from "@ark-ui/solid/factory";
+import { ark, type HTMLProps } from "@ark-ui/solid/factory";
 import { useExclusiveCheckboxGroupContext } from "./use-exclusive-checkbox-group-context";
 import { useExclusiveCheckboxGroupItemContext } from "./use-exclusive-checkbox-group-item-context";
 
-export interface ExclusiveCheckboxGroupControlBaseProps
-  extends PolymorphicProps<"input"> {}
 export interface ExclusiveCheckboxGroupControlProps
-  extends HTMLProps<"input">,
-    ExclusiveCheckboxGroupControlBaseProps {}
+  extends Omit<HTMLProps<"input">, "type" | "checked" | "onChange"> {}
 
-export const ExclusiveCheckboxGroupControl = (
+/**
+ * Checkbox input for the exclusive checkbox group item.
+ * Handles toggle behavior on click.
+ */
+export function ExclusiveCheckboxGroupControl<T>(
   props: ExclusiveCheckboxGroupControlProps
-) => {
-  const group = useExclusiveCheckboxGroupContext();
-  const { value, setHoveredPart } = useExclusiveCheckboxGroupItemContext();
+) {
+  const group = useExclusiveCheckboxGroupContext<T>();
+  const { value, setHoveredPart } = useExclusiveCheckboxGroupItemContext<T>();
 
   return (
-    <div class="relative">
-      <input
-        checked={group.isChecked(value)}
-        class="cursor-pointer accent-brand-700"
-        onClick={(e) => {
-          group.toggleCheckbox(value);
-          e.stopPropagation();
-        }}
-        onMouseEnter={() => setHoveredPart("control")}
-        onMouseLeave={() => setHoveredPart(null)}
-        type="checkbox"
-        {...props}
-      />
-    </div>
+    <ark.input
+      checked={group.isChecked(value)}
+      onChange={() => group.onControlClick(value)}
+      onMouseEnter={() => setHoveredPart("control")}
+      onMouseLeave={() => setHoveredPart(null)}
+      type="checkbox"
+      {...props}
+    />
   );
-};
+}

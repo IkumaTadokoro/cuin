@@ -8,8 +8,7 @@ import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
-import { getInstancePackages } from "~/lib/instance-filter";
-import { analyzeProps } from "~/lib/props-analyze";
+import { createInstanceStore } from "~/dataflow/instance";
 import { Details } from "~/shared/ui/details/details";
 import {
   DetailsGroup,
@@ -22,7 +21,6 @@ import {
 } from "~/shared/ui/resizable/resizable";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
-import { createInstanceFilters } from "~/store/instance-filter";
 
 const MAX_OPEN_ITEMS = 300;
 
@@ -83,20 +81,9 @@ type ComponentType = NonNullable<
 function ComponentPageContent(props: { component: ComponentType }) {
   const data = useData();
 
-  const propsAnalysis = createMemo(() =>
-    analyzeProps(props.component.instances)
-  );
-
-  const filterStore = createInstanceFilters(
-    () => props.component.instances,
-    propsAnalysis
-  );
-
-  const availablePackages = createMemo(() =>
-    getInstancePackages(props.component.instances)
-  );
-
-  const filteredInstances = () => filterStore.filteredInstances();
+  const store = createInstanceStore({
+    instances: () => props.component.instances,
+  });
 
   return (
     <ResizableRoot class="h-screen w-full px-0 2xl:px-12">
@@ -104,24 +91,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
         class="flex flex-col overflow-y-auto border-neutral-border border-l px-4 py-4"
         initialSize={0.2}
       >
-        <InstanceFilter
-          clearAllFilters={filterStore.clearAllFilters}
-          clearPropFilter={filterStore.clearPropFilter}
-          getAllValuesCount={filterStore.getAllValuesCount}
-          getCheckedCount={filterStore.getCheckedCount}
-          getFilteredCount={filterStore.getFilteredCount}
-          hasActiveFilters={filterStore.hasActiveFilters()}
-          isPackageSelected={filterStore.isPackageSelected}
-          isPropFiltered={filterStore.isPropFiltered} // 追加
-          isValueChecked={filterStore.isValueChecked}
-          packages={availablePackages}
-          propsAnalysis={propsAnalysis}
-          selectAllValues={filterStore.selectAllValues}
-          selectOnlyValue={filterStore.selectOnlyValue}
-          selectOnlyValues={filterStore.selectOnlyValues}
-          togglePackage={filterStore.togglePackage}
-          toggleValue={filterStore.toggleValue}
-        />
+        <InstanceFilter store={store} />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel
@@ -132,7 +102,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
           <div class="grid grid-cols-[auto_1fr_max-content_max-content] items-center gap-2">
             <div class="flex items-center gap-2">
               <CategoryAltIcon class="text-lg text-subtext-color" />
-              <p class="text-lg">{filteredInstances().length}</p>
+              <p class="text-lg">{store.filteredInstances().length}</p>
               <p class="text-sm">usages</p>
             </div>
             <Spacer />
@@ -142,7 +112,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
           <Separator />
           <ScrollArea class="min-h-0">
             <div class="grid max-w-full gap-2">
-              <For each={filteredInstances()}>
+              <For each={store.filteredInstances()}>
                 {(instance) => (
                   <Details
                     class="min-w-0"

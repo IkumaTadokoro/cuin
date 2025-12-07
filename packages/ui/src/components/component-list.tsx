@@ -1,7 +1,7 @@
 import { A } from "@solidjs/router";
 import { type Accessor, For } from "solid-js";
+import type { Component } from "~/dataflow/payload";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
-import type { Component } from "../dataflow/core/payload";
 import ComponentName from "./component-name";
 import { Package } from "./package/package";
 import Separator from "./separator";

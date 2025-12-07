@@ -6,29 +6,30 @@ import {
   useContext,
 } from "solid-js";
 
-type ItemContextValue = {
-  value: string;
-  hoveredPart: Accessor<"control" | "label" | null>;
-  setHoveredPart: Setter<"control" | "label" | null>;
+export type HoveredPart = "control" | "label" | null;
+
+export type ItemContextValue<T> = {
+  value: T;
+  hoveredPart: Accessor<HoveredPart>;
+  setHoveredPart: Setter<HoveredPart>;
 };
 
-const ItemContext = createContext<ItemContextValue>();
+// biome-ignore lint/suspicious/noExplicitAny: Generic context requires any
+const ItemContext = createContext<ItemContextValue<any>>();
 
-export const createItemContext = (value: string) => {
-  const [hoveredPart, setHoveredPart] = createSignal<
-    "control" | "label" | null
-  >(null);
+export const createItemContext = <T>(value: T): ItemContextValue<T> => {
+  const [hoveredPart, setHoveredPart] = createSignal<HoveredPart>(null);
   return { value, hoveredPart, setHoveredPart };
 };
 
 export const ExclusiveCheckboxGroupItemProvider = ItemContext.Provider;
 
-export const useExclusiveCheckboxGroupItemContext = () => {
+export const useExclusiveCheckboxGroupItemContext = <T>() => {
   const context = useContext(ItemContext);
   if (!context) {
     throw new Error(
-      "useExclusiveCheckboxGroupItemContext must be used within Provider"
+      "useExclusiveCheckboxGroupItemContext must be used within ExclusiveCheckboxGroupItemProvider"
     );
   }
-  return context;
+  return context as ItemContextValue<T>;
 };
