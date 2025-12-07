@@ -37,12 +37,20 @@ export default function Index() {
 
   const filterStore = createComponentFilters();
 
+  const allPackageKeys = createMemo(
+    () => data()?.packages.map((p) => p.key) ?? []
+  );
+
   const filteredAndSortedComponents = createMemo(() => {
     const d = data();
     if (!d) {
       return [];
     }
-    const filtered = filterComponents(d.components, filterStore.filters);
+    const filtered = filterComponents(
+      d.components,
+      filterStore.filters,
+      allPackageKeys()
+    );
 
     return sortComponents(filtered, filterStore.filters.sortBy);
   });
@@ -63,11 +71,7 @@ export default function Index() {
         <ComponentPackageFilter
           allPackages={() => data()?.packages ?? []}
           onSelectionChange={filterStore.setPackageSelection}
-          selection={() =>
-            filterStore.getPackageSelection(
-              data()?.packages.map((p) => p.key) ?? []
-            )
-          }
+          selection={filterStore.getPackageSelection}
         />
       </ResizablePanel>
       <ResizableHandle />

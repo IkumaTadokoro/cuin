@@ -11,10 +11,7 @@ import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 type FilterPanelProps = {
   allPackages: Accessor<PackageWithCount[]>;
   selection: Accessor<SelectionState<PackageKey>>;
-  onSelectionChange: (
-    selection: SelectionState<PackageKey>,
-    allPackages: PackageKey[]
-  ) => void;
+  onSelectionChange: (selection: SelectionState<PackageKey>) => void;
 };
 
 export default function ComponentPackageFilter(props: FilterPanelProps) {
@@ -28,9 +25,7 @@ export default function ComponentPackageFilter(props: FilterPanelProps) {
         <p>Package</p>
         <div class="grid gap-1">
           <Root
-            onSelectionChange={(state) =>
-              props.onSelectionChange(state, allPackageKeys())
-            }
+            onSelectionChange={props.onSelectionChange}
             selection={props.selection}
             values={allPackageKeys}
           >

@@ -1,15 +1,17 @@
 import { orderBy } from "es-toolkit";
 import type { Component, PackageKey } from "../dataflow/core/payload";
+import { isSelected, type SelectionState } from "./selection-state";
 
 export type FilterState = {
   nameQuery: string;
-  excludedPackages: Set<PackageKey>;
+  packageSelection: SelectionState<PackageKey>;
   sortBy: SortOption;
 };
 
 export function filterComponents(
   components: Component[],
-  filters: FilterState
+  filters: FilterState,
+  allPackageKeys: PackageKey[]
 ): Component[] {
   return components.filter((component) => {
     if (
@@ -19,7 +21,11 @@ export function filterComponents(
       return false;
     }
 
-    return !filters.excludedPackages.has(component.package.key);
+    return isSelected(
+      filters.packageSelection,
+      component.package.key,
+      allPackageKeys
+    );
   });
 }
 
