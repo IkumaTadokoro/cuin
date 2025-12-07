@@ -1,5 +1,5 @@
 import { TbComponents as ComponentIcon } from "solid-icons/tb";
-import { createEffect, createMemo } from "solid-js";
+import { createEffect } from "solid-js";
 import ComponentList from "~/components/component-list";
 import { ComponentListCount } from "~/components/component-list-count";
 import { ComponentNameFilter } from "~/components/component-name-filter";
@@ -8,7 +8,6 @@ import ComponentPackageFilter from "~/components/component-package-filter";
 import { useHeader } from "~/components/header/header-provider";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
-import { filterComponents, sortComponents } from "~/lib/component-filter";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -35,24 +34,9 @@ export default function Index() {
     }
   });
 
-  const filterStore = createComponentFilters();
-
-  const allPackageKeys = createMemo(
-    () => data()?.packages.map((p) => p.key) ?? []
-  );
-
-  const filteredAndSortedComponents = createMemo(() => {
-    const d = data();
-    if (!d) {
-      return [];
-    }
-    const filtered = filterComponents(
-      d.components,
-      filterStore.filters,
-      allPackageKeys()
-    );
-
-    return sortComponents(filtered, filterStore.filters.sortBy);
+  const filterStore = createComponentFilters({
+    components: () => data()?.components ?? [],
+    packages: () => data()?.packages ?? [],
   });
 
   return (
@@ -80,7 +64,7 @@ export default function Index() {
         initialSize={0.7}
       >
         <div class="flex items-center justify-between gap-2">
-          <ComponentListCount count={filteredAndSortedComponents().length} />
+          <ComponentListCount count={filterStore.sortedComponents().length} />
           <Spacer />
           <ComponentOrderSelect
             onChange={filterStore.setSortBy}
@@ -88,7 +72,7 @@ export default function Index() {
           />
         </div>
         <Separator />
-        <ComponentList components={filteredAndSortedComponents} />
+        <ComponentList components={filterStore.sortedComponents} />
       </ResizablePanel>
     </ResizableRoot>
   );
