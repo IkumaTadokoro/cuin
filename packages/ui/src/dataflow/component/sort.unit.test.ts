@@ -1,6 +1,6 @@
 // biome-ignore-all lint/style/noMagicNumbers: test assertions
 import { describe, expect, it } from "vitest";
-import type { Component, PackageKey } from "../../dataflow/core/payload";
+import type { Component, PackageKey } from "../payload";
 import { type SortState, sortComponents } from "./sort";
 
 const pkgKey = "external:pkg@1.0.0" as PackageKey;

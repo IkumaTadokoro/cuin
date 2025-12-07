@@ -6,9 +6,9 @@ import {
   BiRegularX as XIcon,
 } from "solid-icons/bi";
 import { createMemo, createSignal, For, Show } from "solid-js";
+import type { InstanceDetailStore } from "~/dataflow/instance";
+import type { PropAnalysis } from "~/dataflow/instance/props-analyze";
 import { Root } from "~/shared/ui/exclusive-checkbox-group";
-import type { InstanceDetailStore } from "~/store/instance";
-import type { PropAnalysis } from "~/store/instance/props-analyze";
 import { Count } from "./count";
 import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 

@@ -1,10 +1,5 @@
 import { createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
-import type {
-  Component,
-  PackageKey,
-  PackageWithCount,
-} from "../../dataflow/core/payload";
 import {
   all,
   initialSelection,
@@ -12,6 +7,7 @@ import {
   type SelectionState,
   toggle,
 } from "../../lib/selection-state";
+import type { Component, PackageKey, PackageWithCount } from "../payload";
 import { type FilterState, filterComponents } from "./filter";
 import {
   type SortKey,

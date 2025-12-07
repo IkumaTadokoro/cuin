@@ -1,7 +1,7 @@
 import { createMemo, createSignal } from "solid-js";
-import type { Instance } from "../../dataflow/core/schema";
 import { isAll, type SelectionState } from "../../lib/selection-state";
 import type { Predicate } from "../../shared/lib/predicates";
+import type { Instance } from "../schema";
 import {
   buildPredicate,
   type FilterContext,

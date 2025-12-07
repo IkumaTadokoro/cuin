@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Instance } from "../../dataflow/core/schema";
+import type { Instance } from "../schema";
 import {
   buildPredicate,
   type FilterContext,

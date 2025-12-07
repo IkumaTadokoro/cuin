@@ -3,7 +3,7 @@ import {
   SORT_OPTIONS,
   type SortKey,
   type SortOrder,
-} from "~/store/component/sort";
+} from "~/dataflow/component/sort";
 
 type Props = {
   sortKey: SortKey;

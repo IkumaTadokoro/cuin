@@ -1,5 +1,5 @@
 import { type Component, createSignal, onMount } from "solid-js";
-import type { Span } from "~/dataflow/core/schema";
+import type { Span } from "~/dataflow/schema";
 import { OpenVscode } from "./open-vscode";
 import { codeToHtml } from "./shiki.bundle";
 

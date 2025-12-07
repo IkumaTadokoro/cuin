@@ -1,5 +1,5 @@
 import { createMemo, For, Show } from "solid-js";
-import type { InstanceDetailStore } from "~/store/instance";
+import type { InstanceDetailStore } from "~/dataflow/instance";
 import PropValueFilterSection from "./prop-value-filter-section";
 
 type InstanceFilterProps = {

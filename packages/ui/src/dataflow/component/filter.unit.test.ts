@@ -1,7 +1,7 @@
 // biome-ignore-all lint/style/noMagicNumbers: test assertions
 import { describe, expect, it } from "vitest";
-import type { Component, PackageKey } from "../../dataflow/core/payload";
 import { nonEmptySetOf } from "../../lib/selection-state";
+import type { Component, PackageKey } from "../payload";
 import { type FilterState, filterComponents } from "./filter";
 
 const createComponent = (name: string, packageKey: PackageKey): Component => ({

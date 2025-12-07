@@ -1,4 +1,3 @@
-import { toCamelCaseKeys } from "es-toolkit";
 import {
   array,
   type InferOutput,
@@ -7,11 +6,8 @@ import {
   number,
   object,
   optional,
-  pipe,
   string,
-  transform,
   union,
-  unknown,
   variant,
 } from "valibot";
 
@@ -24,14 +20,23 @@ const Native = object({
 });
 export type Native = InferOutput<typeof Native>;
 
-const NonNative = object({
-  type: union([literal("internal"), literal("external")]),
+const Internal = object({
+  type: literal("internal"),
+  name: string(),
+  version: string(),
+  canonicalPath: optional(string()),
+});
+
+const External = object({
+  type: literal("external"),
   name: string(),
   version: string(),
 });
+
+const NonNative = union([Internal, External]);
 export type NonNative = InferOutput<typeof NonNative>;
 
-export const Package = variant("type", [Native, NonNative]);
+export const Package = variant("type", [Native, Internal, External]);
 export type Package = InferOutput<typeof Package>;
 
 const Props = object({
@@ -77,8 +82,5 @@ export const Payload = object({
 });
 export type Payload = InferOutput<typeof Payload>;
 
-export const JsonSchema = pipe(
-  unknown(),
-  transform((input) => toCamelCaseKeys(input)),
-  Payload
-);
+// JsonSchema is now directly Payload (no camelCase transform needed)
+export const JsonSchema = Payload;

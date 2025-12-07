@@ -1,5 +1,5 @@
 import { flatMap, sum, uniq } from "es-toolkit";
-import type { Instance } from "../../dataflow/core/schema";
+import type { Instance } from "../schema";
 
 export const NO_VALUE = "(no value)" as const;
 

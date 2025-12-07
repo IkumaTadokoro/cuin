@@ -1,6 +1,6 @@
-import type { Component, PackageKey } from "../../dataflow/core/payload";
 import { isSelected, type SelectionState } from "../../lib/selection-state";
 import { always, and, type Predicate } from "../../shared/lib/predicates";
+import type { Component, PackageKey } from "../payload";
 
 export type FilterState = {
   nameFilter: string;

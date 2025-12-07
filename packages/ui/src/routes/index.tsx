@@ -8,13 +8,13 @@ import ComponentPackageFilter from "~/components/component-package-filter";
 import { useHeader } from "~/components/header/header-provider";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
+import { createComponentListStore } from "~/dataflow/component";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizableRoot,
 } from "~/shared/ui/resizable/resizable";
 import { Spacer } from "~/shared/ui/space";
-import { createComponentListStore } from "~/store/component";
 
 export default function Index() {
   const { setHeader } = useHeader();

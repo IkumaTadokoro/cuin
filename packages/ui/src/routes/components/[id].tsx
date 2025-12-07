@@ -8,6 +8,7 @@ import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
+import { createInstanceStore } from "~/dataflow/instance";
 import { Details } from "~/shared/ui/details/details";
 import {
   DetailsGroup,
@@ -20,7 +21,6 @@ import {
 } from "~/shared/ui/resizable/resizable";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
-import { createInstanceStore } from "~/store/instance";
 
 const MAX_OPEN_ITEMS = 300;
 

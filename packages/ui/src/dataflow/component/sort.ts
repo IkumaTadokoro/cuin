@@ -1,5 +1,5 @@
 import { orderBy } from "es-toolkit";
-import type { Component } from "../../dataflow/core/payload";
+import type { Component } from "../payload";
 
 export type SortKey = "name" | "usage";
 export type SortOrder = "asc" | "desc";

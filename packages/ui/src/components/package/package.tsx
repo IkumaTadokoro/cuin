@@ -4,7 +4,7 @@ import {
   BiRegularPackage as PackageIcon,
 } from "solid-icons/bi";
 import type { Component } from "solid-js";
-import type { Package as PackageSchema } from "../../dataflow/core/schema";
+import type { Package as PackageSchema } from "~/dataflow/schema";
 
 const baseVariants = cva(
   "grid grid-cols-[max-content_1fr] items-center truncate font-mono",
