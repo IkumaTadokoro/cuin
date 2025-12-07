@@ -49,13 +49,13 @@ export const Package: Component<Props> = (props) => (
         class={iconVariants({ size: props.size, kind: props.type })}
       />
     )}
-    <div class="flex items-center gap-1">
+    <div class="flex min-w-0 items-center gap-1">
       {props.type === "native" && <p>native</p>}
 
       {(props.type === "internal" || props.type === "external") && (
         <>
-          <p>{props.name}</p>
-          <p class="text-brand-400">[{props.version}]</p>
+          <p class="truncate">{props.name}</p>
+          <p class="shrink-0 text-brand-400">[{props.version}]</p>
         </>
       )}
     </div>

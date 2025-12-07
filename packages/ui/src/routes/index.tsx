@@ -62,16 +62,13 @@ export default function Index() {
         />
         <ComponentPackageFilter
           allPackages={() => data()?.packages ?? []}
-          isPackageSelected={filterStore.isPackageSelected}
           mergeInternalExternal={filterStore.filters.mergeInternalExternal}
-          selectAllPackages={filterStore.selectAllPackages}
-          selectOnlyPackage={(packageKey) =>
-            filterStore.selectOnlyPackage(
-              packageKey,
+          onSelectionChange={filterStore.setPackageSelection}
+          selection={() =>
+            filterStore.getPackageSelection(
               data()?.packages.map((p) => p.key) ?? []
             )
           }
-          togglePackage={filterStore.togglePackage}
         />
       </ResizablePanel>
       <ResizableHandle />

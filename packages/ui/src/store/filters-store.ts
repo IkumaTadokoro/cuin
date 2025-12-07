@@ -20,6 +20,8 @@ import {
 } from "../lib/filters-state";
 import type { PropAnalysis } from "../lib/props-analyze";
 import { analyzePropsWithFilter } from "../lib/props-analyze";
+import type { SelectionState } from "../lib/selection-state";
+import { isAll } from "../lib/selection-state";
 import type { Predicate } from "../shared/lib/predicates";
 
 /**
@@ -164,6 +166,29 @@ export function createFiltersStore(
   const getFilteredCount = (propKey: string, value: string): number =>
     filteredPropCounts().get(propKey)?.get(value) ?? 0;
 
+  // Get selection state for ExclusiveCheckboxGroup integration
+  const getPropSelection = (propKey: string): SelectionState<string> => {
+    const groupKey = propGroupKey(propKey);
+    return filters().get(groupKey) ?? { type: "all" };
+  };
+
+  // Set selection state from ExclusiveCheckboxGroup
+  const setPropSelection = (
+    propKey: string,
+    selection: SelectionState<string>
+  ): void => {
+    const groupKey = propGroupKey(propKey);
+    setFilters((prev) => {
+      const newState = new Map(prev);
+      if (isAll(selection)) {
+        newState.delete(groupKey);
+      } else {
+        newState.set(groupKey, selection);
+      }
+      return newState;
+    });
+  };
+
   // === Global actions ===
 
   const clearAllFilters = (): void => {
@@ -197,6 +222,8 @@ export function createFiltersStore(
     getCheckedCount,
     getAllValuesCount,
     getFilteredCount,
+    getPropSelection,
+    setPropSelection,
 
     // Global actions
     clearAllFilters,

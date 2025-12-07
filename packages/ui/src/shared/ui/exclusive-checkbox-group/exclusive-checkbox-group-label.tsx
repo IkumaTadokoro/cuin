@@ -1,32 +1,38 @@
-import type { HTMLProps, PolymorphicProps } from "@ark-ui/solid/factory";
+import { ark, type HTMLProps } from "@ark-ui/solid/factory";
+import type { JSX } from "solid-js";
 import { useExclusiveCheckboxGroupContext } from "./use-exclusive-checkbox-group-context";
 import { useExclusiveCheckboxGroupItemContext } from "./use-exclusive-checkbox-group-item-context";
 
-export interface ExclusiveCheckboxGroupLabelBaseProps
-  extends PolymorphicProps<"button"> {}
 export interface ExclusiveCheckboxGroupLabelProps
-  extends HTMLProps<"button">,
-    ExclusiveCheckboxGroupLabelBaseProps {}
+  extends Omit<HTMLProps<"button">, "type" | "onClick" | "children"> {
+  children?: JSX.Element;
+}
 
-export const ExclusiveCheckboxGroupLabel = (
+/**
+ * Label/button for the exclusive checkbox group item.
+ * Handles smart click behavior (Only/All/Toggle).
+ */
+export function ExclusiveCheckboxGroupLabel<T>(
   props: ExclusiveCheckboxGroupLabelProps
-) => {
-  const group = useExclusiveCheckboxGroupContext();
-  const { value, setHoveredPart } = useExclusiveCheckboxGroupItemContext();
+) {
+  const group = useExclusiveCheckboxGroupContext<T>();
+  const { value, setHoveredPart } = useExclusiveCheckboxGroupItemContext<T>();
 
   return (
-    <button
-      class="relative flex flex-1 cursor-pointer items-center justify-between border-0 bg-transparent p-0 text-left"
-      onClick={(e) => {
-        group.handleLabelClick(value);
-        e.stopPropagation();
-      }}
+    <ark.button
+      onClick={() => group.onLabelClick(value)}
       onMouseEnter={() => setHoveredPart("label")}
       onMouseLeave={() => setHoveredPart(null)}
+      style={{
+        display: "flex",
+        flex: "1",
+        "min-width": "0",
+        "align-items": "center",
+        "justify-content": "space-between",
+        gap: "0.5rem",
+      }}
       type="button"
       {...props}
-    >
-      {props.children}
-    </button>
+    />
   );
-};
+}

@@ -2,6 +2,8 @@ import { createStore } from "solid-js/store";
 import type { MergedPackageKey, PackageKey } from "../dataflow/core/payload";
 import { getMergedKeyFromPackageKey } from "../dataflow/core/payload";
 import type { FilterState, SortOption } from "../lib/component-filter";
+import type { SelectionState } from "../lib/selection-state";
+import { isAll, nonEmptySet } from "../lib/selection-state";
 
 export function createComponentFilters() {
   const [filters, setFilters] = createStore<FilterState>({
@@ -77,6 +79,83 @@ export function createComponentFilters() {
     setFilters("excludedMergedPackages", new Set<MergedPackageKey>());
   };
 
+  // Convert excluded set to SelectionState for ExclusiveCheckboxGroup integration
+  const getPackageSelection = (
+    allPackages: PackageKey[]
+  ): SelectionState<PackageKey> => {
+    const excluded = filters.mergeInternalExternal
+      ? filters.excludedMergedPackages
+      : filters.excludedPackages;
+
+    if (excluded.size === 0) {
+      return { type: "all" };
+    }
+
+    // Convert "excluded" to "selected"
+    const selected = allPackages.filter(
+      (pkg) =>
+        !excluded.has(
+          filters.mergeInternalExternal
+            ? getMergedKeyFromPackageKey(pkg)
+            : (pkg as PackageKey | MergedPackageKey)
+        )
+    );
+
+    if (selected.length === 0) {
+      return { type: "none" };
+    }
+
+    const nonEmpty = nonEmptySet(selected);
+    if (nonEmpty === null) {
+      return { type: "none" };
+    }
+
+    return { type: "some", values: nonEmpty };
+  };
+
+  // Convert SelectionState back to excluded set
+  const setPackageSelection = (
+    selection: SelectionState<PackageKey>,
+    allPackages: PackageKey[]
+  ): void => {
+    if (isAll(selection)) {
+      selectAllPackages();
+      return;
+    }
+
+    if (selection.type === "none") {
+      // Exclude all
+      if (filters.mergeInternalExternal) {
+        const allMerged = new Set(allPackages.map(getMergedKeyFromPackageKey));
+        setFilters("excludedMergedPackages", allMerged);
+      } else {
+        setFilters("excludedPackages", new Set(allPackages));
+      }
+      return;
+    }
+
+    // selection.type === "some"
+    if (selection.type !== "some") {
+      return;
+    }
+    const selectedSet = selection.values;
+    if (filters.mergeInternalExternal) {
+      const selectedMerged = new Set(
+        [...selectedSet].map(getMergedKeyFromPackageKey)
+      );
+      const allMerged = new Set(allPackages.map(getMergedKeyFromPackageKey));
+      const excluded = new Set(
+        [...allMerged].filter((key) => !selectedMerged.has(key))
+      );
+      setFilters("excludedMergedPackages", excluded);
+    } else {
+      const excluded = new Set(
+        allPackages.filter((key) => !selectedSet.has(key))
+      );
+      setFilters("excludedPackages", excluded);
+    }
+  };
+
   return {
     filters,
     isPackageSelected,
@@ -85,5 +164,7 @@ export function createComponentFilters() {
     setSortBy,
     selectOnlyPackage,
     selectAllPackages,
+    getPackageSelection,
+    setPackageSelection,
   };
 }

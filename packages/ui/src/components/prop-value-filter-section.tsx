@@ -7,8 +7,10 @@ import {
 } from "solid-icons/bi";
 import { createMemo, createSignal, For, Show } from "solid-js";
 import type { PropAnalysis } from "~/lib/props-analyze";
+import { Root } from "~/shared/ui/exclusive-checkbox-group";
 import type { FiltersStore } from "~/store/filters-store";
-import SmartCheckbox from "./smart-checkbox";
+import { Count } from "./count";
+import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 
 type PropValueFilterSectionProps = {
   prop: PropAnalysis;
@@ -34,6 +36,8 @@ export default function PropValueFilterSection(
     setSearchQuery(value);
     debouncedSetSearch(value);
   };
+
+  const allValues = createMemo(() => props.prop.values.map((v) => v.value));
 
   const filteredValues = createMemo(() => {
     const query = debouncedSearchQuery().toLowerCase().trim();
@@ -192,40 +196,27 @@ export default function PropValueFilterSection(
               }
               when={searchResultCount() > 0}
             >
-              <For each={filteredValues()}>
-                {(valueData) => {
-                  const isChecked = () =>
-                    store.isValueChecked(propKey(), valueData.value);
-                  const isOnlyChecked = () =>
-                    isChecked() && checkedCount() === 1;
-                  const hasOthersChecked = () => checkedCount() > 1;
-                  const filteredCount = () =>
-                    store.getFilteredCount(propKey(), valueData.value);
-
-                  return (
-                    <SmartCheckbox
-                      checked={isChecked()}
-                      class="px-2 py-1"
-                      count={filteredCount()}
-                      hasOthersChecked={hasOthersChecked()}
-                      isOnlyChecked={isOnlyChecked()}
-                      label={
-                        valueData.value === "(no value)"
-                          ? "(no value)"
-                          : valueData.value
+              <Root
+                onSelectionChange={(state) =>
+                  store.setPropSelection(propKey(), state)
+                }
+                selection={() => store.getPropSelection(propKey())}
+                values={allValues}
+              >
+                <For each={filteredValues()}>
+                  {({ value }) => (
+                    <StyledExclusiveCheckboxItem
+                      label={<span class="text-xs">{value}</span>}
+                      rightAddon={
+                        <Count
+                          value={store.getFilteredCount(propKey(), value)}
+                        />
                       }
-                      onAll={() => store.selectAllValues(propKey())}
-                      onOnly={() =>
-                        store.selectOnlyValue(propKey(), valueData.value)
-                      }
-                      onToggle={() =>
-                        store.toggleValue(propKey(), valueData.value)
-                      }
-                      totalCount={totalCount()}
+                      value={value}
                     />
-                  );
-                }}
-              </For>
+                  )}
+                </For>
+              </Root>
             </Show>
           </div>
         </div>
