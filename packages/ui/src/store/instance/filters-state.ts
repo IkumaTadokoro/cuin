@@ -1,11 +1,11 @@
-import type { SelectionState } from "./selection-state";
+import type { SelectionState } from "../../lib/selection-state";
 import {
   getEffectiveValues,
   isAll,
   isSelected,
   only,
   toggle,
-} from "./selection-state";
+} from "../../lib/selection-state";
 
 /**
  * Multiple filter groups state management
@@ -31,14 +31,13 @@ export const isGroupFiltered = (
 export const isValueSelected = (
   state: FiltersState,
   groupKey: string,
-  value: string,
-  allValues: string[]
+  value: string
 ): boolean => {
   const groupState = state.get(groupKey);
   if (groupState === undefined) {
     return true; // default: all selected
   }
-  return isSelected(groupState, value, allValues);
+  return isSelected(groupState, value);
 };
 
 export const getGroupEffectiveValues = (

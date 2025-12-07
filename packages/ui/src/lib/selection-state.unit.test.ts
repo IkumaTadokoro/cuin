@@ -54,16 +54,16 @@ describe("selection-state", () => {
   describe("isSelected", () => {
     it("returns true for all values when state is 'all'", () => {
       const state: SelectionState<string> = { type: "all" };
-      expect(isSelected(state, "a", allValues)).toBe(true);
-      expect(isSelected(state, "b", allValues)).toBe(true);
-      expect(isSelected(state, "c", allValues)).toBe(true);
+      expect(isSelected(state, "a")).toBe(true);
+      expect(isSelected(state, "b")).toBe(true);
+      expect(isSelected(state, "c")).toBe(true);
     });
 
     it("returns false for all values when state is 'none'", () => {
       const state: SelectionState<string> = { type: "none" };
-      expect(isSelected(state, "a", allValues)).toBe(false);
-      expect(isSelected(state, "b", allValues)).toBe(false);
-      expect(isSelected(state, "c", allValues)).toBe(false);
+      expect(isSelected(state, "a")).toBe(false);
+      expect(isSelected(state, "b")).toBe(false);
+      expect(isSelected(state, "c")).toBe(false);
     });
 
     it("returns true only for selected values when state is 'some'", () => {
@@ -71,9 +71,9 @@ describe("selection-state", () => {
         type: "some",
         values: nonEmptySetOf("a", "c"),
       };
-      expect(isSelected(state, "a", allValues)).toBe(true);
-      expect(isSelected(state, "b", allValues)).toBe(false);
-      expect(isSelected(state, "c", allValues)).toBe(true);
+      expect(isSelected(state, "a")).toBe(true);
+      expect(isSelected(state, "b")).toBe(false);
+      expect(isSelected(state, "c")).toBe(true);
     });
   });
 

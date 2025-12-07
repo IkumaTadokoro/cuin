@@ -45,18 +45,18 @@ describe("filters-state", () => {
   describe("isValueSelected", () => {
     it("returns true for all values in unmodified group", () => {
       const state = initialFilters();
-      expect(isValueSelected(state, "groupA", "a1", allValuesA)).toBe(true);
-      expect(isValueSelected(state, "groupA", "a2", allValuesA)).toBe(true);
-      expect(isValueSelected(state, "groupA", "a3", allValuesA)).toBe(true);
+      expect(isValueSelected(state, "groupA", "a1")).toBe(true);
+      expect(isValueSelected(state, "groupA", "a2")).toBe(true);
+      expect(isValueSelected(state, "groupA", "a3")).toBe(true);
     });
 
     it("returns correct values after toggle", () => {
       let state = initialFilters();
       state = toggleValue(state, "groupA", "a2", allValuesA);
 
-      expect(isValueSelected(state, "groupA", "a1", allValuesA)).toBe(true);
-      expect(isValueSelected(state, "groupA", "a2", allValuesA)).toBe(false);
-      expect(isValueSelected(state, "groupA", "a3", allValuesA)).toBe(true);
+      expect(isValueSelected(state, "groupA", "a1")).toBe(true);
+      expect(isValueSelected(state, "groupA", "a2")).toBe(false);
+      expect(isValueSelected(state, "groupA", "a3")).toBe(true);
     });
   });
 
@@ -83,8 +83,8 @@ describe("filters-state", () => {
       let state = initialFilters();
       state = toggleValue(state, "groupA", "a1", allValuesA);
 
-      expect(isValueSelected(state, "groupA", "a1", allValuesA)).toBe(false);
-      expect(isValueSelected(state, "groupA", "a2", allValuesA)).toBe(true);
+      expect(isValueSelected(state, "groupA", "a1")).toBe(false);
+      expect(isValueSelected(state, "groupA", "a2")).toBe(true);
     });
 
     it("adds value back", () => {
@@ -109,10 +109,10 @@ describe("filters-state", () => {
       state = toggleValue(state, "groupA", "a1", allValuesA);
       state = toggleValue(state, "groupB", "b1", allValuesB);
 
-      expect(isValueSelected(state, "groupA", "a1", allValuesA)).toBe(false);
-      expect(isValueSelected(state, "groupA", "a2", allValuesA)).toBe(true);
-      expect(isValueSelected(state, "groupB", "b1", allValuesB)).toBe(false);
-      expect(isValueSelected(state, "groupB", "b2", allValuesB)).toBe(true);
+      expect(isValueSelected(state, "groupA", "a1")).toBe(false);
+      expect(isValueSelected(state, "groupA", "a2")).toBe(true);
+      expect(isValueSelected(state, "groupB", "b1")).toBe(false);
+      expect(isValueSelected(state, "groupB", "b2")).toBe(true);
     });
   });
 
@@ -121,9 +121,9 @@ describe("filters-state", () => {
       let state = initialFilters();
       state = selectOnly(state, "groupA", "a2");
 
-      expect(isValueSelected(state, "groupA", "a1", allValuesA)).toBe(false);
-      expect(isValueSelected(state, "groupA", "a2", allValuesA)).toBe(true);
-      expect(isValueSelected(state, "groupA", "a3", allValuesA)).toBe(false);
+      expect(isValueSelected(state, "groupA", "a1")).toBe(false);
+      expect(isValueSelected(state, "groupA", "a2")).toBe(true);
+      expect(isValueSelected(state, "groupA", "a3")).toBe(false);
     });
   });
 
@@ -134,8 +134,8 @@ describe("filters-state", () => {
       state = selectAll(state, "groupA");
 
       expect(isGroupFiltered(state, "groupA")).toBe(false);
-      expect(isValueSelected(state, "groupA", "a1", allValuesA)).toBe(true);
-      expect(isValueSelected(state, "groupA", "a2", allValuesA)).toBe(true);
+      expect(isValueSelected(state, "groupA", "a1")).toBe(true);
+      expect(isValueSelected(state, "groupA", "a2")).toBe(true);
     });
 
     it("removes group from map", () => {

@@ -6,15 +6,15 @@ import {
   BiRegularX as XIcon,
 } from "solid-icons/bi";
 import { createMemo, createSignal, For, Show } from "solid-js";
-import type { PropAnalysis } from "~/lib/props-analyze";
 import { Root } from "~/shared/ui/exclusive-checkbox-group";
-import type { FiltersStore } from "~/store/filters-store";
+import type { InstanceDetailStore } from "~/store/instance";
+import type { PropAnalysis } from "~/store/instance/props-analyze";
 import { Count } from "./count";
 import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 
 type PropValueFilterSectionProps = {
   prop: PropAnalysis;
-  store: FiltersStore;
+  store: InstanceDetailStore;
 };
 
 export default function PropValueFilterSection(

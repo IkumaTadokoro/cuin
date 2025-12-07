@@ -14,7 +14,7 @@ import {
   ResizableRoot,
 } from "~/shared/ui/resizable/resizable";
 import { Spacer } from "~/shared/ui/space";
-import { createComponentFilters } from "~/store/component-filter";
+import { createComponentListStore } from "~/store/component";
 
 export default function Index() {
   const { setHeader } = useHeader();
@@ -34,7 +34,7 @@ export default function Index() {
     }
   });
 
-  const filterStore = createComponentFilters({
+  const store = createComponentListStore({
     components: () => data()?.components ?? [],
     packages: () => data()?.packages ?? [],
   });
@@ -49,13 +49,13 @@ export default function Index() {
           Filter By
         </p>
         <ComponentNameFilter
-          onChange={filterStore.setNameQuery}
-          value={filterStore.filters.nameQuery}
+          onChange={store.setNameFilter}
+          value={store.state.nameFilter}
         />
         <ComponentPackageFilter
           allPackages={() => data()?.packages ?? []}
-          onSelectionChange={filterStore.setPackageSelection}
-          selection={filterStore.getPackageSelection}
+          onSelectionChange={store.setPackageFilter}
+          selection={store.getPackageFilter}
         />
       </ResizablePanel>
       <ResizableHandle />
@@ -64,15 +64,16 @@ export default function Index() {
         initialSize={0.7}
       >
         <div class="flex items-center justify-between gap-2">
-          <ComponentListCount count={filterStore.sortedComponents().length} />
+          <ComponentListCount count={store.sortedComponents().length} />
           <Spacer />
           <ComponentOrderSelect
-            onChange={filterStore.setSortBy}
-            value={filterStore.filters.sortBy}
+            onChange={store.setSort}
+            sortKey={store.state.sortKey}
+            sortOrder={store.state.sortOrder}
           />
         </div>
         <Separator />
-        <ComponentList components={filterStore.sortedComponents} />
+        <ComponentList components={store.sortedComponents} />
       </ResizablePanel>
     </ResizableRoot>
   );

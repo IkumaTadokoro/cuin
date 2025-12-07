@@ -1,13 +1,16 @@
 import { createMemo, createSignal } from "solid-js";
-import type { Instance } from "~/dataflow/core/schema";
+import type { Instance } from "../../dataflow/core/schema";
+import { isAll, type SelectionState } from "../../lib/selection-state";
+import type { Predicate } from "../../shared/lib/predicates";
 import {
   buildPredicate,
-  hasActiveFilters as checkActiveFilters,
   type FilterContext,
+  getPackageName,
   packageGroupKey,
   propGroupKey,
-} from "../lib/filters-predicate";
+} from "./filter";
 import {
+  hasActiveFilters as checkActiveFilters,
   type FiltersState,
   getGroupEffectiveValues,
   initialFilters,
@@ -17,56 +20,34 @@ import {
   selectAll,
   selectOnly,
   toggleValue as toggleFilterValue,
-} from "../lib/filters-state";
-import type { PropAnalysis } from "../lib/props-analyze";
-import { analyzePropsWithFilter } from "../lib/props-analyze";
-import type { SelectionState } from "../lib/selection-state";
-import { isAll } from "../lib/selection-state";
-import type { Predicate } from "../shared/lib/predicates";
+} from "./filters-state";
+import { analyzeProps, countFilteredProps } from "./props-analyze";
 
-/**
- * Create a filters store using pure functions + SolidJS signals
- *
- * Replaces the old createInstanceFilters with a cleaner architecture:
- * - State: FiltersState (immutable Map)
- * - Updates: Pure functions that return new state
- * - Reactivity: createSignal for state, createMemo for derived values
- */
-export type FiltersStore = ReturnType<typeof createFiltersStore>;
+type DataSource = {
+  instances: () => Instance[];
+};
 
-export function createFiltersStore(
-  allInstances: () => Instance[],
-  propsAnalysis: () => PropAnalysis[]
-) {
-  // Core state: a single signal holding FiltersState
+export type InstanceDetailStore = ReturnType<typeof createInstanceStore>;
+
+export function createInstanceStore(dataSource: DataSource) {
   const [filters, setFilters] = createSignal<FiltersState>(initialFilters());
 
-  // Derived: all package names in the dataset
-  const allPackages = createMemo(() => {
-    const packages = new Set<string>();
-    for (const instance of allInstances()) {
-      const name =
-        instance.package.type === "native"
-          ? "(no package)"
-          : instance.package.name;
-      packages.add(name);
-    }
-    return Array.from(packages);
-  });
+  const propsAnalysis = createMemo(() => analyzeProps(dataSource.instances()));
 
-  // Derived: all prop values map
-  const allPropValues = createMemo(() => {
-    const map = new Map<string, string[]>();
-    for (const prop of propsAnalysis()) {
-      map.set(
-        prop.key,
-        prop.values.map((v) => v.value)
-      );
-    }
-    return map;
-  });
+  const allPackages = createMemo(() => [
+    ...new Set(dataSource.instances().map(getPackageName)),
+  ]);
 
-  // Derived: filter context for predicate building
+  const allPropValues = createMemo(
+    () =>
+      new Map(
+        propsAnalysis().map((prop) => [
+          prop.key,
+          prop.values.map((v) => v.value),
+        ])
+      )
+  );
+
   const filterContext = createMemo(
     (): FilterContext => ({
       allPackages: allPackages(),
@@ -74,25 +55,20 @@ export function createFiltersStore(
     })
   );
 
-  // Derived: the predicate function
   const filterPredicate = createMemo<Predicate<Instance>>(() =>
     buildPredicate(filters(), filterContext())
   );
 
-  // Derived: filtered instances
   const filteredInstances = createMemo(() =>
-    allInstances().filter(filterPredicate())
+    dataSource.instances().filter(filterPredicate())
   );
 
-  // Derived: prop counts after filtering
   const filteredPropCounts = createMemo(() =>
-    analyzePropsWithFilter(allInstances(), filteredInstances())
+    countFilteredProps(dataSource.instances(), filteredInstances())
   );
-
-  // === Package filter actions ===
 
   const isPackageSelected = (packageName: string): boolean =>
-    isValueSelected(filters(), packageGroupKey, packageName, allPackages());
+    isValueSelected(filters(), packageGroupKey, packageName);
 
   const togglePackage = (packageName: string): void => {
     setFilters((prev) =>
@@ -104,12 +80,9 @@ export function createFiltersStore(
     setFilters((prev) => selectAll(prev, packageGroupKey));
   };
 
-  // === Prop filter actions ===
-
   const isValueChecked = (propKey: string, value: string): boolean => {
     const groupKey = propGroupKey(propKey);
-    const propValues = allPropValues().get(propKey) ?? [];
-    return isValueSelected(filters(), groupKey, value, propValues);
+    return isValueSelected(filters(), groupKey, value);
   };
 
   const toggleValue = (propKey: string, value: string): void => {
@@ -124,7 +97,6 @@ export function createFiltersStore(
   };
 
   const selectOnlyValues = (propKey: string, values: string[]): void => {
-    // Select the first value, then toggle the rest on
     if (values.length === 0) {
       return;
     }
@@ -166,13 +138,11 @@ export function createFiltersStore(
   const getFilteredCount = (propKey: string, value: string): number =>
     filteredPropCounts().get(propKey)?.get(value) ?? 0;
 
-  // Get selection state for ExclusiveCheckboxGroup integration
   const getPropSelection = (propKey: string): SelectionState<string> => {
     const groupKey = propGroupKey(propKey);
     return filters().get(groupKey) ?? { type: "all" };
   };
 
-  // Set selection state from ExclusiveCheckboxGroup
   const setPropSelection = (
     propKey: string,
     selection: SelectionState<string>
@@ -189,8 +159,6 @@ export function createFiltersStore(
     });
   };
 
-  // === Global actions ===
-
   const clearAllFilters = (): void => {
     setFilters(resetAllFilters());
   };
@@ -198,20 +166,16 @@ export function createFiltersStore(
   const hasActiveFilters = (): boolean => checkActiveFilters(filters());
 
   return {
-    // State (for debugging/inspection)
     filters,
 
-    // Derived values
     filterPredicate,
     filteredInstances,
     propsAnalysis,
 
-    // Package actions
     isPackageSelected,
     togglePackage,
     clearPackageFilters,
 
-    // Prop actions
     isValueChecked,
     toggleValue,
     selectOnlyValue,
@@ -225,7 +189,6 @@ export function createFiltersStore(
     getPropSelection,
     setPropSelection,
 
-    // Global actions
     clearAllFilters,
     hasActiveFilters,
   };

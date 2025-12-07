@@ -111,8 +111,7 @@ export function useExclusiveCheckboxGroup<T>(
     () => getEffectiveValues(selection(), props.values()).size
   );
 
-  const isChecked = (value: T): boolean =>
-    isSelected(selection(), value, props.values());
+  const isChecked = (value: T): boolean => isSelected(selection(), value);
 
   const onControlClick = (value: T): void => {
     const newState = handleControlClick(value, selection(), props.values());

@@ -1,13 +1,17 @@
 import { describe, expect, it } from "vitest";
-import type { Instance } from "~/dataflow/core/schema";
+import type { Instance } from "../../dataflow/core/schema";
 import {
   buildPredicate,
   type FilterContext,
-  hasActiveFilters,
   packageGroupKey,
   propGroupKey,
-} from "./filters-predicate";
-import { initialFilters, selectOnly, toggleValue } from "./filters-state";
+} from "./filter";
+import {
+  hasActiveFilters,
+  initialFilters,
+  selectOnly,
+  toggleValue,
+} from "./filters-state";
 
 // Test fixtures
 const createInstance = (

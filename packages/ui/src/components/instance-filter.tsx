@@ -1,18 +1,27 @@
 import { createMemo, For, Show } from "solid-js";
-import { getInstancePackages } from "~/lib/instance-filter";
-import type { FiltersStore } from "~/store/filters-store";
+import type { InstanceDetailStore } from "~/store/instance";
 import PropValueFilterSection from "./prop-value-filter-section";
 
 type InstanceFilterProps = {
-  store: FiltersStore;
+  store: InstanceDetailStore;
 };
 
 export default function InstanceFilter(props: InstanceFilterProps) {
   const { store } = props;
 
-  const packages = createMemo(() =>
-    getInstancePackages(store.filteredInstances())
-  );
+  const packages = createMemo(() => {
+    const packagesMap = new Map<string, number>();
+    for (const instance of store.filteredInstances()) {
+      const name =
+        instance.package.type === "native"
+          ? "(no package)"
+          : instance.package.name;
+      packagesMap.set(name, (packagesMap.get(name) || 0) + 1);
+    }
+    return Array.from(packagesMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  });
 
   return (
     <div class="flex h-full flex-col gap-6">

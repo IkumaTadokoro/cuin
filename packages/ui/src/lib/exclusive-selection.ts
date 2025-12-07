@@ -28,7 +28,7 @@ export function getLabelAction<T>(
   allValues: T[]
 ): LabelAction {
   const selectedCount = getEffectiveValues(state, allValues).size;
-  const checked = isSelected(state, value, allValues);
+  const checked = isSelected(state, value);
   const total = allValues.length;
 
   if (selectedCount >= 2) {

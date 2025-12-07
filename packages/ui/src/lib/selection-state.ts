@@ -36,11 +36,7 @@ export const isAll = <T>(state: SelectionState<T>): boolean =>
 export const isNone = <T>(state: SelectionState<T>): boolean =>
   state.type === "none";
 
-export const isSelected = <T>(
-  state: SelectionState<T>,
-  value: T,
-  _allValues: T[]
-): boolean => {
+export const isSelected = <T>(state: SelectionState<T>, value: T): boolean => {
   if (state.type === "all") {
     return true;
   }
