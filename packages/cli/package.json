@@ -28,7 +28,6 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "dependencies": {
-    "@cuin/schema": "workspace:*",
     "cuin-analyzer": "workspace:*",
     "consola": "catalog:cli",
     "es-toolkit": "catalog:",
@@ -40,6 +39,7 @@
     "valibot": "catalog:"
   },
   "devDependencies": {
+    "@cuin/schema": "workspace:*",
     "@types/node": "catalog:",
     "tsdown": "catalog:build",
     "tsx": "catalog:build",
