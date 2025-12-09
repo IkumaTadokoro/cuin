@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noBarrelFile: This is an intentional public API export file
 export { ExclusiveCheckboxGroupControl as Control } from "./exclusive-checkbox-group-control";
 export { ExclusiveCheckboxGroupIndicator as Indicator } from "./exclusive-checkbox-group-indicator";
 export { ExclusiveCheckboxGroupItem as Item } from "./exclusive-checkbox-group-item";
