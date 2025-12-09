@@ -48,6 +48,9 @@ catalogs:
     es-toolkit:
       specifier: 1.41.0
       version: 1.41.0
+    rollup-plugin-visualizer:
+      specifier: ^6.0.5
+      version: 6.0.5
     turbo:
       specifier: 2.6.0
       version: 2.6.0
@@ -92,9 +95,6 @@ catalogs:
     '@ark-ui/solid':
       specifier: 5.27.1
       version: 5.27.1
-    '@corvu/resizable':
-      specifier: 0.2.5
-      version: 0.2.5
     '@shikijs/core':
       specifier: 3.14.0
       version: 3.14.0
@@ -131,9 +131,6 @@ catalogs:
     shiki:
       specifier: 3.14.0
       version: 3.14.0
-    solid-icons:
-      specifier: 1.1.0
-      version: 1.1.0
     solid-js:
       specifier: 1.9.10
       version: 1.9.10
@@ -216,9 +213,6 @@ importers:
       '@ark-ui/solid':
         specifier: catalog:ui
         version: 5.27.1(solid-js@1.9.10)
-      '@corvu/resizable':
-        specifier: catalog:ui
-        version: 0.2.5(solid-js@1.9.10)
       '@shikijs/core':
         specifier: catalog:ui
         version: 3.14.0
@@ -255,9 +249,6 @@ importers:
       shiki:
         specifier: catalog:ui
         version: 3.14.0
-      solid-icons:
-        specifier: catalog:ui
-        version: 1.1.0(solid-js@1.9.10)
       solid-js:
         specifier: catalog:ui
         version: 1.9.10
@@ -298,6 +289,9 @@ importers:
       playwright:
         specifier: catalog:test
         version: 1.56.1
+      rollup-plugin-visualizer:
+        specifier: 'catalog:'
+        version: 6.0.5(rolldown@1.0.0-beta.45)(rollup@4.53.2)
       tailwindcss:
         specifier: catalog:ui
         version: 4.0.7
@@ -533,16 +527,6 @@ packages:
   '@cloudflare/kv-asset-handler@0.4.0':
     resolution: {integrity: sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA==}
     engines: {node: '>=18.0.0'}
-
-  '@corvu/resizable@0.2.5':
-    resolution: {integrity: sha512-psax38DraM9SXtaNh/sfvizGO6xLCL4sqT4rWYlMZP5ZsUM05Q30tvXgnTo2roQFNOz2e06WofhDsBXTjY6g4A==}
-    peerDependencies:
-      solid-js: ^1.8
-
-  '@corvu/utils@0.4.2':
-    resolution: {integrity: sha512-Ox2kYyxy7NoXdKWdHeDEjZxClwzO4SKM8plAaVwmAJPxHMqA0rLOoAsa+hBDwRLpctf+ZRnAd/ykguuJidnaTA==}
-    peerDependencies:
-      solid-js: ^1.8
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -3952,11 +3936,6 @@ packages:
   smob@1.5.0:
     resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
 
-  solid-icons@1.1.0:
-    resolution: {integrity: sha512-IesTfr/F1ElVwH2E1110s2RPXH4pujKfSs+koT8rwuTAdleO5s26lNSpqJV7D1+QHooJj18mcOiz2PIKs0ic+A==}
-    peerDependencies:
-      solid-js: '*'
-
   solid-js@1.9.10:
     resolution: {integrity: sha512-Coz956cos/EPDlhs6+jsdTxKuJDPT7B5SVIWgABwROyxjY7Xbr8wkzD68Et+NxnV7DLJ3nJdAC2r9InuV/4Jew==}
 
@@ -5002,16 +4981,6 @@ snapshots:
   '@cloudflare/kv-asset-handler@0.4.0':
     dependencies:
       mime: 3.0.0
-
-  '@corvu/resizable@0.2.5(solid-js@1.9.10)':
-    dependencies:
-      '@corvu/utils': 0.4.2(solid-js@1.9.10)
-      solid-js: 1.9.10
-
-  '@corvu/utils@0.4.2(solid-js@1.9.10)':
-    dependencies:
-      '@floating-ui/dom': 1.7.4
-      solid-js: 1.9.10
 
   '@csstools/color-helpers@5.1.0': {}
 
@@ -8630,10 +8599,6 @@ snapshots:
   slash@5.1.0: {}
 
   smob@1.5.0: {}
-
-  solid-icons@1.1.0(solid-js@1.9.10):
-    dependencies:
-      solid-js: 1.9.10
 
   solid-js@1.9.10:
     dependencies:

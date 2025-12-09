@@ -1,5 +1,5 @@
-import { BiRegularChevronDown as ChevronDownIcon } from "solid-icons/bi";
 import type { Component, JSX, ParentProps } from "solid-js";
+import { ChevronDownIcon } from "~/components/icons";
 import { useDetailsGroup } from "./details-group";
 
 type Props = {
@@ -21,7 +21,7 @@ export const Details: Component<ParentProps<Props>> = (props) => {
         <ChevronDownIcon class="h-4 w-4 opacity-50 transition [details[open]_&]:rotate-180" />
         <div class="flex-1">{props.summary}</div>
       </summary>
-      <div class="grid gap-4 border-brand-200 border-t p-4">
+      <div class="details-content grid gap-4 border-brand-200 border-t p-4">
         {props.children}
       </div>
     </details>

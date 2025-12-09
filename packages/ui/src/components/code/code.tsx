@@ -1,5 +1,6 @@
-import { type Component, createSignal, onMount } from "solid-js";
+import { type Component, createEffect, createSignal, For } from "solid-js";
 import type { Span } from "~/dataflow/schema";
+import { useLazyHighlight } from "~/hooks/use-lazy-highlight";
 import { OpenVscode } from "./open-vscode";
 import { codeToHtml } from "./shiki.bundle";
 
@@ -12,19 +13,30 @@ type Props = {
 
 export const Code: Component<Props> = (props) => {
   const [html, setHtml] = createSignal("");
+  const [containerRef, setContainerRef] = createSignal<HTMLElement>();
+  const [isHighlighted, setIsHighlighted] = createSignal(false);
   const location = `${props.filePath}:${props.span.startLine}:${props.span.startCol}`;
 
-  onMount(async () => {
-    const highlighted = await codeToHtml(props.code, {
-      lang: "tsx",
-      theme: "github-light",
-    });
-    setHtml(highlighted);
+  const shouldHighlight = useLazyHighlight({
+    containerRef,
+    rootMargin: "100px",
+  });
+
+  createEffect(async () => {
+    if (shouldHighlight() && !isHighlighted()) {
+      setIsHighlighted(true);
+      const highlighted = await codeToHtml(props.code, {
+        lang: "tsx",
+        theme: "github-light",
+      });
+      setHtml(highlighted);
+    }
   });
 
   return (
     <div
       class="relative overflow-x-auto rounded-sm border border-brand-100 bg-brand-50 text-sm"
+      ref={setContainerRef}
       style={{
         "--start": props.span.startLine,
         "max-width": "100%",
@@ -38,10 +50,24 @@ export const Code: Component<Props> = (props) => {
           }
         `}
       </style>
-      <div
-        class="code-container *:m-0 *:border-none *:p-0! *:focus-visible:outline-none [&_.line]:whitespace-pre [&_.line]:px-4 [&_.line]:py-px [&_.line]:leading-relaxed [&_code]:grid [&_code]:w-full [&_code]:py-3 [&_pre]:bg-transparent! [&_pre]:dark:bg-transparent!"
-        innerHTML={html()}
-      />
+      {html() ? (
+        <div
+          class="code-container *:m-0 *:border-none *:p-0! *:focus-visible:outline-none [&_.line]:whitespace-pre [&_.line]:px-4 [&_.line]:py-px [&_.line]:leading-relaxed [&_code]:grid [&_code]:w-full [&_code]:py-3 [&_pre]:bg-transparent! [&_pre]:dark:bg-transparent!"
+          innerHTML={html()}
+        />
+      ) : (
+        <pre class="m-0 border-none bg-transparent p-0">
+          <code class="grid w-full py-3">
+            <For each={props.code.split("\n")}>
+              {(line) => (
+                <span class="line whitespace-pre px-4 py-px leading-relaxed">
+                  {line}
+                </span>
+              )}
+            </For>
+          </code>
+        </pre>
+      )}
       <div class="absolute right-2 bottom-2">
         <OpenVscode absPath={location} basePath={props.basePath} />
       </div>

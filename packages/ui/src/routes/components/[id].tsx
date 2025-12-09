@@ -1,8 +1,8 @@
 import { useParams } from "@solidjs/router";
-import { BiSolidCategoryAlt as CategoryAltIcon } from "solid-icons/bi";
 import { createEffect, createMemo, For, Show } from "solid-js";
 import { Code } from "~/components/code/code";
 import { useHeader } from "~/components/header/header-provider";
+import { CategoryIcon } from "~/components/icons";
 import InstanceFilter from "~/components/instance-filter";
 import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
@@ -14,11 +14,6 @@ import {
   DetailsGroup,
   ToggleAllDetailsButton,
 } from "~/shared/ui/details/details-group";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizableRoot,
-} from "~/shared/ui/resizable/resizable";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
 
@@ -43,7 +38,7 @@ export default function ComponentPage() {
       setHeader({
         title: {
           text: currentComponent.name,
-          icon: <CategoryAltIcon class="text-2xl" />,
+          icon: <CategoryIcon class="text-2xl" />,
         },
         description: <Package size="sm" {...currentComponent.package} />,
         breadcrumbs: ["cuin", "components"],
@@ -86,22 +81,16 @@ function ComponentPageContent(props: { component: ComponentType }) {
   });
 
   return (
-    <ResizableRoot class="h-screen w-full px-0 2xl:px-12">
-      <ResizablePanel
-        class="flex flex-col overflow-y-auto border-neutral-border border-l px-4 py-4"
-        initialSize={0.2}
-      >
+    <div class="grid h-screen w-full grid-cols-[20%_1px_1fr] overflow-hidden px-0 2xl:px-12">
+      <div class="flex flex-col overflow-y-auto border-neutral-border border-l px-4 py-4">
         <InstanceFilter store={store} />
-      </ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel
-        class="flex flex-col gap-4 overflow-hidden border-neutral-border border-r px-4 py-6"
-        initialSize={0.8}
-      >
+      </div>
+      <div class="h-full bg-brand-200" />
+      <div class="flex flex-col gap-4 overflow-hidden border-neutral-border border-r px-4 py-6">
         <DetailsGroup>
           <div class="grid grid-cols-[auto_1fr_max-content_max-content] items-center gap-2">
             <div class="flex items-center gap-2">
-              <CategoryAltIcon class="text-lg text-subtext-color" />
+              <CategoryIcon class="text-lg text-subtext-color" />
               <p class="text-lg">{store.filteredInstances().length}</p>
               <p class="text-sm">usages</p>
             </div>
@@ -136,7 +125,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
             </div>
           </ScrollArea>
         </DetailsGroup>
-      </ResizablePanel>
-    </ResizableRoot>
+      </div>
+    </div>
   );
 }

@@ -44,16 +44,20 @@ export function StyledExclusiveCheckboxItem(
 
         <div class="flex shrink-0 items-center gap-2">
           <Indicator>
-            {(_controlAction, labelAction) => (
-              <span
-                class="hidden align-middle font-semibold text-[10px] text-primary uppercase leading-none group-hover/item:inline"
-                classList={{
-                  "!inline": labelAction === "all",
-                }}
-              >
-                {getActionLabel(labelAction)}
-              </span>
-            )}
+            {(controlAction, labelAction, hoveredPart) => {
+              const displayAction =
+                hoveredPart === "control" ? controlAction : labelAction;
+              return (
+                <span
+                  class="hidden align-middle font-semibold text-[10px] text-primary uppercase leading-none group-hover/item:inline"
+                  classList={{
+                    "!inline": labelAction === "all",
+                  }}
+                >
+                  {getActionLabel(displayAction)}
+                </span>
+              );
+            }}
           </Indicator>
           {props.rightAddon}
         </div>

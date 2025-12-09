@@ -1,5 +1,5 @@
-import { BiLogosReact as ReactIcon } from "solid-icons/bi";
 import { twMerge } from "tailwind-merge";
+import { ReactIcon } from "~/components/icons";
 
 type Props = {
   name: string;

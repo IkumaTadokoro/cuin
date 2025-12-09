@@ -1,5 +1,5 @@
-import { TbComponents as ComponentIcon } from "solid-icons/tb";
 import type { Component } from "solid-js";
+import { ComponentIcon } from "~/components/icons";
 
 type Props = {
   count: number;

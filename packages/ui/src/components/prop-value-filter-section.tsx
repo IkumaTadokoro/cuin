@@ -1,11 +1,11 @@
 import { debounce } from "@solid-primitives/scheduled";
-import {
-  BiRegularCheck as CheckIcon,
-  BiRegularChevronDown as ChevronDownIcon,
-  BiRegularSearch as SearchIcon,
-  BiRegularX as XIcon,
-} from "solid-icons/bi";
 import { createMemo, createSignal, For, Show } from "solid-js";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  SearchIcon,
+  XIcon,
+} from "~/components/icons";
 import type { InstanceDetailStore } from "~/dataflow/instance";
 import type { PropAnalysis } from "~/dataflow/instance/props-analyze";
 import { Root } from "~/shared/ui/exclusive-checkbox-group";

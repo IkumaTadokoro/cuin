@@ -1,6 +1,6 @@
 import { Checkbox } from "@ark-ui/solid/checkbox";
-import { BsCheck as Check } from "solid-icons/bs";
 import { createMemo, createSignal, For } from "solid-js";
+import { CheckIcon as Check } from "~/components/icons";
 
 const items = [
   { label: "React", value: "react" },

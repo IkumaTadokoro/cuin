@@ -1,5 +1,5 @@
-import { BiSolidCategoryAlt as CategoryIcon } from "solid-icons/bi";
 import type { Component } from "solid-js";
+import { CategoryIcon } from "~/components/icons";
 
 export const UsageCount: Component<{
   count: number;

@@ -34,3 +34,8 @@ code .line::before {
   text-align: right;
   color: rgba(115, 138, 148, 0.4);
 }
+
+.details-content {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
+}

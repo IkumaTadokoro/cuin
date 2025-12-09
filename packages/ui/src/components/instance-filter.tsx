@@ -1,5 +1,6 @@
 import { createMemo, For, Show } from "solid-js";
 import type { InstanceDetailStore } from "~/dataflow/instance";
+import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import PropValueFilterSection from "./prop-value-filter-section";
 
 type InstanceFilterProps = {
@@ -68,11 +69,13 @@ export default function InstanceFilter(props: InstanceFilterProps) {
         <h4 class="mb-2 font-semibold text-subtext-color text-xs uppercase tracking-wide">
           Props
         </h4>
-        <div class="space-y-2 overflow-y-auto">
-          <For each={store.propsAnalysis()}>
-            {(prop) => <PropValueFilterSection prop={prop} store={store} />}
-          </For>
-        </div>
+        <ScrollArea class="min-h-0 flex-1">
+          <div class="space-y-2">
+            <For each={store.propsAnalysis()}>
+              {(prop) => <PropValueFilterSection prop={prop} store={store} />}
+            </For>
+          </div>
+        </ScrollArea>
       </section>
     </div>
   );

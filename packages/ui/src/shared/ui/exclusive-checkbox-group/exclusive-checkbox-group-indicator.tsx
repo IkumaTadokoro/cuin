@@ -7,11 +7,16 @@ import { useExclusiveCheckboxGroupItemContext } from "./use-exclusive-checkbox-g
 export interface ExclusiveCheckboxGroupIndicatorProps
   extends Omit<HTMLProps<"span">, "children"> {
   /**
-   * Render function that receives actions for each part.
+   * Render function that receives actions for each part and current hovered part.
    * - controlAction: Always "toggle" (clicking checkbox toggles)
    * - labelAction: Depends on current state ("only" | "all" | "toggle")
+   * - hoveredPart: Which part is currently being hovered ("control" | "label" | null)
    */
-  children?: (controlAction: "toggle", labelAction: LabelAction) => JSX.Element;
+  children?: (
+    controlAction: "toggle",
+    labelAction: LabelAction,
+    hoveredPart: "control" | "label" | null
+  ) => JSX.Element;
 }
 
 /**
@@ -34,7 +39,7 @@ export function ExclusiveCheckboxGroupIndicator<T>(
       data-label-action={labelAction()}
       {...props}
     >
-      {props.children?.(controlAction, labelAction())}
+      {props.children?.(controlAction, labelAction(), hoveredPart())}
     </ark.span>
   );
 }

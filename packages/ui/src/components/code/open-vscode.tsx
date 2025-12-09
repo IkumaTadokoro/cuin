@@ -1,5 +1,5 @@
-import { BiLogosVisualStudio as VSCodeIcon } from "solid-icons/bi";
 import type { Component } from "solid-js";
+import { VSCodeIcon } from "~/components/icons";
 
 type OpenVscodeProps = {
   absPath: string;

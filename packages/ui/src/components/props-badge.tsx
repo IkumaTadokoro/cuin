@@ -1,13 +1,13 @@
-import { BiLogosReact as ReactIcon } from "solid-icons/bi";
-import { BsThreeDots as SpreadIcon } from "solid-icons/bs";
-import { TbMathFunction as FunctionIcon } from "solid-icons/tb";
-import {
-  VsSymbolBoolean as BooleanIcon,
-  VsSymbolConstant as LiteralIcon,
-  VsSymbolNamespace as MemberIcon,
-  VsCaseSensitive as StringIcon,
-} from "solid-icons/vs";
 import { type Component, Match, Switch } from "solid-js";
+import {
+  BooleanIcon,
+  FunctionIcon,
+  LiteralIcon,
+  MemberIcon,
+  ReactIcon,
+  SpreadIcon,
+  StringIcon,
+} from "~/components/icons";
 
 type PropType =
   | "string"
