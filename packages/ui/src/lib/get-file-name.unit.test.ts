@@ -5,8 +5,8 @@ describe("getFileName", () => {
   it("絶対パスからファイル名を抽出", () => {
     expect(
       getFileName(
-        "/Users/ikuma-tadokoro/src/github.com/IkumaTadokoro/cuin/packages/ui/src/routes/components/[id].tsx",
-      ),
+        "/Users/ikuma-tadokoro/src/github.com/IkumaTadokoro/cuin/packages/ui/src/routes/components/[id].tsx"
+      )
     ).toBe("[id].tsx");
   });
 
@@ -24,7 +24,7 @@ describe("getFileName", () => {
 
   it("複数のドットを含むファイル名", () => {
     expect(getFileName("path/to/component.test.tsx")).toBe(
-      "component.test.tsx",
+      "component.test.tsx"
     );
   });
 
@@ -38,7 +38,7 @@ describe("getFileName", () => {
 
   it("Windowsスタイルのパス（バックスラッシュ）は処理しない", () => {
     expect(getFileName("C:\\Users\\test\\file.txt")).toBe(
-      "C:\\Users\\test\\file.txt",
+      "C:\\Users\\test\\file.txt"
     );
   });
 });

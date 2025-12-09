@@ -129,7 +129,7 @@ test("parse internal component", () => {
                 propType: "arrow",
               },
             ],
-            raw: '<Button onClick={() => {}} />',
+            raw: "<Button onClick={() => {}} />",
             span: {
               start: 10,
               end: 40,

@@ -1,5 +1,5 @@
+import { analyze } from "cuin-analyzer";
 import { describe, expect, it, vi } from "vitest";
-import * as analyzer from "cuin-analyzer";
 import { getAnalysis, getAnalysisAsJson } from "./analyze";
 
 vi.mock("cuin-analyzer");
@@ -44,7 +44,7 @@ describe("getAnalysis", () => {
       ],
     });
 
-    vi.mocked(analyzer.analyze).mockReturnValue(snakeCaseResult);
+    vi.mocked(analyze).mockReturnValue(snakeCaseResult);
 
     const result = getAnalysis("/test/path");
 
@@ -89,7 +89,7 @@ describe("getAnalysis", () => {
       ],
     });
 
-    vi.mocked(analyzer.analyze).mockReturnValue(snakeCaseResult);
+    vi.mocked(analyze).mockReturnValue(snakeCaseResult);
 
     const result = getAnalysis("/test/path");
 
@@ -113,7 +113,7 @@ describe("getAnalysis", () => {
       ],
     });
 
-    vi.mocked(analyzer.analyze).mockReturnValue(invalidResult);
+    vi.mocked(analyze).mockReturnValue(invalidResult);
 
     expect(() => getAnalysis("/test/path")).toThrow();
   });
@@ -128,7 +128,7 @@ describe("getAnalysisAsJson", () => {
       components: [],
     });
 
-    vi.mocked(analyzer.analyze).mockReturnValue(snakeCaseResult);
+    vi.mocked(analyze).mockReturnValue(snakeCaseResult);
 
     const result = getAnalysisAsJson("/test/path");
 

@@ -95,7 +95,7 @@ export default function PropValueFilterSection(
       <div>
         <div class="flex items-center justify-between">
           <button
-            class="group flex min-w-0 flex-1 items-center gap-1 text-left　cursor-pointer p-2"
+            class="group flex min-w-0 flex-1 cursor-pointer items-center gap-1 p-2 text-left"
             onClick={() => setIsExpanded(!isExpanded())}
             type="button"
           >
@@ -197,12 +197,12 @@ export default function PropValueFilterSection(
               when={searchResultCount() > 0}
             >
               <Root
+                class="p-1"
                 onSelectionChange={(state) =>
                   store.setPropSelection(propKey(), state)
                 }
                 selection={() => store.getPropSelection(propKey())}
                 values={allValues}
-                class="p-1"
               >
                 <For each={filteredValues()}>
                   {({ value }) => (
