@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@changesets/cli": "catalog:",
     "turbo": "catalog:",
     "ultracite": "catalog:"
   },

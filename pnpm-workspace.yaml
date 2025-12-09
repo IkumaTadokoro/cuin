@@ -3,6 +3,7 @@ packages:
 
 catalog:
   '@biomejs/biome': 2.3.3
+  '@changesets/cli': ^2.29.8
   '@types/node': 24.8.0
   es-toolkit: 1.41.0
   rollup-plugin-visualizer: ^6.0.5
@@ -23,7 +24,7 @@ catalogs:
     tsx: 4.20.6
   cli:
     consola: 3.4.2
-    cuin-analyzer: 0.0.5
+    cuin-analyzer: 0.0.7
     get-port-please: 3.2.0
     gunshi: 0.26.3
     h3: 2.0.1-rc.5

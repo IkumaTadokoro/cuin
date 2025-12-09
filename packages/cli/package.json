@@ -1,6 +1,6 @@
 {
   "name": "@ikuma-t/cuin",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Component Usage Inspector for React Project",
   "type": "module",
   "private": false,
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@cuin/schema": "workspace:*",
-    "cuin-analyzer": "catalog:cli",
+    "cuin-analyzer": "workspace:*",
     "consola": "catalog:cli",
     "es-toolkit": "catalog:",
     "get-port-please": "catalog:cli",
