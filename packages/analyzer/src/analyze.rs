@@ -1,6 +1,6 @@
 use serde::Serialize;
 use std::collections::HashMap;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use crate::AnalysisError;
 use crate::config::AnalyzerConfig;
@@ -8,6 +8,21 @@ use crate::parser::{ImportBinding, ImportedName, OxcParser, SourceFile, SourceLo
 use crate::resolver::ModuleResolver;
 use crate::result::AnalysisMetadata;
 use crate::service::{Package, ProjectContext};
+
+fn find_workspace_root(start_path: &Path) -> Option<PathBuf> {
+    let mut current = start_path;
+    loop {
+        if current.join("pnpm-workspace.yaml").exists() {
+            return Some(current.to_path_buf());
+        }
+        if let Ok(content) = std::fs::read_to_string(current.join("package.json")) {
+            if content.contains("\"workspaces\"") || content.contains("\"private\": true") {
+                return Some(current.to_path_buf());
+            }
+        }
+        current = current.parent()?;
+    }
+}
 
 pub struct Analyzer {
     parser: OxcParser,
@@ -139,39 +154,20 @@ impl AnalysisContext {
             },
         };
 
-        let resolved_path_str = resolved.canonical_path().display().to_string();
-        let is_outside_project = resolved
-            .canonical_path()
-            .strip_prefix(self.project_context.root())
-            .is_err();
+        let canonical_path = std::fs::canonicalize(resolved.canonical_path())
+            .unwrap_or_else(|_| resolved.canonical_path().to_path_buf());
+        let resolved_path_str = canonical_path.display().to_string();
+
+        let workspace_root = find_workspace_root(self.project_context.root())
+            .unwrap_or_else(|| self.project_context.root().to_path_buf());
+
+        let is_outside_project = canonical_path.strip_prefix(&workspace_root).is_err();
         let is_in_node_modules = resolved_path_str.contains("node_modules");
 
-        // Check if this is a workspace package (even if in node_modules due to injected: true)
-        let is_workspace_package = if let Some(pkg) = &resolved.package_info() {
-            // Check if a package with the same name exists in packages/
-            let packages_dir = self.project_context.root().join("packages");
-            if packages_dir.exists() {
-                // Try to find a matching package in workspace
-                std::fs::read_dir(&packages_dir)
-                    .ok()
-                    .and_then(|entries| {
-                        entries.filter_map(|e| e.ok()).find(|entry| {
-                            let package_json = entry.path().join("package.json");
-                            if let Some(workspace_pkg) =
-                                crate::resolver::load_package_info(&package_json)
-                            {
-                                return workspace_pkg.name() == pkg.name();
-                            }
-                            false
-                        })
-                    })
-                    .is_some()
-            } else {
-                false
-            }
-        } else {
-            false
-        };
+        // Check if this is a workspace package
+        // Only consider it a workspace package if the canonical path is actually in the workspace
+        // This way, injected packages (copied, not symlinked) will be external
+        let is_workspace_package = !is_in_node_modules && !is_outside_project;
 
         let is_external = is_outside_project || (is_in_node_modules && !is_workspace_package);
 
