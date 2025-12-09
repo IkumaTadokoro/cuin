@@ -1,5 +1,15 @@
 # @ikuma-t/cuin
 
+## 0.0.9
+
+### Patch Changes
+
+- Remove @cuin/schema from dependencies
+
+  - @cuin/schema is now bundled into the CLI, so it doesn't need to be in dependencies
+  - Moved to devDependencies for build-time type checking
+  - Fixes "resource not found" error when installing from npm
+
 ## 0.0.8
 
 ### Patch Changes
