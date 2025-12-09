@@ -5,8 +5,12 @@ import { NO_VALUE } from "./props-analyze";
 
 // === Instance helpers ===
 
-export const getPackageName = (instance: Instance): string =>
-  instance.package.type === "native" ? "(no package)" : instance.package.name;
+export const getPackageName = (instance: Instance): string => {
+  if (!instance.package || instance.package.type === "native") {
+    return "(no package)";
+  }
+  return instance.package.name;
+};
 
 // === Instance-specific predicate factories ===
 
