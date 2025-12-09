@@ -152,7 +152,23 @@ jobs:
               pnpm napi create-npm-dirs
               pnpm napi artifacts
 
+         - name: Check if analyzer version changed
+           id: check_analyzer_version
+           run: |
+              PACKAGE_VERSION=$(node -p "require('./packages/analyzer/package.json').version")
+              PUBLISHED_VERSION=$(npm view cuin-analyzer version 2>/dev/null || echo "0.0.0")
+              echo "package_version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+              echo "published_version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
+              if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
+                echo "should_publish=true" >> $GITHUB_OUTPUT
+                echo "Version changed: $PUBLISHED_VERSION -> $PACKAGE_VERSION"
+              else
+                echo "should_publish=false" >> $GITHUB_OUTPUT
+                echo "Version unchanged: $PACKAGE_VERSION (skipping publish)"
+              fi
+
          - name: PrePublish cuin-analyzer
+           if: steps.check_analyzer_version.outputs.should_publish == 'true'
            working-directory: packages/analyzer
            run: pnpm napi pre-publish --tag-style npm --no-gh-release
            env:
@@ -160,13 +176,14 @@ jobs:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
          - name: Publish cuin-analyzer
+           if: steps.check_analyzer_version.outputs.should_publish == 'true'
            working-directory: packages/analyzer
            run: pnpm publish --no-git-checks --access public
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
    publish-cuin:
-      name: Publish
+      name: Publish CLI
       runs-on: ubuntu-latest
       needs: [publish-analyzer]
       steps:
@@ -180,9 +197,33 @@ jobs:
               registry-url: "https://registry.npmjs.org/"
 
          - run: pnpm install --frozen-lockfile
-         - run: pnpm build --filter="@cuin/ui"
-         - run: pnpm build --filter="@ikuma-t/cuin"
-         - run: pnpm publish --no-git-checks --access public
+
+         - name: Check if CLI version changed
+           id: check_cli_version
+           run: |
+              PACKAGE_VERSION=$(node -p "require('./packages/cli/package.json').version")
+              PUBLISHED_VERSION=$(npm view @ikuma-t/cuin version 2>/dev/null || echo "0.0.0")
+              echo "package_version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+              echo "published_version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
+              if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
+                echo "should_publish=true" >> $GITHUB_OUTPUT
+                echo "Version changed: $PUBLISHED_VERSION -> $PACKAGE_VERSION"
+              else
+                echo "should_publish=false" >> $GITHUB_OUTPUT
+                echo "Version unchanged: $PACKAGE_VERSION (skipping publish)"
+              fi
+
+         - name: Build UI
+           if: steps.check_cli_version.outputs.should_publish == 'true'
+           run: pnpm build --filter="@cuin/ui"
+
+         - name: Build CLI
+           if: steps.check_cli_version.outputs.should_publish == 'true'
+           run: pnpm build --filter="@ikuma-t/cuin"
+
+         - name: Publish CLI
+           if: steps.check_cli_version.outputs.should_publish == 'true'
            working-directory: packages/cli
+           run: pnpm publish --no-git-checks --access public
            env:
               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
