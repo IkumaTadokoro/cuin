@@ -7,7 +7,7 @@ import {
   Show,
   useContext,
 } from "solid-js";
-import { Spinner } from "~/shared/ui/spinner";
+import { Spinner } from "~/shared/ui/spinner/spinner";
 
 type DetailsGroupContextValue = {
   groupId: string;
