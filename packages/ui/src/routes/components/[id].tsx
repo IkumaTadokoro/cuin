@@ -107,9 +107,13 @@ function ComponentPageContent(props: { component: ComponentType }) {
                   <Details
                     class="min-w-0"
                     open={props.component.instances.length <= MAX_OPEN_ITEMS}
-                    summary={`${getFileName(instance.filePath)}:${instance.span.startLine}:${instance.span.startCol}`}
+                    summary={(
+                      <div class="flex items-center justify-between">
+                        <p>{`${getFileName(instance.filePath)}:${instance.span.startLine}:${instance.span.startCol}`}</p>
+                        {instance.package && <Package {...instance.package} />}
+                      </div>
+                    )}
                   >
-                    <p class="text-xs break-all">{instance.filePath}</p>
                     <Code
                       basePath={data()?.meta.basePath || ""}
                       code={instance.raw}
