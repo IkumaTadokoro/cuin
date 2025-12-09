@@ -140,7 +140,40 @@ impl AnalysisContext {
         };
 
         let resolved_path_str = resolved.canonical_path().display().to_string();
-        let is_external = resolved_path_str.contains("node_modules");
+        let is_outside_project = resolved
+            .canonical_path()
+            .strip_prefix(self.project_context.root())
+            .is_err();
+        let is_in_node_modules = resolved_path_str.contains("node_modules");
+
+        // Check if this is a workspace package (even if in node_modules due to injected: true)
+        let is_workspace_package = if let Some(pkg) = &resolved.package_info() {
+            // Check if a package with the same name exists in packages/
+            let packages_dir = self.project_context.root().join("packages");
+            if packages_dir.exists() {
+                // Try to find a matching package in workspace
+                std::fs::read_dir(&packages_dir)
+                    .ok()
+                    .and_then(|entries| {
+                        entries
+                            .filter_map(|e| e.ok())
+                            .find(|entry| {
+                                let package_json = entry.path().join("package.json");
+                                if let Some(workspace_pkg) = crate::resolver::load_package_info(&package_json) {
+                                    return workspace_pkg.name() == pkg.name();
+                                }
+                                false
+                            })
+                    })
+                    .is_some()
+            } else {
+                false
+            }
+        } else {
+            false
+        };
+
+        let is_external = is_outside_project || (is_in_node_modules && !is_workspace_package);
 
         let (source, package) = if is_external {
             let package = resolved.package_info()?.clone();
@@ -151,21 +184,10 @@ impl AnalysisContext {
                 Some(package),
             )
         } else {
-            let canonical_path = resolved.canonical_path().display().to_string();
-
-            let relative_path = if let Ok(stripped) = resolved
-                .canonical_path()
-                .strip_prefix(self.project_context.root())
-            {
-                stripped.display().to_string()
-            } else {
-                canonical_path.clone()
-            };
-
             let package = resolved.package_info()?.clone();
             (
                 ComponentSource::Internal {
-                    canonical_path: relative_path,
+                    package: package.clone(),
                 },
                 Some(package),
             )
@@ -247,14 +269,12 @@ impl ComponentUsage {
                 // For native elements
                 Some(UsagePackageSchema::Native)
             } else {
-                // For others, determine from package information
+                // For others, determine from ComponentSource
                 usage_package.map(|package| {
-                    // Determine by checking if file path contains node_modules
-                    let file_path = occurrence.location().file().display_path();
-                    if file_path.contains("node_modules") {
-                        UsagePackageSchema::External { package }
-                    } else {
-                        UsagePackageSchema::Internal { package }
+                    match definition.identity().source() {
+                        ComponentSource::External { .. } => UsagePackageSchema::External { package },
+                        ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
+                        ComponentSource::Native => UsagePackageSchema::Native,
                     }
                 })
             };
@@ -829,7 +849,7 @@ impl JSXElementOccurrence {
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum ComponentSource {
-    Internal { canonical_path: String },
+    Internal { package: Package },
     External { package: Package },
     Native,
 }
@@ -958,14 +978,11 @@ impl Serialize for ComponentIdentity {
         use serde::ser::SerializeMap;
 
         match &self.source {
-            ComponentSource::Internal { canonical_path } => {
-                let mut map = serializer.serialize_map(Some(4))?;
+            ComponentSource::Internal { package } => {
+                let mut map = serializer.serialize_map(Some(3))?;
                 map.serialize_entry("type", "internal")?;
-                map.serialize_entry("canonical_path", canonical_path)?;
-                if let Some(pkg) = &self.package {
-                    map.serialize_entry("name", pkg.name())?;
-                    map.serialize_entry("version", pkg.version())?;
-                }
+                map.serialize_entry("name", package.name())?;
+                map.serialize_entry("version", package.version())?;
                 map.end()
             }
             ComponentSource::External { package } => {
