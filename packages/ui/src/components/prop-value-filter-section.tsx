@@ -92,10 +92,10 @@ export default function PropValueFilterSection(
 
   return (
     <div class={"rounded border border-brand-200 transition"}>
-      <div class="p-2">
+      <div>
         <div class="flex items-center justify-between">
           <button
-            class="group flex min-w-0 flex-1 items-center gap-1 text-left"
+            class="group flex min-w-0 flex-1 items-center gap-1 text-left　cursor-pointer p-2"
             onClick={() => setIsExpanded(!isExpanded())}
             type="button"
           >
@@ -202,6 +202,7 @@ export default function PropValueFilterSection(
                 }
                 selection={() => store.getPropSelection(propKey())}
                 values={allValues}
+                class="p-1"
               >
                 <For each={filteredValues()}>
                   {({ value }) => (
