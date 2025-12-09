@@ -155,15 +155,15 @@ impl AnalysisContext {
                 std::fs::read_dir(&packages_dir)
                     .ok()
                     .and_then(|entries| {
-                        entries
-                            .filter_map(|e| e.ok())
-                            .find(|entry| {
-                                let package_json = entry.path().join("package.json");
-                                if let Some(workspace_pkg) = crate::resolver::load_package_info(&package_json) {
-                                    return workspace_pkg.name() == pkg.name();
-                                }
-                                false
-                            })
+                        entries.filter_map(|e| e.ok()).find(|entry| {
+                            let package_json = entry.path().join("package.json");
+                            if let Some(workspace_pkg) =
+                                crate::resolver::load_package_info(&package_json)
+                            {
+                                return workspace_pkg.name() == pkg.name();
+                            }
+                            false
+                        })
                     })
                     .is_some()
             } else {
@@ -270,12 +270,10 @@ impl ComponentUsage {
                 Some(UsagePackageSchema::Native)
             } else {
                 // For others, determine from ComponentSource
-                usage_package.map(|package| {
-                    match definition.identity().source() {
-                        ComponentSource::External { .. } => UsagePackageSchema::External { package },
-                        ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
-                        ComponentSource::Native => UsagePackageSchema::Native,
-                    }
+                usage_package.map(|package| match definition.identity().source() {
+                    ComponentSource::External { .. } => UsagePackageSchema::External { package },
+                    ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
+                    ComponentSource::Native => UsagePackageSchema::Native,
                 })
             };
 
