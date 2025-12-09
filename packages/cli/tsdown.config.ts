@@ -13,7 +13,8 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   treeshake: true,
-  external: ["@cuin/analyzer"],
+  external: ["cuin-analyzer"],
+  noExternal: ["@cuin/schema"],
 
   async onSuccess() {
     const uiOutDir = fileURLToPath(
