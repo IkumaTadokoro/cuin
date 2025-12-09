@@ -4,10 +4,8 @@ import {
   createSignal,
   createUniqueId,
   type JSX,
-  Show,
   useContext,
 } from "solid-js";
-import { Spinner } from "~/shared/ui/spinner/spinner";
 
 type DetailsGroupContextValue = {
   groupId: string;
@@ -128,9 +126,6 @@ export const ToggleAllDetailsButton: Component<{ mode: "open" | "close" }> = (
       onClick={handleClick}
       type="button"
     >
-      <Show when={isProcessing()}>
-        <Spinner size="sm" />
-      </Show>
       {props.mode === "open" ? "ExpandAll" : "CollapseAll"}
     </button>
   );
