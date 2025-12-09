@@ -38,6 +38,17 @@ export function createInstanceStore(dataSource: DataSource) {
     ...new Set(dataSource.instances().map(getPackageName)),
   ]);
 
+  const allPackagesWithCount = createMemo(() => {
+    const packagesMap = new Map<string, number>();
+    for (const instance of dataSource.instances()) {
+      const name = getPackageName(instance);
+      packagesMap.set(name, (packagesMap.get(name) || 0) + 1);
+    }
+    return Array.from(packagesMap.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  });
+
   const allPropValues = createMemo(
     () =>
       new Map(
@@ -159,6 +170,21 @@ export function createInstanceStore(dataSource: DataSource) {
     });
   };
 
+  const getPackageSelection = (): SelectionState<string> =>
+    filters().get(packageGroupKey) ?? { type: "all" };
+
+  const setPackageSelection = (selection: SelectionState<string>): void => {
+    setFilters((prev) => {
+      const newState = new Map(prev);
+      if (isAll(selection)) {
+        newState.delete(packageGroupKey);
+      } else {
+        newState.set(packageGroupKey, selection);
+      }
+      return newState;
+    });
+  };
+
   const clearAllFilters = (): void => {
     setFilters(resetAllFilters());
   };
@@ -172,9 +198,12 @@ export function createInstanceStore(dataSource: DataSource) {
     filteredInstances,
     propsAnalysis,
 
+    allPackagesWithCount,
     isPackageSelected,
     togglePackage,
     clearPackageFilters,
+    getPackageSelection,
+    setPackageSelection,
 
     isValueChecked,
     toggleValue,

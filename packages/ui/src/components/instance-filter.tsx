@@ -1,7 +1,9 @@
 import { createMemo, For, Show } from "solid-js";
 import type { InstanceDetailStore } from "~/dataflow/instance";
+import { Root } from "~/shared/ui/exclusive-checkbox-group";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import PropValueFilterSection from "./prop-value-filter-section";
+import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 
 type InstanceFilterProps = {
   store: InstanceDetailStore;
@@ -10,19 +12,9 @@ type InstanceFilterProps = {
 export default function InstanceFilter(props: InstanceFilterProps) {
   const { store } = props;
 
-  const packages = createMemo(() => {
-    const packagesMap = new Map<string, number>();
-    for (const instance of store.filteredInstances()) {
-      const name =
-        instance.package.type === "native"
-          ? "(no package)"
-          : instance.package.name;
-      packagesMap.set(name, (packagesMap.get(name) || 0) + 1);
-    }
-    return Array.from(packagesMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
-  });
+  const allPackageNames = createMemo(() =>
+    store.allPackagesWithCount().map((pkg) => pkg.name)
+  );
 
   return (
     <div class="flex h-full flex-col gap-6">
@@ -44,24 +36,27 @@ export default function InstanceFilter(props: InstanceFilterProps) {
           Package
         </h4>
         <div class="max-h-64 space-y-1 overflow-y-auto">
-          <For each={packages()}>
-            {(pkg) => (
-              <label class="group flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-brand-50">
-                <input
-                  checked={store.isPackageSelected(pkg.name)}
-                  class="rounded border-gray-300"
-                  onChange={() => store.togglePackage(pkg.name)}
-                  type="checkbox"
+          <Root
+            onSelectionChange={store.setPackageSelection}
+            selection={store.getPackageSelection}
+            values={allPackageNames}
+          >
+            <For each={store.allPackagesWithCount()}>
+              {(pkg) => (
+                <StyledExclusiveCheckboxItem
+                  label={
+                    <span class="truncate font-mono text-xs">{pkg.name}</span>
+                  }
+                  rightAddon={
+                    <span class="text-subtext-color text-xs tabular-nums">
+                      {pkg.count}
+                    </span>
+                  }
+                  value={pkg.name}
                 />
-                <span class="flex-1 truncate font-mono text-xs">
-                  {pkg.name}
-                </span>
-                <span class="text-subtext-color text-xs tabular-nums">
-                  {pkg.count}
-                </span>
-              </label>
-            )}
-          </For>
+              )}
+            </For>
+          </Root>
         </div>
       </section>
 

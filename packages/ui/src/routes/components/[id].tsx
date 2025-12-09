@@ -81,7 +81,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
   });
 
   return (
-    <div class="grid h-screen w-full grid-cols-[20%_1px_1fr] overflow-hidden px-0 2xl:px-12">
+    <div class="grid h-screen w-full grid-cols-[30%_1px_1fr] overflow-hidden px-0 2xl:px-12">
       <div class="flex flex-col overflow-y-auto border-neutral-border border-l px-4 py-4">
         <InstanceFilter store={store} />
       </div>
