@@ -9,6 +9,7 @@ import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
 import { useData } from "~/contexts/analysis";
 import { createInstanceStore } from "~/dataflow/instance";
+import { getFileName } from "~/lib/get-file-name";
 import { Details } from "~/shared/ui/details/details";
 import {
   DetailsGroup,
@@ -106,8 +107,9 @@ function ComponentPageContent(props: { component: ComponentType }) {
                   <Details
                     class="min-w-0"
                     open={props.component.instances.length <= MAX_OPEN_ITEMS}
-                    summary={instance.filePath}
+                    summary={`${getFileName(instance.filePath)}:${instance.span.startLine}:${instance.span.startCol}`}
                   >
+                    <p class="text-xs break-all">{instance.filePath}</p>
                     <Code
                       basePath={data()?.meta.basePath || ""}
                       code={instance.raw}
