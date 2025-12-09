@@ -1,7 +1,7 @@
+import type { Package as PackageSchema } from "@cuin/schema";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { Component } from "solid-js";
 import { Html5Icon, PackageIcon } from "~/components/icons";
-import type { Package as PackageSchema } from "~/dataflow/schema";
 
 const baseVariants = cva(
   "grid grid-cols-[max-content_1fr] items-center truncate font-mono",

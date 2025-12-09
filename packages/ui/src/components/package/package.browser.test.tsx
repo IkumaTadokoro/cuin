@@ -1,6 +1,6 @@
+import type { Package as PackageSchema } from "@cuin/schema";
 import { render } from "@solidjs/testing-library";
 import { expect, test } from "vitest";
-import type { Package as PackageSchema } from "~/dataflow/schema";
 import { Package } from "./package";
 
 const VERSION_0_1_0 = /0.1.0/;

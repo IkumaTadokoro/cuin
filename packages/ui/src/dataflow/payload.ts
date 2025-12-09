@@ -1,11 +1,11 @@
-import { groupBy, orderBy } from "es-toolkit";
 import type {
   Component as ComponentSchema,
   Instance as InstanceSchema,
   NonNative,
   Package,
   Payload as PayloadSchema,
-} from "./schema";
+} from "@cuin/schema";
+import { groupBy, orderBy } from "es-toolkit";
 
 export type PackageKey =
   | `${NonNative["type"]}:${NonNative["name"]}@${NonNative["version"]}`

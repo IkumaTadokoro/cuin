@@ -1,7 +1,7 @@
+import type { Instance } from "@cuin/schema";
 import { createMemo, createSignal } from "solid-js";
 import { isAll, type SelectionState } from "../../lib/selection-state";
 import type { Predicate } from "../../shared/lib/predicates";
-import type { Instance } from "../schema";
 import {
   buildPredicate,
   type FilterContext,

@@ -1,6 +1,6 @@
+import { JsonSchema } from "@cuin/schema";
 import { safeParse } from "valibot";
 import { expect, test } from "vitest";
-import { JsonSchema } from "./schema";
 
 test("parse json as object", () => {
   const json = {

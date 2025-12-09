@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@cuin/schema": "workspace:*",
     "@ark-ui/solid": "catalog:ui",
     "@shikijs/core": "catalog:ui",
     "@shikijs/engine-javascript": "catalog:ui",

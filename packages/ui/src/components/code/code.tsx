@@ -1,5 +1,5 @@
+import type { Span } from "@cuin/schema";
 import { type Component, createEffect, createSignal, For } from "solid-js";
-import type { Span } from "~/dataflow/schema";
 import { useLazyHighlight } from "~/hooks/use-lazy-highlight";
 import { OpenVscode } from "./open-vscode";
 import { codeToHtml } from "./shiki.bundle";

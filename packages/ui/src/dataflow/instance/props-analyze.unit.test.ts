@@ -1,6 +1,7 @@
 // biome-ignore-all lint/style/noMagicNumbers: test assertions use literal values
+
+import type { Instance } from "@cuin/schema";
 import { describe, expect, it } from "vitest";
-import type { Instance } from "../schema";
 import { analyzeProps, countFilteredProps, NO_VALUE } from "./props-analyze";
 
 // Test fixtures

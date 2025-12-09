@@ -1,3 +1,4 @@
+import { JsonSchema } from "@cuin/schema";
 import type { Accessor } from "solid-js";
 import {
   createContext,
@@ -7,7 +8,6 @@ import {
 } from "solid-js";
 import { parse } from "valibot";
 import { type TransformedPayload, transformPayload } from "~/dataflow/payload";
-import { JsonSchema } from "~/dataflow/schema";
 
 const DataContext = createContext<Accessor<TransformedPayload | undefined>>();
 

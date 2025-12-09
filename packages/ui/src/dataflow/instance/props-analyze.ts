@@ -1,5 +1,5 @@
+import type { Instance } from "@cuin/schema";
 import { flatMap, sum, uniq } from "es-toolkit";
-import type { Instance } from "../schema";
 
 export const NO_VALUE = "(no value)" as const;
 

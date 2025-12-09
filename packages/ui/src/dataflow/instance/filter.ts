@@ -1,5 +1,5 @@
+import type { Instance } from "@cuin/schema";
 import { always, and, or, type Predicate } from "../../shared/lib/predicates";
-import type { Instance } from "../schema";
 import { type FiltersState, getGroupEffectiveValues } from "./filters-state";
 import { NO_VALUE } from "./props-analyze";
 

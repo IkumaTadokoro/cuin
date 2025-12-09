@@ -1,5 +1,5 @@
+import type { Instance } from "@cuin/schema";
 import { describe, expect, it } from "vitest";
-import type { Instance } from "../schema";
 import {
   buildPredicate,
   type FilterContext,
