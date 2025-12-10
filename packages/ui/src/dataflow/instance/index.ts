@@ -39,7 +39,10 @@ export function createInstanceStore(dataSource: DataSource) {
   ]);
 
   const allPackagesWithCount = createMemo(() => {
-    const packagesMap = new Map<string, { pkg: Instance["package"]; count: number }>();
+    const packagesMap = new Map<
+      string,
+      { pkg: Instance["package"]; count: number }
+    >();
     for (const instance of dataSource.instances()) {
       const name = getPackageName(instance);
       const existing = packagesMap.get(name);

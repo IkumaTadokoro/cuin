@@ -1,5 +1,6 @@
 import { Route, Router } from "@solidjs/router";
-import { Suspense, lazy } from "solid-js";
+import type { JSX } from "solid-js";
+import { lazy, Suspense } from "solid-js";
 import { DataProvider } from "./contexts/analysis";
 import "./app.css";
 import Header from "./components/header/header";
@@ -9,7 +10,7 @@ const Index = lazy(() => import("./routes/index"));
 const ComponentPage = lazy(() => import("./routes/components/[id]"));
 const NotFound = lazy(() => import("./routes/[...404]"));
 
-function Layout(props: { children?: any }) {
+function Layout(props: { children?: JSX.Element }) {
   return (
     <Suspense
       fallback={
@@ -53,9 +54,9 @@ function Layout(props: { children?: any }) {
 export default function App() {
   return (
     <Router root={Layout}>
-      <Route path="/" component={Index} />
-      <Route path="/components/:id" component={ComponentPage} />
-      <Route path="*" component={NotFound} />
+      <Route component={Index} path="/" />
+      <Route component={ComponentPage} path="/components/:id" />
+      <Route component={NotFound} path="*" />
     </Router>
   );
 }

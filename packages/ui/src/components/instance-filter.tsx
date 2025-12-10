@@ -12,7 +12,9 @@ type InstanceFilterProps = {
 };
 
 const getPackageName = (pkg: { type: string; name?: string }) => {
-  if (pkg.type === "native") return "(no package)";
+  if (pkg.type === "native") {
+    return "(no package)";
+  }
   return pkg.name || "(no package)";
 };
 
