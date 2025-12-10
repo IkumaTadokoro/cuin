@@ -48,12 +48,7 @@ export function StyledExclusiveCheckboxItem(
               const displayAction =
                 hoveredPart === "control" ? controlAction : labelAction;
               return (
-                <span
-                  class="hidden align-middle font-semibold text-[10px] text-primary uppercase leading-none group-hover/item:inline"
-                  classList={{
-                    "!inline": labelAction === "all",
-                  }}
-                >
+                <span class="hidden align-middle font-semibold text-[10px] text-primary uppercase leading-none group-hover/item:inline">
                   {getActionLabel(displayAction)}
                 </span>
               );
