@@ -1,5 +1,13 @@
 # cuin-analyzer
 
+## 0.0.10
+
+### Patch Changes
+
+- contentvisibilityautostatechange と Context で遅延ハイライトを宣言的に実装
+
+  IntersectionObserver ベースの実装から、contentvisibilityautostatechange イベントと Context API を使用したより宣言的な実装に変更しました。
+
 ## 0.0.7
 
 ### Patch Changes
