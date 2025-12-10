@@ -1763,6 +1763,7 @@ impl SourceLocation {
 }
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Span {
     start: u32,
     end: u32,

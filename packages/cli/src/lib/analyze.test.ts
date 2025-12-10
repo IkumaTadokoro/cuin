@@ -5,10 +5,10 @@ import { getAnalysis, getAnalysisAsJson } from "./analyze";
 vi.mock("cuin-analyzer");
 
 describe("getAnalysis", () => {
-  it("should camelize and validate snake_case JSON from analyzer", () => {
-    const snakeCaseResult = JSON.stringify({
+  it("should validate camelCase JSON from analyzer", () => {
+    const camelCaseResult = JSON.stringify({
       meta: {
-        base_path: "/test/path",
+        basePath: "/test/path",
       },
       components: [
         {
@@ -19,32 +19,32 @@ describe("getAnalysis", () => {
           },
           instances: [
             {
-              file_path: "test.tsx",
+              filePath: "test.tsx",
               props: [
                 {
                   key: "testProp",
                   raw: "value",
-                  prop_type: "string",
+                  propType: "string",
                 },
               ],
               raw: "<TestComponent testProp='value' />",
               span: {
                 start: 0,
                 end: 10,
-                start_line: 1,
-                end_line: 1,
-                start_col: 0,
-                end_col: 10,
+                startLine: 1,
+                endLine: 1,
+                startCol: 0,
+                endCol: 10,
               },
-              import_specifier: null,
-              resolved_path: "test.tsx",
+              importSpecifier: null,
+              resolvedPath: "test.tsx",
             },
           ],
         },
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(snakeCaseResult);
+    vi.mocked(analyze).mockReturnValue(camelCaseResult);
 
     const result = getAnalysis("/test/path");
 
@@ -57,9 +57,9 @@ describe("getAnalysis", () => {
   });
 
   it("should handle optional package field in instance", () => {
-    const snakeCaseResult = JSON.stringify({
+    const camelCaseResult = JSON.stringify({
       meta: {
-        base_path: "/test/path",
+        basePath: "/test/path",
       },
       components: [
         {
@@ -70,26 +70,26 @@ describe("getAnalysis", () => {
           },
           instances: [
             {
-              file_path: "test.tsx",
+              filePath: "test.tsx",
               props: [],
               raw: "<div />",
               span: {
                 start: 0,
                 end: 7,
-                start_line: 1,
-                end_line: 1,
-                start_col: 0,
-                end_col: 7,
+                startLine: 1,
+                endLine: 1,
+                startCol: 0,
+                endCol: 7,
               },
-              import_specifier: null,
-              resolved_path: "test.tsx",
+              importSpecifier: null,
+              resolvedPath: "test.tsx",
             },
           ],
         },
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(snakeCaseResult);
+    vi.mocked(analyze).mockReturnValue(camelCaseResult);
 
     const result = getAnalysis("/test/path");
 
@@ -99,7 +99,7 @@ describe("getAnalysis", () => {
   it("should throw validation error for invalid data", () => {
     const invalidResult = JSON.stringify({
       meta: {
-        base_path: "/test/path",
+        basePath: "/test/path",
       },
       components: [
         {
@@ -121,14 +121,14 @@ describe("getAnalysis", () => {
 
 describe("getAnalysisAsJson", () => {
   it("should return pretty printed JSON string", () => {
-    const snakeCaseResult = JSON.stringify({
+    const camelCaseResult = JSON.stringify({
       meta: {
-        base_path: "/test/path",
+        basePath: "/test/path",
       },
       components: [],
     });
 
-    vi.mocked(analyze).mockReturnValue(snakeCaseResult);
+    vi.mocked(analyze).mockReturnValue(camelCaseResult);
 
     const result = getAnalysisAsJson("/test/path");
 

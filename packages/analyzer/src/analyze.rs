@@ -692,6 +692,7 @@ pub struct SerializablePropUsage {
 }
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SerializablePropDistribution {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub value: Option<String>,
@@ -1237,6 +1238,7 @@ impl SimplifiedProp {
 }
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SerializableProp {
     pub key: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -1260,12 +1262,12 @@ impl Serialize for SerializableComponentUsage {
 
         let mut map = serializer.serialize_map(Some(field_count))?;
 
-        map.serialize_entry("file_path", &self.file_path)?;
+        map.serialize_entry("filePath", &self.file_path)?;
         map.serialize_entry("props", &self.props)?;
         map.serialize_entry("raw", &self.raw)?;
         map.serialize_entry("span", &self.span)?;
-        map.serialize_entry("import_specifier", &self.import_specifier)?;
-        map.serialize_entry("resolved_path", &self.resolved_path)?;
+        map.serialize_entry("importSpecifier", &self.import_specifier)?;
+        map.serialize_entry("resolvedPath", &self.resolved_path)?;
 
         if let Some(ref schema) = self.usage_package_schema {
             map.serialize_entry("package", schema)?;

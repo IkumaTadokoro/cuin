@@ -30,7 +30,6 @@
   "dependencies": {
     "cuin-analyzer": "workspace:*",
     "consola": "catalog:cli",
-    "es-toolkit": "catalog:",
     "get-port-please": "catalog:cli",
     "gunshi": "catalog:cli",
     "h3": "catalog:cli",

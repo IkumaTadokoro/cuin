@@ -85,6 +85,7 @@ impl AnalysisReport {
 }
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AnalysisMetadata {
     base_path: String,
 }
