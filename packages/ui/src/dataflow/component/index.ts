@@ -80,6 +80,10 @@ export function createComponentListStore(dataSource: DataSource) {
     setState("packageFilter", selection);
   };
 
+  const setStoreState = (newState: Partial<StoreState>): void => {
+    setState(newState);
+  };
+
   return {
     state,
     allPackageKeys,
@@ -94,5 +98,6 @@ export function createComponentListStore(dataSource: DataSource) {
     selectAllPackages,
     getPackageFilter,
     setPackageFilter,
+    setStoreState,
   };
 }
