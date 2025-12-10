@@ -17,9 +17,7 @@ export default defineConfig({
   noExternal: ["@cuin/schema"],
 
   async onSuccess() {
-    const uiOutDir = fileURLToPath(
-      new URL("../ui/.output/public", import.meta.url)
-    );
+    const uiOutDir = fileURLToPath(new URL("../ui/dist", import.meta.url));
     const cliUiDir = fileURLToPath(new URL("./dist/public", import.meta.url));
 
     if (!existsSync(uiOutDir)) {
