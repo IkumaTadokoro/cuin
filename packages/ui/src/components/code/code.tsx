@@ -1,6 +1,6 @@
 import type { Span } from "@cuin/schema";
 import { type Component, createEffect, createSignal, For } from "solid-js";
-import { useLazyHighlight } from "~/hooks/use-lazy-highlight";
+import { useDetailsVisibility } from "~/shared/ui/details/details-visibility";
 import { OpenVscode } from "./open-vscode";
 import { codeToHtml } from "./shiki.bundle";
 
@@ -13,17 +13,13 @@ type Props = {
 
 export const Code: Component<Props> = (props) => {
   const [html, setHtml] = createSignal("");
-  const [containerRef, setContainerRef] = createSignal<HTMLElement>();
   const [isHighlighted, setIsHighlighted] = createSignal(false);
   const location = `${props.filePath}:${props.span.startLine}:${props.span.startCol}`;
 
-  const shouldHighlight = useLazyHighlight({
-    containerRef,
-    rootMargin: "100px",
-  });
+  const { isVisible } = useDetailsVisibility();
 
   createEffect(async () => {
-    if (shouldHighlight() && !isHighlighted()) {
+    if (isVisible() && !isHighlighted()) {
       setIsHighlighted(true);
       const highlighted = await codeToHtml(props.code, {
         lang: "tsx",
@@ -36,7 +32,6 @@ export const Code: Component<Props> = (props) => {
   return (
     <div
       class="relative overflow-x-auto rounded-sm border border-brand-100 bg-brand-50 text-sm"
-      ref={setContainerRef}
       style={{
         "--start": props.span.startLine,
         "max-width": "100%",

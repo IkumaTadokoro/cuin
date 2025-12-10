@@ -1,6 +1,7 @@
 import type { Component, JSX, ParentProps } from "solid-js";
 import { ChevronDownIcon } from "~/components/icons";
 import { useDetailsGroup } from "./details-group";
+import { createDetailsVisibility } from "./details-visibility";
 
 type Props = {
   summary: JSX.Element;
@@ -10,6 +11,8 @@ type Props = {
 
 export const Details: Component<ParentProps<Props>> = (props) => {
   const { groupId } = useDetailsGroup();
+  const { isVisible, handleContentVisibilityChange, Provider } =
+    createDetailsVisibility();
 
   return (
     <details
@@ -21,8 +24,11 @@ export const Details: Component<ParentProps<Props>> = (props) => {
         <ChevronDownIcon class="h-4 w-4 opacity-50 transition [details[open]_&]:rotate-180" />
         <div class="flex-1">{props.summary}</div>
       </summary>
-      <div class="details-content grid gap-4 border-brand-200 border-t p-4">
-        {props.children}
+      <div
+        class="details-content grid gap-4 border-brand-200 border-t p-4"
+        onContentVisibilityAutoStateChange={handleContentVisibilityChange}
+      >
+        <Provider value={{ isVisible }}>{props.children}</Provider>
       </div>
     </details>
   );
