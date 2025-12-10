@@ -259,19 +259,15 @@ impl ComponentUsage {
             }
         }
 
-        // Convert Option<Package> to Option<UsagePackageSchema>
-        let usage_package_schema =
-            if matches!(definition.identity().source(), ComponentSource::Native) {
-                // For native elements
-                Some(UsagePackageSchema::Native)
-            } else {
-                // For others, determine from ComponentSource
-                usage_package.map(|package| match definition.identity().source() {
-                    ComponentSource::External { .. } => UsagePackageSchema::External { package },
-                    ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
-                    ComponentSource::Native => UsagePackageSchema::Native,
-                })
-            };
+        let usage_package_schema = usage_package.map(|package| {
+            match definition.identity().source() {
+                ComponentSource::External { .. } => UsagePackageSchema::External { package },
+                ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
+                ComponentSource::Native => {
+                    UsagePackageSchema::Internal { package }
+                }
+            }
+        });
 
         Self {
             definition,
