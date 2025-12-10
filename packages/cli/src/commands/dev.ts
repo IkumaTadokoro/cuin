@@ -1,4 +1,3 @@
-import consola from "consola";
 import { getPort } from "get-port-please";
 import { define } from "gunshi";
 import open from "open";
@@ -41,7 +40,9 @@ export const dev = define({
 
     server.listen(port, host, async () => {
       await open(`http://${host}:${port}`);
-      consola.success(`Server started at http://${host}:${port}`);
+      process.stdout.write(
+        `\x1b[32m✔\x1b[0m Server started at http://${host}:${port}\n`
+      );
     });
   },
 });

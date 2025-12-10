@@ -1,4 +1,3 @@
-import consola from "consola";
 import { define } from "gunshi";
 import { getAnalysisAsJson } from "../lib/analyze";
 
@@ -18,9 +17,9 @@ export const analyze = define({
 
     try {
       const json = getAnalysisAsJson(path);
-      consola.log(json);
+      process.stdout.write(`${json}\n`);
     } catch (error) {
-      consola.error("Analysis failed:", error);
+      process.stderr.write(`Analysis failed: ${error}\n`);
       process.exit(1);
     }
   },

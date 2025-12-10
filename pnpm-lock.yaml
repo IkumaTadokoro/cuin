@@ -17,9 +17,6 @@ catalogs:
       specifier: 4.20.6
       version: 4.20.6
   cli:
-    consola:
-      specifier: 3.4.2
-      version: 3.4.2
     get-port-please:
       specifier: 3.2.0
       version: 3.2.0
@@ -170,9 +167,6 @@ importers:
 
   packages/cli:
     dependencies:
-      consola:
-        specifier: catalog:cli
-        version: 3.4.2
       cuin-analyzer:
         specifier: workspace:*
         version: link:../analyzer
