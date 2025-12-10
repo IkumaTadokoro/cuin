@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../src/**/*.{ts,tsx}";
 
 @theme {
   --color-brand-50: rgb(250, 250, 250);
