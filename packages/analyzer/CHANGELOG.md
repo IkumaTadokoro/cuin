@@ -1,5 +1,14 @@
 # cuin-analyzer
 
+## 0.0.11
+
+### Patch Changes
+
+- - Migrate from SolidStart to Solid Router
+  - Add URL sync for filter conditions
+  - Add package filter feature
+  - Minor fixes
+
 ## 0.0.10
 
 ### Patch Changes
