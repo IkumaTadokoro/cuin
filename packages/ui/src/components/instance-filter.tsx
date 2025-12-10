@@ -2,6 +2,8 @@ import { createMemo, For, Show } from "solid-js";
 import type { InstanceDetailStore } from "~/dataflow/instance";
 import { Root } from "~/shared/ui/exclusive-checkbox-group";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
+import { Count } from "./count";
+import { Package } from "./package/package";
 import PropValueFilterSection from "./prop-value-filter-section";
 import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 
@@ -9,11 +11,16 @@ type InstanceFilterProps = {
   store: InstanceDetailStore;
 };
 
+const getPackageName = (pkg: { type: string; name?: string }) => {
+  if (pkg.type === "native") return "(no package)";
+  return pkg.name || "(no package)";
+};
+
 export default function InstanceFilter(props: InstanceFilterProps) {
   const { store } = props;
 
   const allPackageNames = createMemo(() =>
-    store.allPackagesWithCount().map((pkg) => pkg.name)
+    store.allPackagesWithCount().map((item) => getPackageName(item.package))
   );
 
   return (
@@ -42,17 +49,11 @@ export default function InstanceFilter(props: InstanceFilterProps) {
             values={allPackageNames}
           >
             <For each={store.allPackagesWithCount()}>
-              {(pkg) => (
+              {(item) => (
                 <StyledExclusiveCheckboxItem
-                  label={
-                    <span class="truncate font-mono text-xs">{pkg.name}</span>
-                  }
-                  rightAddon={
-                    <span class="text-subtext-color text-xs tabular-nums">
-                      {pkg.count}
-                    </span>
-                  }
-                  value={pkg.name}
+                  label={<Package {...item.package} />}
+                  rightAddon={<Count value={item.count} />}
+                  value={getPackageName(item.package)}
                 />
               )}
             </For>

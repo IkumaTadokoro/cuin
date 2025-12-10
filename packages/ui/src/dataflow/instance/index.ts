@@ -39,13 +39,23 @@ export function createInstanceStore(dataSource: DataSource) {
   ]);
 
   const allPackagesWithCount = createMemo(() => {
-    const packagesMap = new Map<string, number>();
+    const packagesMap = new Map<string, { pkg: Instance["package"]; count: number }>();
     for (const instance of dataSource.instances()) {
       const name = getPackageName(instance);
-      packagesMap.set(name, (packagesMap.get(name) || 0) + 1);
+      const existing = packagesMap.get(name);
+      if (existing) {
+        existing.count += 1;
+      } else {
+        packagesMap.set(name, { pkg: instance.package, count: 1 });
+      }
     }
-    return Array.from(packagesMap.entries())
-      .map(([name, count]) => ({ name, count }))
+    return Array.from(packagesMap.values())
+      .map(({ pkg, count }) => {
+        if (!pkg || pkg.type === "native") {
+          return { package: { type: "native" as const }, count };
+        }
+        return { package: pkg, count };
+      })
       .sort((a, b) => b.count - a.count);
   });
 
