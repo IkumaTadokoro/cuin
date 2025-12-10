@@ -259,15 +259,12 @@ impl ComponentUsage {
             }
         }
 
-        let usage_package_schema = usage_package.map(|package| {
-            match definition.identity().source() {
+        let usage_package_schema =
+            usage_package.map(|package| match definition.identity().source() {
                 ComponentSource::External { .. } => UsagePackageSchema::External { package },
                 ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
-                ComponentSource::Native => {
-                    UsagePackageSchema::Internal { package }
-                }
-            }
-        });
+                ComponentSource::Native => UsagePackageSchema::Internal { package },
+            });
 
         Self {
             definition,
