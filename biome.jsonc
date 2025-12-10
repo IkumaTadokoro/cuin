@@ -17,6 +17,15 @@
           }
         }
       }
+    },
+    {
+      "includes": ["packages/analyzer/bindings/**/*"],
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      }
     }
   ]
 }
