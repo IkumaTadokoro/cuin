@@ -1,10 +1,16 @@
 import tailwindcss from "@tailwindcss/vite";
 import { playwright } from "@vitest/browser-playwright";
+import { resolve } from "node:path";
 import solid from "vite-plugin-solid";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [solid()],
+  resolve: {
+    alias: {
+      "~": resolve(__dirname, "./src"),
+    },
+  },
   test: {
     projects: [
       {
