@@ -11,7 +11,7 @@ export default defineConfig({
   dts: true,
   shims: true,
   clean: true,
-  sourcemap: true,
+  sourcemap: false,
   treeshake: true,
   external: ["cuin-analyzer"],
   noExternal: ["@cuin/schema", "valibot"],
