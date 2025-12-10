@@ -1,6 +1,6 @@
+import { resolve } from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import { playwright } from "@vitest/browser-playwright";
-import { resolve } from "node:path";
 import solid from "vite-plugin-solid";
 import { defineConfig } from "vitest/config";
 
