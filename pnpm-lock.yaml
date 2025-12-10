@@ -191,9 +191,6 @@ importers:
       open:
         specifier: catalog:cli
         version: 10.2.0
-      valibot:
-        specifier: 'catalog:'
-        version: 1.1.0(typescript@5.9.3)
     devDependencies:
       '@cuin/schema':
         specifier: workspace:*
@@ -210,6 +207,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      valibot:
+        specifier: 'catalog:'
+        version: 1.1.0(typescript@5.9.3)
       vitest:
         specifier: catalog:test
         version: 4.0.6(@types/node@24.8.0)(@vitest/browser-playwright@4.0.6)(@vitest/ui@4.0.6)(jiti@2.6.1)(jsdom@27.1.0)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.20.6)

@@ -14,7 +14,7 @@ export default defineConfig({
   sourcemap: true,
   treeshake: true,
   external: ["cuin-analyzer"],
-  noExternal: ["@cuin/schema"],
+  noExternal: ["@cuin/schema", "valibot"],
 
   async onSuccess() {
     const uiOutDir = fileURLToPath(new URL("../ui/dist", import.meta.url));

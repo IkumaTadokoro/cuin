@@ -1,6 +1,6 @@
 {
   "name": "@ikuma-t/cuin",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Component Usage Inspector for React Project",
   "type": "module",
   "private": false,
@@ -34,11 +34,11 @@
     "gunshi": "catalog:cli",
     "h3": "catalog:cli",
     "mrmime": "catalog:cli",
-    "open": "catalog:cli",
-    "valibot": "catalog:"
+    "open": "catalog:cli"
   },
   "devDependencies": {
     "@cuin/schema": "workspace:*",
+    "valibot": "catalog:",
     "@types/node": "catalog:",
     "tsdown": "catalog:build",
     "tsx": "catalog:build",
