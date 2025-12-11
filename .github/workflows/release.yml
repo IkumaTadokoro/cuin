@@ -216,6 +216,7 @@ jobs:
       - name: Publish @ikuma-t/cuin-analyzer
         working-directory: packages/analyzer
         run: |
+          npm config set access public
           pnpm napi pre-publish --tag-style npm --no-gh-release
           pnpm publish --no-git-checks --access public --provenance || pnpm publish --no-git-checks --access public
         env:
