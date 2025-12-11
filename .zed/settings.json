@@ -18,8 +18,6 @@
       }
     }
   },
-  "formatter": "language_server",
-  "format_on_save": "on",
   "languages": {
     "JavaScript": {
       "formatter": {
