@@ -205,11 +205,15 @@ jobs:
           pnpm napi create-npm-dirs
           pnpm napi artifacts
 
-      - name: Publish @ikuma-t/cuin-analyzer with provenance
+      # Try OIDC first (--provenance), fallback to NPM_TOKEN if not configured
+      # After setting up Trusted Publisher on npm, you can remove NODE_AUTH_TOKEN
+      - name: Publish @ikuma-t/cuin-analyzer
         working-directory: packages/analyzer
         run: |
           pnpm napi pre-publish --tag-style npm --no-gh-release
-          npm publish --provenance --access public
+          npm publish --provenance --access public || npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build UI
         run: pnpm build --filter="@cuin/ui"
@@ -217,9 +221,11 @@ jobs:
       - name: Build CLI
         run: pnpm build --filter="@ikuma-t/cuin"
 
-      - name: Publish @ikuma-t/cuin with provenance
+      - name: Publish @ikuma-t/cuin
         working-directory: packages/cli
-        run: npm publish --provenance --access public
+        run: npm publish --provenance --access public || npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   github-release:
     name: Create GitHub Release
