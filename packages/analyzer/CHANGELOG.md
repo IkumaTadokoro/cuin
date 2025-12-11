@@ -1,5 +1,11 @@
 # cuin-analyzer
 
+## 0.0.17
+
+### Patch Changes
+
+- c42ac0f: chore: test OIDC release
+
 ## 0.0.16
 
 ### Patch Changes

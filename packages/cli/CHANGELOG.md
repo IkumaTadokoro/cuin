@@ -1,5 +1,13 @@
 # @ikuma-t/cuin
 
+## 0.0.17
+
+### Patch Changes
+
+- c42ac0f: chore: test OIDC release
+- Updated dependencies [c42ac0f]
+  - @ikuma-t/cuin-analyzer@0.0.17
+
 ## 0.0.16
 
 ### Patch Changes
