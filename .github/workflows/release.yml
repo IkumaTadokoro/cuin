@@ -19,7 +19,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     outputs:
-      should_publish: ${{ steps.check.outputs.should_publish }}
+      should_publish: ${{ steps.changesets.outputs.hasChangesets == 'false' && steps.check.outputs.should_publish == 'true' }}
       version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@v5
@@ -56,6 +56,12 @@ jobs:
           else
             echo "should_publish=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: Debug outputs
+        run: |
+          echo "hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}"
+          echo "should_publish from check: ${{ steps.check.outputs.should_publish }}"
+          echo "Final should_publish: ${{ steps.changesets.outputs.hasChangesets == 'false' && steps.check.outputs.should_publish == 'true' }}"
 
   build-analyzer:
     name: Build Analyzer (${{ matrix.settings.target }})
