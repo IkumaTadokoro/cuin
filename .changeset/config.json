@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@cuin/ui", "@cuin/schema"]
+  "ignore": []
 }
