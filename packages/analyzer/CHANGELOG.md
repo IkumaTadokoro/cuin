@@ -1,5 +1,11 @@
 # cuin-analyzer
 
+## 0.0.16
+
+### Patch Changes
+
+- ebd7a73: ci: migrate to changesets-based release with OIDC
+
 ## 0.0.11
 
 ### Patch Changes
