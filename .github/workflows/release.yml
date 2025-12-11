@@ -216,8 +216,8 @@ jobs:
       - name: Publish @ikuma-t/cuin-analyzer
         working-directory: packages/analyzer
         run: |
-          pnpm napi pre-publish --tag-style npm --no-gh-release --access public
-          npm publish --provenance --access public || npm publish --access public
+          pnpm napi pre-publish --tag-style npm --no-gh-release
+          pnpm publish --no-git-checks --access public --provenance || pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -229,7 +229,7 @@ jobs:
 
       - name: Publish @ikuma-t/cuin
         working-directory: packages/cli
-        run: npm publish --provenance --access public || npm publish --access public
+        run: pnpm publish --no-git-checks --access public --provenance || pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
