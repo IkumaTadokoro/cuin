@@ -1,9 +1,10 @@
 name: Release
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types: [closed]
 
 permissions:
   contents: write
@@ -15,33 +16,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release:
-    name: Release
+  check:
+    name: Check Release
     runs-on: ubuntu-latest
+    # Only run when Release PR is merged
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'chore: release')
     outputs:
-      should_publish: ${{ steps.changesets.outputs.hasChangesets == 'false' && steps.check.outputs.should_publish == 'true' }}
+      should_publish: ${{ steps.check.outputs.should_publish }}
       version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@v5
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
-
-      - name: Create Release Pull Request
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          title: "chore: release"
-          commit: "chore: release"
-          version: pnpm changeset version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if should publish
         id: check
@@ -59,8 +43,8 @@ jobs:
 
   build-analyzer:
     name: Build Analyzer (${{ matrix.settings.target }})
-    needs: release
-    if: needs.release.outputs.should_publish == 'true'
+    needs: check
+    if: needs.check.outputs.should_publish == 'true'
     runs-on: ${{ matrix.settings.host }}
     strategy:
       fail-fast: false
@@ -167,7 +151,7 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
-    needs: [release, universalize]
+    needs: [check, universalize]
     environment: npm
     steps:
       - uses: actions/checkout@v5
@@ -227,7 +211,7 @@ jobs:
   github-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    needs: [release, publish]
+    needs: [check, publish]
     steps:
       - uses: actions/checkout@v5
 
@@ -235,14 +219,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "v${{ needs.release.outputs.version }}"
-          git push origin "v${{ needs.release.outputs.version }}"
+          git tag "v${{ needs.check.outputs.version }}"
+          git push origin "v${{ needs.check.outputs.version }}"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.release.outputs.version }}
-          name: v${{ needs.release.outputs.version }}
+          tag_name: v${{ needs.check.outputs.version }}
+          name: v${{ needs.check.outputs.version }}
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
