@@ -1,4 +1,5 @@
 import { type Command, cli } from "gunshi";
+import { description, name, version } from "../package.json";
 import { analyze } from "./commands/analyze";
 import { dev } from "./commands/dev";
 
@@ -7,8 +8,8 @@ subCommands.set("dev", dev);
 subCommands.set("analyze", analyze);
 
 await cli(process.argv.slice(2), dev, {
-  name: "cuin",
-  version: "0.0.1",
-  description: "component usage inspector for React projects",
+  name,
+  version,
+  description,
   subCommands,
 });
