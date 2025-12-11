@@ -133,6 +133,38 @@ pnpm test
 
 8. **Merge**: Once approved, your PR will be merged
 
+## Release Process
+
+This project uses [Changesets](https://github.com/changesets/changesets) for version management and releases.
+
+### For Contributors
+
+When making changes that should be released:
+
+1. Create a changeset:
+
+```bash
+pnpm changeset
+```
+
+2. Select the packages affected (`@ikuma-t/cuin` and/or `@ikuma-t/cuin-analyzer`)
+3. Choose the version bump type (patch/minor/major)
+4. Write a summary of the changes
+5. Commit the generated `.changeset/*.md` file with your PR
+
+### For Maintainers
+
+The release process is automated:
+
+1. When PRs with changesets are merged to `main`, a "Release" PR is automatically created
+2. The Release PR accumulates all pending changesets and updates versions/changelogs
+3. When the Release PR is merged:
+   - Packages are published to npm
+   - A GitHub Release is created with auto-generated release notes
+   - A git tag is created (e.g., `v0.0.16`)
+
+If a release fails, you can re-run the workflow from GitHub Actions (no need to create a new tag).
+
 ## Reporting Issues
 
 ### Bug Reports

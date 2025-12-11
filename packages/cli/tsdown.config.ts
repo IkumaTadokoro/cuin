@@ -13,7 +13,7 @@ export default defineConfig({
   clean: true,
   sourcemap: false,
   treeshake: true,
-  external: ["cuin-analyzer"],
+  external: ["@ikuma-t/cuin-analyzer"],
   noExternal: ["@cuin/schema", "valibot"],
 
   async onSuccess() {

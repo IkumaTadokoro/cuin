@@ -23,7 +23,6 @@ catalogs:
     tsdown: 0.15.12
     tsx: 4.20.6
   cli:
-    cuin-analyzer: 0.0.7
     get-port-please: 3.2.0
     gunshi: 0.26.3
     h3: 2.0.1-rc.5

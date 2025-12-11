@@ -1,8 +1,8 @@
-import { analyze } from "cuin-analyzer";
+import { analyze } from "@ikuma-t/cuin-analyzer";
 import { describe, expect, it, vi } from "vitest";
 import { getAnalysis, getAnalysisAsJson } from "./analyze";
 
-vi.mock("cuin-analyzer");
+vi.mock("@ikuma-t/cuin-analyzer");
 
 describe("getAnalysis", () => {
   it("should validate camelCase JSON from analyzer", () => {

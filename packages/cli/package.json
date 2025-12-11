@@ -28,7 +28,7 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "dependencies": {
-    "cuin-analyzer": "workspace:*",
+    "@ikuma-t/cuin-analyzer": "workspace:*",
     "get-port-please": "catalog:cli",
     "gunshi": "catalog:cli",
     "h3": "catalog:cli",

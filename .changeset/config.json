@@ -2,10 +2,10 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
-  "linked": [["@ikuma-t/cuin", "cuin-analyzer"]],
+  "fixed": [["@ikuma-t/cuin", "@ikuma-t/cuin-analyzer"]],
+  "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": ["@cuin/ui", "@cuin/schema"]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "cuin-analyzer",
+  "name": "@ikuma-t/cuin-analyzer",
   "version": "0.0.15",
   "description": "component usage analyzer",
   "type": "module",
@@ -16,6 +16,7 @@
   },
   "napi": {
     "binaryName": "cuin",
+    "packageName": "@ikuma-t/cuin-analyzer",
     "targets": [
       "x86_64-apple-darwin",
       "aarch64-apple-darwin",

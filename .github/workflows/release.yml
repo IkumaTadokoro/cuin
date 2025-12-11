@@ -1,229 +1,245 @@
-name: Release cuin
+name: Release
 
 on:
-   push:
-      tags:
-         - "v*"
+  push:
+    branches:
+      - main
 
 permissions:
-   contents: write
-   id-token: write
+  contents: write
+  pull-requests: write
+  id-token: write
 
 concurrency:
-   group: ${{ github.workflow }}-${{ github.ref }}
-   cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-   build:
-      name: Build ${{ matrix.settings.target }}
-      runs-on: ${{ matrix.settings.host }}
-      strategy:
-         fail-fast: false
-         matrix:
-            settings:
-               - host: macos-latest
-                 target: x86_64-apple-darwin
-               - host: macos-latest
-                 target: aarch64-apple-darwin
-               - host: windows-latest
-                 target: x86_64-pc-windows-msvc
-               - host: ubuntu-latest
-                 target: x86_64-unknown-linux-gnu
-               - host: ubuntu-latest
-                 target: aarch64-unknown-linux-gnu
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.check.outputs.should_publish }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
 
-      steps:
-         - uses: actions/checkout@v5.0.0
+      - uses: pnpm/action-setup@v4
 
-         - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
-         - uses: actions/setup-node@v4
-           with:
-              node-version: 22
-              cache: pnpm
+      - run: pnpm install --frozen-lockfile
 
-         - name: Setup Rust
-           uses: dtolnay/rust-toolchain@stable
-           with:
-              toolchain: "1.88.0"
-              targets: ${{ matrix.settings.target }}
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          title: "chore: release"
+          commit: "chore: release"
+          version: pnpm changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-         - name: Rust Cache
-           uses: Swatinem/rust-cache@v2
-           with:
-              workspaces: packages/analyzer
-              key: ${{ matrix.settings.target }}
+      - name: Check if should publish
+        id: check
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./packages/cli/package.json').version")
+          PUBLISHED_VERSION=$(npm view @ikuma-t/cuin version 2>/dev/null || echo "0.0.0")
+          echo "Local version: $PACKAGE_VERSION"
+          echo "Published version: $PUBLISHED_VERSION"
+          echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          fi
 
-         - run: pnpm install --frozen-lockfile
+  build-analyzer:
+    name: Build Analyzer (${{ matrix.settings.target }})
+    needs: release
+    if: needs.release.outputs.should_publish == 'true'
+    runs-on: ${{ matrix.settings.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - host: macos-latest
+            target: x86_64-apple-darwin
+          - host: macos-latest
+            target: aarch64-apple-darwin
+          - host: windows-latest
+            target: x86_64-pc-windows-msvc
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - host: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+    steps:
+      - uses: actions/checkout@v5
 
-         - name: Build
-           working-directory: packages/analyzer
-           run: |
-              if [[ "${{ matrix.settings.target }}" == "aarch64-unknown-linux-gnu" ]]; then
-                pnpm build --target ${{ matrix.settings.target }} --use-napi-cross
-              else
-                pnpm build --target ${{ matrix.settings.target }}
-              fi
-           shell: bash
+      - uses: pnpm/action-setup@v4
 
-         - name: Upload artifact
-           uses: actions/upload-artifact@v4
-           with:
-              name: bindings-${{ matrix.settings.target }}
-              path: packages/analyzer/bindings/*.node
-              if-no-files-found: error
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
-         - name: Upload JS bindings
-           if: matrix.settings.target == 'x86_64-apple-darwin'
-           uses: actions/upload-artifact@v4
-           with:
-              name: js-bindings
-              path: |
-                 packages/analyzer/bindings/index.js
-                 packages/analyzer/bindings/index.d.ts
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+          targets: ${{ matrix.settings.target }}
 
-   universalize:
-      name: Create Universal Binary
-      runs-on: macos-latest
-      needs: build
-      steps:
-         - uses: actions/checkout@v5
-         - uses: pnpm/action-setup@v4
-         - uses: actions/setup-node@v4
-           with:
-              node-version: 22
-              cache: pnpm
-         - run: pnpm install --frozen-lockfile
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/analyzer
+          key: ${{ matrix.settings.target }}
 
-         - name: Download x64 binary
-           uses: actions/download-artifact@v4
-           with:
-              name: bindings-x86_64-apple-darwin
-              path: packages/analyzer/bindings
+      - run: pnpm install --frozen-lockfile
 
-         - name: Download arm64 binary
-           uses: actions/download-artifact@v4
-           with:
-              name: bindings-aarch64-apple-darwin
-              path: packages/analyzer/bindings
+      - name: Build
+        working-directory: packages/analyzer
+        run: |
+          if [[ "${{ matrix.settings.target }}" == "aarch64-unknown-linux-gnu" ]]; then
+            pnpm build --target ${{ matrix.settings.target }} --use-napi-cross
+          else
+            pnpm build --target ${{ matrix.settings.target }}
+          fi
+        shell: bash
 
-         - name: Create universal binary
-           working-directory: packages/analyzer
-           run: pnpm napi universalize --output-dir bindings
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: packages/analyzer/bindings/*.node
+          if-no-files-found: error
 
-         - name: Upload universal binary
-           uses: actions/upload-artifact@v4
-           with:
-              name: bindings-universal-apple-darwin
-              path: packages/analyzer/bindings/*.darwin-universal.node
+      - name: Upload JS bindings
+        if: matrix.settings.target == 'x86_64-apple-darwin'
+        uses: actions/upload-artifact@v4
+        with:
+          name: js-bindings
+          path: |
+            packages/analyzer/bindings/index.js
+            packages/analyzer/bindings/index.d.ts
 
-   publish-analyzer:
-      name: Publish
-      runs-on: ubuntu-latest
-      needs: [build, universalize]
-      steps:
-         - uses: actions/checkout@v5.0.0
+  universalize:
+    name: Create Universal Binary
+    runs-on: macos-latest
+    needs: build-analyzer
+    steps:
+      - uses: actions/checkout@v5
 
-         - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
 
-         - name: Setup Node.js
-           uses: actions/setup-node@v4
-           with:
-              node-version: 22
-              cache: pnpm
-              registry-url: "https://registry.npmjs.org/"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
-         - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
-         - name: Download all artifacts
-           uses: actions/download-artifact@v4
-           with:
-              path: packages/analyzer/artifacts
+      - name: Download x64 binary
+        uses: actions/download-artifact@v4
+        with:
+          name: bindings-x86_64-apple-darwin
+          path: packages/analyzer/bindings
 
-         - name: Download JS bindings
-           uses: actions/download-artifact@v4
-           with:
-              name: js-bindings
-              path: packages/analyzer/bindings
+      - name: Download arm64 binary
+        uses: actions/download-artifact@v4
+        with:
+          name: bindings-aarch64-apple-darwin
+          path: packages/analyzer/bindings
 
-         - name: Create npm dirs & move artifacts
-           working-directory: packages/analyzer
-           run: |
-              pnpm napi create-npm-dirs
-              pnpm napi artifacts
+      - name: Create universal binary
+        working-directory: packages/analyzer
+        run: pnpm napi universalize --output-dir bindings
 
-         - name: Check if analyzer version changed
-           id: check_analyzer_version
-           run: |
-              PACKAGE_VERSION=$(node -p "require('./packages/analyzer/package.json').version")
-              PUBLISHED_VERSION=$(npm view cuin-analyzer version 2>/dev/null || echo "0.0.0")
-              echo "package_version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
-              echo "published_version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
-              if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
-                echo "should_publish=true" >> $GITHUB_OUTPUT
-                echo "Version changed: $PUBLISHED_VERSION -> $PACKAGE_VERSION"
-              else
-                echo "should_publish=false" >> $GITHUB_OUTPUT
-                echo "Version unchanged: $PACKAGE_VERSION (skipping publish)"
-              fi
+      - name: Upload universal binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: bindings-universal-apple-darwin
+          path: packages/analyzer/bindings/*.darwin-universal.node
 
-         - name: PrePublish cuin-analyzer
-           if: steps.check_analyzer_version.outputs.should_publish == 'true'
-           working-directory: packages/analyzer
-           run: pnpm napi pre-publish --tag-style npm --no-gh-release
-           env:
-              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    needs: [release, universalize]
+    steps:
+      - uses: actions/checkout@v5
 
-         - name: Publish cuin-analyzer
-           if: steps.check_analyzer_version.outputs.should_publish == 'true'
-           working-directory: packages/analyzer
-           run: pnpm publish --no-git-checks --access public
-           env:
-              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: pnpm/action-setup@v4
 
-   publish-cuin:
-      name: Publish CLI
-      runs-on: ubuntu-latest
-      needs: [publish-analyzer]
-      steps:
-         - uses: actions/checkout@v5.0.0
-         - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: "https://registry.npmjs.org"
 
-         - uses: actions/setup-node@v4
-           with:
-              node-version: 22
-              cache: pnpm
-              registry-url: "https://registry.npmjs.org/"
+      # npm 11.5.1+ required for OIDC
+      - name: Update npm for OIDC support
+        run: |
+          echo "Current npm version: $(npm -v)"
+          npm install -g npm@latest
+          echo "Updated npm version: $(npm -v)"
 
-         - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
-         - name: Check if CLI version changed
-           id: check_cli_version
-           run: |
-              PACKAGE_VERSION=$(node -p "require('./packages/cli/package.json').version")
-              PUBLISHED_VERSION=$(npm view @ikuma-t/cuin version 2>/dev/null || echo "0.0.0")
-              echo "package_version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
-              echo "published_version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
-              if [ "$PACKAGE_VERSION" != "$PUBLISHED_VERSION" ]; then
-                echo "should_publish=true" >> $GITHUB_OUTPUT
-                echo "Version changed: $PUBLISHED_VERSION -> $PACKAGE_VERSION"
-              else
-                echo "should_publish=false" >> $GITHUB_OUTPUT
-                echo "Version unchanged: $PACKAGE_VERSION (skipping publish)"
-              fi
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: packages/analyzer/artifacts
 
-         - name: Build UI
-           if: steps.check_cli_version.outputs.should_publish == 'true'
-           run: pnpm build --filter="@cuin/ui"
+      - name: Download JS bindings
+        uses: actions/download-artifact@v4
+        with:
+          name: js-bindings
+          path: packages/analyzer/bindings
 
-         - name: Build CLI
-           if: steps.check_cli_version.outputs.should_publish == 'true'
-           run: pnpm build --filter="@ikuma-t/cuin"
+      - name: Create npm dirs & move artifacts
+        working-directory: packages/analyzer
+        run: |
+          pnpm napi create-npm-dirs
+          pnpm napi artifacts
 
-         - name: Publish CLI
-           if: steps.check_cli_version.outputs.should_publish == 'true'
-           working-directory: packages/cli
-           run: pnpm publish --no-git-checks --access public
-           env:
-              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish @ikuma-t/cuin-analyzer with provenance
+        working-directory: packages/analyzer
+        run: |
+          pnpm napi pre-publish --tag-style npm --no-gh-release
+          npm publish --provenance --access public
+
+      - name: Build UI
+        run: pnpm build --filter="@cuin/ui"
+
+      - name: Build CLI
+        run: pnpm build --filter="@ikuma-t/cuin"
+
+      - name: Publish @ikuma-t/cuin with provenance
+        working-directory: packages/cli
+        run: npm publish --provenance --access public
+
+  github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [release, publish]
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v${{ needs.release.outputs.version }}"
+          git push origin "v${{ needs.release.outputs.version }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.release.outputs.version }}
+          name: v${{ needs.release.outputs.version }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

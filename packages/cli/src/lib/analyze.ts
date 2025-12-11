@@ -1,4 +1,4 @@
-import { analyze } from "cuin-analyzer";
+import { analyze } from "@ikuma-t/cuin-analyzer";
 import { validateAnalysisResult } from "./validate";
 
 export const getAnalysis = (path: string) => {
