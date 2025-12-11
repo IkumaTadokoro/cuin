@@ -20,7 +20,7 @@ jobs:
          run:
             working-directory: packages/analyzer
       steps:
-         - uses: actions/checkout@v5.0.0
+         - uses: actions/checkout@v5.0.1
          - uses: dtolnay/rust-toolchain@stable
            with:
               toolchain: "1.88.0"
