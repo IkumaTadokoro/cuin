@@ -1,6 +1,7 @@
 {
   "name": "@cuin/schema",
   "version": "0.0.1",
+  "private": true,
   "type": "module",
   "main": "./dist/schema.js",
   "types": "./dist/schema.d.ts",

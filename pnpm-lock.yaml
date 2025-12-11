@@ -167,7 +167,7 @@ importers:
 
   packages/cli:
     dependencies:
-      cuin-analyzer:
+      '@ikuma-t/cuin-analyzer':
         specifier: workspace:*
         version: link:../analyzer
       get-port-please:

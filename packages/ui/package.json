@@ -1,5 +1,6 @@
 {
   "name": "@cuin/ui",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
