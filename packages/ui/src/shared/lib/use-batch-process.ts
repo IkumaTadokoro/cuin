@@ -1,7 +1,6 @@
-// hooks/use-batch-process.ts
 import type { Accessor } from "solid-js";
 import { batchIterate } from "~/shared/lib/batch-iterate";
-import { centerOutIndices } from "~/shared/lib/center-out-indicies";
+import { centerOutIndices } from "~/shared/lib/center-out-indices";
 import { createProcessing } from "~/shared/lib/create-processing";
 import { findClosestIndex } from "~/shared/lib/find-closest-index";
 

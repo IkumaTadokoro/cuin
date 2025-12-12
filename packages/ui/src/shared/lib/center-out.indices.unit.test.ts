@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   centerOutIndices,
   generateCenterOutIndices,
-} from "./center-out-indicies";
+} from "./center-out-indices";
 
 describe("centerOutIndices", () => {
   it("generates indices from center outward", () => {
