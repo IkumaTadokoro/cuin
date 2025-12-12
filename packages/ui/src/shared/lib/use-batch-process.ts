@@ -1,0 +1,62 @@
+// hooks/use-batch-process.ts
+import type { Accessor } from "solid-js";
+import { batchIterate } from "~/shared/lib/batch-iterate";
+import { centerOutIndices } from "~/shared/lib/center-out-indicies";
+import { createProcessing } from "~/shared/lib/create-processing";
+import { findClosestIndex } from "~/shared/lib/find-closest-index";
+
+type BatchProcessOptions<E extends HTMLElement> = {
+  batchSize?: number;
+  getItems: () => Iterable<E> | ArrayLike<E>;
+};
+
+type BatchProcessResult<E extends HTMLElement> = [
+  isProcessing: Accessor<boolean>,
+  run: (callback: (item: E) => void) => Promise<void>,
+];
+
+const DEFAULT_BATCH_SIZE = 1000;
+
+export const useBatchProcess = <E extends HTMLElement>(
+  options: BatchProcessOptions<E>
+): BatchProcessResult<E> => {
+  const { batchSize = DEFAULT_BATCH_SIZE, getItems } = options;
+  const [isProcessing, startProcessing] = createProcessing();
+
+  const run = (callback: (item: E) => void): Promise<void> =>
+    startProcessing(async () => {
+      const items = Array.from(getItems());
+      if (items.length === 0) {
+        return;
+      }
+
+      const positions = items.map((el) => {
+        const rect = el.getBoundingClientRect();
+        return rect.top + rect.height / 2;
+      });
+      const centerIndex = findClosestIndex(positions, window.innerHeight / 2);
+      const indices = centerOutIndices(items.length, centerIndex);
+      const batches = batchIterate(indices, batchSize);
+
+      await new Promise<void>((resolve) => {
+        const processBatch = () => {
+          const { value: batch, done } = batches.next();
+
+          if (done) {
+            resolve();
+            return;
+          }
+
+          for (const idx of batch) {
+            callback(items[idx]);
+          }
+
+          requestAnimationFrame(processBatch);
+        };
+
+        requestAnimationFrame(processBatch);
+      });
+    });
+
+  return [isProcessing, run];
+};
