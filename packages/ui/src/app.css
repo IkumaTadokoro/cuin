@@ -40,3 +40,12 @@ code .line::before {
   content-visibility: auto;
   contain-intrinsic-size: auto 200px;
 }
+
+/* 親コンテナに属性がついたら、見た目だけ即座に変更 */
+[data-collapse-all="true"] details[open] > summary ~ * {
+  display: none;
+}
+
+[data-expand-all="true"] details:not([open]) > summary ~ * {
+  display: block;
+}

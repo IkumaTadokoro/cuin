@@ -11,10 +11,8 @@ import { useData } from "~/contexts/analysis";
 import { createInstanceStore } from "~/dataflow/instance";
 import { getFileName } from "~/lib/get-file-name";
 import { Details } from "~/shared/ui/details/details";
-import {
-  DetailsGroup,
-  ToggleAllDetailsButton,
-} from "~/shared/ui/details/details-group";
+import { DetailsGroup } from "~/shared/ui/details/details-group";
+import { ToggleAllDetailsButton } from "~/shared/ui/details/toggle-all-details-button";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
 
