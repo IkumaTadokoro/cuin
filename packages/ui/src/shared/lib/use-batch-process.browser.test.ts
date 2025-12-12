@@ -1,5 +1,6 @@
-/** biome-ignore-all lint/style/noMagicNumbers: <explanation> */
+/** biome-ignore-all lint/style/noMagicNumbers: test */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
 import { useBatchProcess } from "./use-batch-process";
 
 describe("useBatchProcess", () => {
@@ -90,6 +91,7 @@ describe("useBatchProcess", () => {
       return id;
     };
 
+    // biome-ignore lint/suspicious/noEmptyBlockStatements: noop
     await run(() => {});
 
     window.requestAnimationFrame = originalRAF;
@@ -144,8 +146,10 @@ describe("useBatchProcess", () => {
 
   // biome-ignore lint/suspicious/noSkippedTests: show-case
   it.skip("processes from center outward (slow for debugging)", async () => {
-    container.style.height = "100vh";
-    const elements = createElements(100, 10);
+    await page.viewport(1024, 2000);
+    const elementCount = 24;
+    const elementHeight = Math.floor(window.innerHeight / elementCount);
+    const elements = createElements(elementCount, elementHeight);
 
     elements.forEach((el, i) => {
       el.style.background = `hsl(${i * 18}, 70%, 80%)`;
@@ -162,12 +166,12 @@ describe("useBatchProcess", () => {
     const originalRAF = window.requestAnimationFrame;
     window.requestAnimationFrame = (cb) =>
       window.setTimeout(async () => {
-        await delay(100);
+        await delay(10);
         cb(performance.now());
       }, 0) as unknown as number;
 
     await run((el) => {
-      el.style.background = "red";
+      el.style.filter = "brightness(0.6)";
     });
 
     window.requestAnimationFrame = originalRAF;

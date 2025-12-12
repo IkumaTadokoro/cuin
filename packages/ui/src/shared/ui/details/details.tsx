@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const Details: Component<ParentProps<Props>> = (props) => {
-  const { detailsProps } = useDetailsGroup();
+  const { detailsRef } = useDetailsGroup();
   const { isVisible, handleContentVisibilityChange, Provider } =
     createDetailsVisibility();
 
@@ -18,7 +18,7 @@ export const Details: Component<ParentProps<Props>> = (props) => {
     <details
       class="min-w-0 rounded-md border border-brand-200"
       open={props.open ?? false}
-      {...detailsProps}
+      ref={detailsRef}
     >
       <summary class="flex cursor-pointer select-none list-none flex-wrap items-center gap-2 rounded-md bg-brand-50/70 px-3 py-2 font-mono text-sm">
         <ChevronDownIcon class="h-4 w-4 opacity-50 transition [details[open]_&]:rotate-180" />

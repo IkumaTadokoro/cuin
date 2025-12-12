@@ -1,22 +1,30 @@
 import {
   type Component,
   createContext,
-  createUniqueId,
   type JSX,
+  onCleanup,
   useContext,
 } from "solid-js";
 
 type DetailsGroupContextValue = {
-  groupId: string;
+  register: (el: HTMLDetailsElement) => void;
+  unregister: (el: HTMLDetailsElement) => void;
+  getAllDetails: () => HTMLDetailsElement[];
 };
 
 const DetailsGroupContext = createContext<DetailsGroupContextValue>();
 
 export const DetailsGroup: Component<{ children: JSX.Element }> = (props) => {
-  const groupId = createUniqueId();
+  const elements = new Set<HTMLDetailsElement>();
 
   return (
-    <DetailsGroupContext.Provider value={{ groupId }}>
+    <DetailsGroupContext.Provider
+      value={{
+        register: (el) => elements.add(el),
+        unregister: (el) => elements.delete(el),
+        getAllDetails: () => [...elements],
+      }}
+    >
       {props.children}
     </DetailsGroupContext.Provider>
   );
@@ -28,13 +36,11 @@ export const useDetailsGroup = () => {
     throw new Error("useDetailsGroup must be used within DetailsGroup");
   }
 
-  const { groupId } = context;
-
   return {
-    detailsProps: { "data-group": groupId } as const,
-    getAllDetails: () =>
-      document.querySelectorAll<HTMLDetailsElement>(
-        `details[data-group="${groupId}"]`
-      ),
+    detailsRef: (el: HTMLDetailsElement) => {
+      context.register(el);
+      onCleanup(() => context.unregister(el));
+    },
+    getAllDetails: context.getAllDetails,
   };
 };

@@ -2,7 +2,7 @@ import type { Accessor } from "solid-js";
 import { batchIterate } from "~/shared/lib/batch-iterate";
 import { centerOutIndices } from "~/shared/lib/center-out-indices";
 import { createProcessing } from "~/shared/lib/create-processing";
-import { findClosestIndex } from "~/shared/lib/find-closest-index";
+import { findCenterElement } from "./find-center-element";
 
 type BatchProcessOptions<E extends HTMLElement> = {
   batchSize?: number;
@@ -14,7 +14,7 @@ type BatchProcessResult<E extends HTMLElement> = [
   run: (callback: (item: E) => void) => Promise<void>,
 ];
 
-const DEFAULT_BATCH_SIZE = 1000;
+const DEFAULT_BATCH_SIZE = 100;
 
 export const useBatchProcess = <E extends HTMLElement>(
   options: BatchProcessOptions<E>
@@ -28,12 +28,7 @@ export const useBatchProcess = <E extends HTMLElement>(
       if (items.length === 0) {
         return;
       }
-
-      const positions = items.map((el) => {
-        const rect = el.getBoundingClientRect();
-        return rect.top + rect.height / 2;
-      });
-      const centerIndex = findClosestIndex(positions, window.innerHeight / 2);
+      const centerIndex = findCenterElement(items);
       const indices = centerOutIndices(items.length, centerIndex);
       const batches = batchIterate(indices, batchSize);
 
