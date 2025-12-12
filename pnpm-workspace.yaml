@@ -47,7 +47,7 @@ catalogs:
     '@shikijs/types': 3.14.0
     '@solid-primitives/scheduled': 1.5.2
     '@solidjs/router': 0.15.0
-    '@solidjs/start': 1.1.0
+    '@solidjs/start': 1.2.0
     '@tailwindcss/postcss': 4.0.0
     '@tailwindcss/vite': 4.0.7
     class-variance-authority: 0.7.1
