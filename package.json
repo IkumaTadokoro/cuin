@@ -1,6 +1,6 @@
 {
   "name": "cuin",
-  "version": "0.0.6",
+  "version": "0.0.0",
   "description": "Component Usage Inspector for React Project.",
   "type": "module",
   "scripts": {
@@ -27,12 +27,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@tanstack/server-functions-plugin": "~1.99.5",
       "vite": "^6.3.3"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "esbuild"
-    ]
+    }
   }
 }

@@ -139,7 +139,6 @@ catalogs:
       version: 2.11.10
 
 overrides:
-  '@tanstack/server-functions-plugin': ~1.99.5
   vite: ^6.3.3
 
 importers:
