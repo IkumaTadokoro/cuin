@@ -3,26 +3,16 @@
   "extends": ["ultracite/core", "ultracite/solid"],
   "overrides": [
     {
-      "includes": ["packages/ui/src/shared/ui/**/index.tsx"],
-      "linter": {
-        "rules": {
-          "performance": {
-            "noBarrelFile": "off",
-          },
-        },
-      },
-    },
-    {
       "includes": ["packages/analyzer/bindings/**/*"],
       "linter": {
-        "enabled": false,
+        "enabled": false
       },
       "formatter": {
-        "enabled": false,
+        "enabled": false
       },
       "assist": {
-        "enabled": false,
-      },
-    },
-  ],
+        "enabled": false
+      }
+    }
+  ]
 }

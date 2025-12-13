@@ -3,7 +3,7 @@ import { createMemo, createSignal, For, Show } from "solid-js";
 import { CheckIcon, SearchIcon, XIcon } from "~/components/icons";
 import type { InstanceDetailStore } from "~/dataflow/instance";
 import type { PropAnalysis } from "~/dataflow/instance/props-analyze";
-import { Root } from "~/shared/ui/exclusive-checkbox-group";
+import { ExclusiveCheckboxGroupRoot as Root } from "~/shared/ui/exclusive-checkbox-group/exclusive-checkbox-group-root";
 import { Count } from "./count";
 import { StyledExclusiveCheckboxItem } from "./styled-exclusive-checkbox-item";
 

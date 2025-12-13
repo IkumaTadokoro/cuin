@@ -1,11 +1,9 @@
 import type { JSX } from "solid-js";
-import type { LabelAction } from "~/shared/ui/exclusive-checkbox-group";
-import {
-  Control,
-  Indicator,
-  Item,
-  Label,
-} from "~/shared/ui/exclusive-checkbox-group";
+import { ExclusiveCheckboxGroupControl as Control } from "~/shared/ui/exclusive-checkbox-group/exclusive-checkbox-group-control";
+import { ExclusiveCheckboxGroupIndicator as Indicator } from "~/shared/ui/exclusive-checkbox-group/exclusive-checkbox-group-indicator";
+import { ExclusiveCheckboxGroupItem as Item } from "~/shared/ui/exclusive-checkbox-group/exclusive-checkbox-group-item";
+import { ExclusiveCheckboxGroupLabel as Label } from "~/shared/ui/exclusive-checkbox-group/exclusive-checkbox-group-label";
+import type { LabelAction } from "~/shared/ui/exclusive-checkbox-group/use-exclusive-checkbox-group";
 
 type StyledExclusiveCheckboxItemProps = {
   value: string;
