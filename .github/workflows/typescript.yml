@@ -4,25 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - ".github/workflows/typescript.yml"
-      - "packages/cli/**"
-      - "packages/ui/**"
-      - "packages/schema/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
   pull_request:
     branches:
       - main
-    paths:
-      - ".github/workflows/typescript.yml"
-      - "packages/cli/**"
-      - "packages/ui/**"
-      - "packages/schema/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
   workflow_dispatch:
 
 concurrency:
@@ -30,8 +14,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      typescript: ${{ steps.filter.outputs.typescript }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: filter
+        with:
+          filters: |
+            typescript:
+              - ".github/workflows/typescript.yml"
+              - "packages/cli/**"
+              - "packages/ui/**"
+              - "packages/schema/**"
+              - "package.json"
+              - "pnpm-lock.yaml"
+              - "pnpm-workspace.yaml"
+
   typecheck:
     name: Typecheck
+    needs: changes
+    if: needs.changes.outputs.typescript == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -46,7 +54,8 @@ jobs:
 
   build:
     name: Build
-    needs: typecheck
+    needs: [changes, typecheck]
+    if: needs.changes.outputs.typescript == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -62,6 +71,8 @@ jobs:
 
   test:
     name: Test
+    needs: changes
+    if: needs.changes.outputs.typescript == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
