@@ -1,34 +1,28 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite/core", "ultracite/solid"],
-  "files": {
-    "includes": [
-      "!packages/ui/src/entry-client.tsx",
-      "!packages/ui/src/entry-server.tsx"
-    ]
-  },
   "overrides": [
     {
       "includes": ["packages/ui/src/shared/ui/**/index.tsx"],
       "linter": {
         "rules": {
           "performance": {
-            "noBarrelFile": "off"
-          }
-        }
-      }
+            "noBarrelFile": "off",
+          },
+        },
+      },
     },
     {
       "includes": ["packages/analyzer/bindings/**/*"],
       "linter": {
-        "enabled": false
+        "enabled": false,
       },
       "formatter": {
-        "enabled": false
+        "enabled": false,
       },
       "assist": {
-        "enabled": false
-      }
-    }
-  ]
+        "enabled": false,
+      },
+    },
+  ],
 }
