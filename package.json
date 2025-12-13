@@ -4,6 +4,7 @@
   "description": "Component Usage Inspector for React Project.",
   "type": "module",
   "scripts": {
+    "prepare": "simple-git-hooks",
     "build": "turbo run build",
     "dev:ui": "turbo run dev --filter=@cuin/ui",
     "dev:cli": "turbo run dev --filter=@ikuma-t/cuin",
@@ -22,6 +23,8 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@changesets/cli": "catalog:",
+    "lint-staged": "catalog:",
+    "simple-git-hooks": "catalog:",
     "turbo": "catalog:",
     "ultracite": "catalog:"
   },
@@ -29,5 +32,16 @@
     "overrides": {
       "vite": "^6.3.3"
     }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "pnpm fix"
+    ],
+    "packages/analyzer/**/*.rs": [
+      "cargo fmt --manifest-path packages/analyzer/Cargo.toml --"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged && pnpm typecheck"
   }
 }
