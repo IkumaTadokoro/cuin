@@ -27,7 +27,7 @@ catalogs:
     tsx: 4.20.6
   cli:
     get-port-please: 3.2.0
-    gunshi: 0.26.3
+    gunshi: 0.27.0
     h3: 2.0.1-rc.6
     mrmime: 2.0.1
     open: 10.2.0
