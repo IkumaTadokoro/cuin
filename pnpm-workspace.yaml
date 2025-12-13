@@ -24,7 +24,7 @@ catalogs:
     '@napi-rs/cli': 3.5.0
   build:
     tsdown: 0.15.12
-    tsx: 4.20.6
+    tsx: 4.21.0
   cli:
     get-port-please: 3.2.0
     gunshi: 0.27.0
