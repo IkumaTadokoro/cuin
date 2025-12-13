@@ -2,7 +2,7 @@ import type { Accessor } from "solid-js";
 import { createMemo, For } from "solid-js";
 import type { PackageKey, PackageWithCount } from "~/dataflow/payload";
 import type { SelectionState } from "~/lib/selection-state";
-import { Root } from "~/shared/ui/exclusive-checkbox-group";
+import { ExclusiveCheckboxGroupRoot as Root } from "~/shared/ui/exclusive-checkbox-group/exclusive-checkbox-group-root";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Count } from "./count";
 import { Package } from "./package/package";
