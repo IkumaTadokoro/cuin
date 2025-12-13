@@ -24,5 +24,10 @@
     "@changesets/cli": "catalog:",
     "turbo": "catalog:",
     "ultracite": "catalog:"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "^6.3.3"
+    }
   }
 }
