@@ -40,7 +40,6 @@ catalogs:
     "@ark-ui/solid": 5.27.1
     "@shikijs/core": 3.14.0
     "@shikijs/engine-javascript": 3.14.0
-    "@shikijs/langs": 3.14.0
     "@shikijs/langs-precompiled": 3.14.0
     "@shikijs/themes": 3.14.0
     "@shikijs/types": 3.14.0
@@ -48,7 +47,6 @@ catalogs:
     "@solidjs/router": 0.15.0
     "@tailwindcss/vite": 4.0.7
     class-variance-authority: 0.7.1
-    shiki: 3.14.0
     solid-js: 1.9.10
     tailwind-merge: 3.3.1
     tailwindcss: 4.0.7
