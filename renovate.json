@@ -1,4 +1,48 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"]
+  "extends": ["config:recommended"],
+  "automergeType": "squash",
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "description": "Packages that may change behavior require manual review",
+      "matchPackagePatterns": [
+        "^@ark-ui/",
+        "^shiki",
+        "^solid",
+        "^@solidjs/",
+        "^tailwind",
+        "^vite",
+        "^@vitejs/",
+        "^h3",
+        "^gunshi",
+        "^valibot",
+        "^unplugin-icons",
+        "^typescript$"
+      ],
+      "automerge": false
+    },
+    {
+      "description": "Automerge patch and minor updates",
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Major updates require manual review",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["major-update"]
+    },
+    {
+      "description": "Automerge GitHub Actions patch and minor updates",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge lockfile maintenance",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "automerge": true
+    }
+  ]
 }
