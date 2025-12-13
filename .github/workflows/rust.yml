@@ -1,31 +1,67 @@
 name: Rust
 
 on:
-   push:
-      branches:
-         - main
-   pull_request:
-      branches:
-         - main
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/rust.yml"
+      - "packages/analyzer/**"
+      - "packages/cli/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/rust.yml"
+      - "packages/analyzer/**"
+      - "packages/cli/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  workflow_dispatch:
 
 concurrency:
-   group: ${{ github.workflow }}-${{ github.ref }}
-   cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-   rust:
-      name: Rust Lint & Test
-      runs-on: ubuntu-latest
-      defaults:
-         run:
-            working-directory: packages/analyzer
-      steps:
-         - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
-         - uses: dtolnay/rust-toolchain@stable
-           with:
-              toolchain: "1.88.0"
-              components: rustfmt, clippy
-         - uses: Swatinem/rust-cache@f13886b937689c021905a6b90929199931d60db1 # v2.8.1
-         - run: cargo clippy -- -D warnings
-         - run: cargo fmt -- --check
-         - run: cargo test --no-default-features
+  rust:
+    name: Rust Lint & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/analyzer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "packages/analyzer -> target"
+      - run: cargo clippy -- -D warnings
+      - run: cargo fmt -- --check
+      - run: cargo test --no-default-features
+
+  cli-test:
+    name: CLI Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "packages/analyzer -> target"
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter="@cuin/schema" build
+      - run: pnpm --filter="cuin-analyzer" build
+      - run: pnpm --filter="@ikuma-t/cuin" test
