@@ -122,9 +122,6 @@ catalogs:
     solid-js:
       specifier: 1.9.10
       version: 1.9.10
-    tailwind-merge:
-      specifier: 3.3.1
-      version: 3.3.1
     tailwindcss:
       specifier: 4.0.7
       version: 4.0.7
@@ -258,9 +255,6 @@ importers:
       solid-js:
         specifier: catalog:ui
         version: 1.9.10
-      tailwind-merge:
-        specifier: catalog:ui
-        version: 3.3.1
       type-fest:
         specifier: 'catalog:'
         version: 5.2.0
@@ -3130,9 +3124,6 @@ packages:
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
-
-  tailwind-merge@3.3.1:
-    resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
 
   tailwindcss@4.0.7:
     resolution: {integrity: sha512-yH5bPPyapavo7L+547h3c4jcBXcrKwybQRjwdEIVAd9iXRvy/3T1CC6XSQEgZtRySjKfqvo3Cc0ZF1DTheuIdA==}
@@ -6554,8 +6545,6 @@ snapshots:
   symbol-tree@3.2.4: {}
 
   tagged-tag@1.0.0: {}
-
-  tailwind-merge@3.3.1: {}
 
   tailwindcss@4.0.7: {}
 
