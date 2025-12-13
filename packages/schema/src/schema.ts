@@ -67,10 +67,25 @@ export const Component = object({
 });
 export type Component = InferOutput<typeof Component>;
 
+export const ComponentSummary = object({
+  id: string(),
+  name: string(),
+  package: Package,
+  instanceCount: number(),
+});
+export type ComponentSummary = InferOutput<typeof ComponentSummary>;
+
 export const Payload = object({
   meta: Meta,
   components: array(Component),
 });
 export type Payload = InferOutput<typeof Payload>;
 
+export const SummaryPayload = object({
+  meta: Meta,
+  components: array(ComponentSummary),
+});
+export type SummaryPayload = InferOutput<typeof SummaryPayload>;
+
 export const JsonSchema = Payload;
+export const SummaryJsonSchema = SummaryPayload;
