@@ -36,9 +36,14 @@ code .line::before {
   color: rgba(115, 138, 148, 0.4);
 }
 
+.details {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 36px;
+}
+
 .details-content {
   content-visibility: auto;
-  contain-intrinsic-size: auto 200px;
+  contain-intrinsic-size: auto 240px;
 }
 
 /* 親コンテナに属性がついたら、見た目だけ即座に変更 */
