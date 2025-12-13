@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@cuin/schema": "workspace:*",
     "@ark-ui/solid": "catalog:ui",
+    "@cuin/schema": "workspace:*",
     "@shikijs/core": "catalog:ui",
     "@shikijs/engine-javascript": "catalog:ui",
     "@shikijs/langs-precompiled": "catalog:ui",
@@ -27,6 +27,7 @@
     "valibot": "catalog:"
   },
   "devDependencies": {
+    "@iconify/json": "catalog:",
     "@solidjs/testing-library": "catalog:test",
     "@tailwindcss/vite": "catalog:ui",
     "@testing-library/jest-dom": "catalog:test",
@@ -37,6 +38,7 @@
     "playwright": "catalog:test",
     "rollup-plugin-visualizer": "catalog:",
     "tailwindcss": "catalog:ui",
+    "unplugin-icons": "catalog:",
     "vite": "catalog:ui",
     "vite-plugin-solid": "catalog:ui",
     "vitest": "catalog:test"
