@@ -40,7 +40,7 @@
     "playwright": "catalog:test",
     "rollup-plugin-visualizer": "catalog:",
     "tailwindcss": "catalog:ui",
-    "vite": "catalog:build",
+    "vite": "catalog:ui",
     "vite-plugin-solid": "catalog:ui",
     "vitest": "catalog:test"
   },
