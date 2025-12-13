@@ -4,21 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - ".github/workflows/rust.yml"
-      - "packages/analyzer/**"
-      - "packages/cli/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
   pull_request:
     branches:
       - main
-    paths:
-      - ".github/workflows/rust.yml"
-      - "packages/analyzer/**"
-      - "packages/cli/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
   workflow_dispatch:
 
 concurrency:
@@ -26,8 +14,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      rust: ${{ steps.filter.outputs.rust }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            rust:
+              - ".github/workflows/rust.yml"
+              - "packages/analyzer/**"
+              - "packages/cli/**"
+              - "Cargo.toml"
+              - "Cargo.lock"
+
   rust:
     name: Rust Lint & Test
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -47,6 +57,8 @@ jobs:
 
   cli-test:
     name: CLI Test
+    needs: changes
+    if: needs.changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
