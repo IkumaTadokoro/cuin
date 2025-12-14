@@ -2,8 +2,7 @@ use oxc::ast::ast::{
     JSXAttributeItem, JSXAttributeName, JSXAttributeValue, JSXChild, JSXElementName, JSXExpression,
     JSXOpeningElement, JSXText,
 };
-use oxc::{allocator::Allocator, parser::Parser, span::SourceType};
-use oxc_ast_visit::Visit;
+use oxc::{allocator::Allocator, ast_visit::Visit, parser::Parser, span::SourceType};
 use oxc_syntax::module_record::{ImportImportName, ModuleRecord};
 
 use crate::AnalysisError;
@@ -89,6 +88,7 @@ struct JSXCollector<'b> {
     source_text: &'b str,
     source_file: &'b SourceFile,
     variables: std::collections::HashMap<String, VariableValue>,
+    line_index: LineIndex,
 }
 
 impl<'b> JSXCollector<'b> {
@@ -98,6 +98,7 @@ impl<'b> JSXCollector<'b> {
             source_text,
             source_file,
             variables: std::collections::HashMap::new(),
+            line_index: LineIndex::new(source_text),
         }
     }
 }
@@ -136,13 +137,13 @@ impl<'a, 'b> Visit<'a> for JSXCollector<'b> {
         }
 
         // Continue default visiting behavior (visit child nodes as well)
-        oxc_ast_visit::walk::walk_variable_declarator(self, it);
+        oxc::ast_visit::walk::walk_variable_declarator(self, it);
     }
 
     fn visit_jsx_element(&mut self, it: &oxc::ast::ast::JSXElement<'a>) {
         let tag_name = format_component_name(&it.opening_element.name);
         let attributes = extract_props(&it.opening_element, &self.variables);
-        let span = create_span_with_position(self.source_text, it.span.start, it.span.end);
+        let span = self.line_index.create_span(it.span.start, it.span.end);
         let location = SourceLocation::new(self.source_file.clone(), span);
         let raw_text = normalize_indentation(it.span.source_text(self.source_text));
         let children = extract_children(&it.children, self.source_text);
@@ -152,7 +153,7 @@ impl<'a, 'b> Visit<'a> for JSXCollector<'b> {
 
         // Recursively visit child JSX elements as well
         // This allows nested JSX elements to be collected individually
-        oxc_ast_visit::walk::walk_jsx_element(self, it);
+        oxc::ast_visit::walk::walk_jsx_element(self, it);
     }
 }
 
@@ -727,35 +728,36 @@ fn analyze_spread_attribute(
     }
 }
 
-fn offset_to_line_col(source_text: &str, offset: u32) -> (u32, u32) {
-    let offset = offset as usize;
-    if offset > source_text.len() {
-        return (1, 1);
-    }
-
-    let mut line = 1u32;
-    let mut col = 1u32;
-
-    for (i, ch) in source_text.char_indices() {
-        if i >= offset {
-            break;
-        }
-        if ch == '\n' {
-            line += 1;
-            col = 1;
-        } else {
-            col += 1;
-        }
-    }
-
-    (line, col)
+struct LineIndex {
+    line_starts: Vec<u32>,
 }
 
-fn create_span_with_position(source_text: &str, start: u32, end: u32) -> Span {
-    let (start_line, start_col) = offset_to_line_col(source_text, start);
-    let (end_line, end_col) = offset_to_line_col(source_text, end);
+impl LineIndex {
+    fn new(source_text: &str) -> Self {
+        let mut line_starts = vec![0u32];
+        for (i, byte) in source_text.bytes().enumerate() {
+            if byte == b'\n' {
+                line_starts.push((i + 1) as u32);
+            }
+        }
+        Self { line_starts }
+    }
 
-    Span::new(start, end, start_line, start_col, end_line, end_col)
+    fn offset_to_line_col(&self, offset: u32) -> (u32, u32) {
+        let line_idx = match self.line_starts.binary_search(&offset) {
+            Ok(idx) => idx,
+            Err(idx) => idx.saturating_sub(1),
+        };
+        let line = (line_idx + 1) as u32;
+        let col = offset - self.line_starts[line_idx] + 1;
+        (line, col)
+    }
+
+    fn create_span(&self, start: u32, end: u32) -> Span {
+        let (start_line, start_col) = self.offset_to_line_col(start);
+        let (end_line, end_col) = self.offset_to_line_col(end);
+        Span::new(start, end, start_line, start_col, end_line, end_col)
+    }
 }
 
 /// Remove common leading indentation from all lines and preserve relative indentation

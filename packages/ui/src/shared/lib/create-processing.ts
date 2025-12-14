@@ -9,11 +9,12 @@ export const createProcessing = (): Processing => {
   const [isProcessing, setIsProcessing] = createSignal(false);
 
   const startProcessing = async <T>(fn: () => T | Promise<T>): Promise<T> => {
-    using _ = {
-      [Symbol.dispose]: () => setIsProcessing(false),
-    };
     setIsProcessing(true);
-    return await fn();
+    try {
+      return await fn();
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return [isProcessing, startProcessing];

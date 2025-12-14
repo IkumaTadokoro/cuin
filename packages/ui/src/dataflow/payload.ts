@@ -1,9 +1,11 @@
 import type {
   Component as ComponentSchema,
+  ComponentSummary as ComponentSummarySchema,
   Instance as InstanceSchema,
   NonNative,
   Package,
   Payload as PayloadSchema,
+  Summary as SummaryPayloadSchema,
 } from "@cuin/schema";
 import { groupBy, orderBy } from "es-toolkit";
 
@@ -45,9 +47,32 @@ export type Component = {
   instances: InstanceSchema[];
 };
 
+export type TransformedComponent = Component;
+
+export type SummaryComponent = {
+  id: ComponentId;
+  name: ComponentName;
+  package: {
+    key: PackageKey;
+  } & Package;
+  instanceCount: number;
+};
+
 export const transformComponent = (component: ComponentSchema): Component => ({
   ...component,
   instanceCount: component.instances.length,
+  package: {
+    key: PackageKey(component.package),
+    ...component.package,
+  },
+});
+
+export const transformSummaryComponent = (
+  component: ComponentSummarySchema
+): SummaryComponent => ({
+  id: component.id,
+  name: component.name,
+  instanceCount: component.instanceCount,
   package: {
     key: PackageKey(component.package),
     ...component.package,
@@ -58,7 +83,12 @@ export type PackageWithCount = Package & {
   key: PackageKey;
   count: number;
 };
-const derivePackageWithCount = (components: Component[]): PackageWithCount[] =>
+
+type ComponentWithPackageKey = { package: { key: PackageKey } & Package };
+
+const derivePackageWithCount = <T extends ComponentWithPackageKey>(
+  components: T[]
+): PackageWithCount[] =>
   orderBy(
     Object.values(groupBy(components, (c) => c.package.key)).map((group) => ({
       ...group[0].package,
@@ -78,6 +108,25 @@ export const transformPayload = (
   payload: PayloadSchema
 ): TransformedPayload => {
   const components = payload.components.map(transformComponent);
+  const packages = derivePackageWithCount(components);
+
+  return {
+    meta: payload.meta,
+    components,
+    packages,
+  };
+};
+
+export type TransformedSummary = {
+  meta: SummaryPayloadSchema["meta"];
+  components: SummaryComponent[];
+  packages: PackageWithCount[];
+};
+
+export const transformSummary = (
+  payload: SummaryPayloadSchema
+): TransformedSummary => {
+  const components = payload.components.map(transformSummaryComponent);
   const packages = derivePackageWithCount(components);
 
   return {

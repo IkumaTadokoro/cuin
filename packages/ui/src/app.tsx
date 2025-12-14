@@ -1,7 +1,7 @@
 import { Route, Router } from "@solidjs/router";
 import type { JSX } from "solid-js";
 import { lazy, Suspense } from "solid-js";
-import { DataProvider } from "./contexts/analysis";
+import { MetaDataProvider } from "./contexts/analysis";
 import "./app.css";
 import Header from "./components/header/header";
 import { HeaderProvider } from "./components/header/header-provider";
@@ -37,7 +37,7 @@ function Layout(props: { children?: JSX.Element }) {
         </div>
       }
     >
-      <DataProvider>
+      <MetaDataProvider>
         <HeaderProvider>
           <div class="flex h-screen flex-col items-stretch font-mono">
             <Header />
@@ -46,7 +46,7 @@ function Layout(props: { children?: JSX.Element }) {
             </main>
           </div>
         </HeaderProvider>
-      </DataProvider>
+      </MetaDataProvider>
     </Suspense>
   );
 }

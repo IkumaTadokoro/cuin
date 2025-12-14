@@ -47,19 +47,41 @@ impl From<std::io::Error> for AnalysisError {
 pub type Result<T> = std::result::Result<T, AnalysisError>;
 
 #[cfg(feature = "napi")]
+use napi::bindgen_prelude::*;
+#[cfg(feature = "napi")]
 use napi_derive::napi;
 
 #[cfg(feature = "napi")]
+pub struct AnalyzeTask {
+    input_path: String,
+}
+
+#[cfg(feature = "napi")]
 #[napi]
-pub fn analyze(input_path: String) -> std::result::Result<String, napi::Error> {
-    use std::path::Path;
+impl Task for AnalyzeTask {
+    type Output = String;
+    type JsValue = String;
 
-    let config = AnalyzerConfig::default();
-    let service = AnalysisService::new(config);
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        use std::path::Path;
 
-    let report = service
-        .run(Path::new(&input_path))
-        .map_err(|e| napi::Error::from_reason(e.message().to_string()))?;
+        let config = AnalyzerConfig::default();
+        let service = AnalysisService::new(config);
 
-    serde_json::to_string_pretty(&report).map_err(|e| napi::Error::from_reason(e.to_string()))
+        let report = service
+            .run(Path::new(&self.input_path))
+            .map_err(|e| Error::from_reason(e.message().to_string()))?;
+
+        serde_json::to_string_pretty(&report).map_err(|e| Error::from_reason(e.to_string()))
+    }
+
+    fn resolve(&mut self, _env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(output)
+    }
+}
+
+#[cfg(feature = "napi")]
+#[napi]
+pub fn analyze(input_path: String) -> AsyncTask<AnalyzeTask> {
+    AsyncTask::new(AnalyzeTask { input_path })
 }

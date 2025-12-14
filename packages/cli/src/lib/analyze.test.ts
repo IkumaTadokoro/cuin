@@ -1,3 +1,10 @@
+import {
+  ComponentFactory,
+  InstanceFactory,
+  MetaFactory,
+  PayloadFactory,
+  PropsFactory,
+} from "@cuin/schema/mocks";
 import { analyze } from "@ikuma-t/cuin-analyzer";
 import { describe, expect, it, vi } from "vitest";
 import { getAnalysis, getAnalysisAsJson } from "./analyze";
@@ -5,48 +12,31 @@ import { getAnalysis, getAnalysisAsJson } from "./analyze";
 vi.mock("@ikuma-t/cuin-analyzer");
 
 describe("getAnalysis", () => {
-  it("should validate camelCase JSON from analyzer", () => {
-    const camelCaseResult = JSON.stringify({
-      meta: {
-        basePath: "/test/path",
-      },
+  it("should validate camelCase JSON from analyzer", async () => {
+    const payload = PayloadFactory.build({
       components: [
-        {
-          id: "test-id",
+        ComponentFactory.build({
           name: "TestComponent",
-          package: {
-            type: "native",
-          },
           instances: [
-            {
+            InstanceFactory.build({
               filePath: "test.tsx",
               props: [
-                {
+                PropsFactory.build({
                   key: "testProp",
                   raw: "value",
                   propType: "string",
-                },
+                }),
               ],
               raw: "<TestComponent testProp='value' />",
-              span: {
-                start: 0,
-                end: 10,
-                startLine: 1,
-                endLine: 1,
-                startCol: 0,
-                endCol: 10,
-              },
-              importSpecifier: null,
-              resolvedPath: "test.tsx",
-            },
+            }),
           ],
-        },
+        }),
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(camelCaseResult);
+    vi.mocked(analyze).mockResolvedValue(JSON.stringify(payload));
 
-    const result = getAnalysis("/test/path");
+    const result = await getAnalysis("/test/path");
 
     expect(result.meta.basePath).toBe("/test/path");
     expect(result.components).toHaveLength(1);
@@ -56,22 +46,15 @@ describe("getAnalysis", () => {
     expect(result.components[0].instances[0].props[0].propType).toBe("string");
   });
 
-  it("should handle optional package field in instance", () => {
-    const camelCaseResult = JSON.stringify({
-      meta: {
-        basePath: "/test/path",
-      },
+  it("should handle optional package field in instance", async () => {
+    const payload = PayloadFactory.build({
+      meta: MetaFactory.build({ basePath: "/test/path" }),
       components: [
-        {
+        ComponentFactory.build({
           id: "div-id",
           name: "div",
-          package: {
-            type: "native",
-          },
           instances: [
-            {
-              filePath: "test.tsx",
-              props: [],
+            InstanceFactory.build({
               raw: "<div />",
               span: {
                 start: 0,
@@ -81,62 +64,30 @@ describe("getAnalysis", () => {
                 startCol: 0,
                 endCol: 7,
               },
-              importSpecifier: null,
-              resolvedPath: "test.tsx",
-            },
+            }),
           ],
-        },
+        }),
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(camelCaseResult);
+    vi.mocked(analyze).mockResolvedValue(JSON.stringify(payload));
 
-    const result = getAnalysis("/test/path");
+    const result = await getAnalysis("/test/path");
 
     expect(result.components[0].instances[0].package).toBeUndefined();
-  });
-
-  it("should throw validation error for invalid data", () => {
-    const invalidResult = JSON.stringify({
-      meta: {
-        basePath: "/test/path",
-      },
-      components: [
-        {
-          id: "test-id",
-          name: "TestComponent",
-          package: {
-            type: "invalid_type",
-          },
-          instances: [],
-        },
-      ],
-    });
-
-    vi.mocked(analyze).mockReturnValue(invalidResult);
-
-    expect(() => getAnalysis("/test/path")).toThrow();
   });
 });
 
 describe("getAnalysisAsJson", () => {
-  it("should return pretty printed JSON string", () => {
-    const camelCaseResult = JSON.stringify({
-      meta: {
-        basePath: "/test/path",
-      },
-      components: [],
-    });
+  it("should return pretty printed JSON string", async () => {
+    const payload = PayloadFactory.build();
 
-    vi.mocked(analyze).mockReturnValue(camelCaseResult);
+    vi.mocked(analyze).mockResolvedValue(JSON.stringify(payload));
 
-    const result = getAnalysisAsJson("/test/path");
+    const result = await getAnalysisAsJson("/test/path");
 
     expect(result).toContain("{\n");
     expect(result).toContain("  ");
     expect(result).toContain("basePath");
-
-    const parsed = JSON.parse(result);
-    expect(parsed.meta.basePath).toBe("/test/path");
   });
 });

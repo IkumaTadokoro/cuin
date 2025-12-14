@@ -1,5 +1,5 @@
 import { orderBy } from "es-toolkit";
-import type { Component } from "../payload";
+import type { SummaryComponent } from "../payload";
 
 export type SortKey = "name" | "usage";
 export type SortOrder = "asc" | "desc";
@@ -22,10 +22,10 @@ export const SORT_OPTIONS = [
   { key: "usage", order: "desc", label: "Usage (desc)" },
 ] as const satisfies readonly SortOptionItem[];
 
-export function sortComponents(
-  components: Component[],
+export function sortComponents<T extends SummaryComponent>(
+  components: T[],
   state: SortState
-): Component[] {
+): T[] {
   const field = state.sortKey === "name" ? "name" : "instanceCount";
   return orderBy(components, [field], [state.sortOrder]);
 }

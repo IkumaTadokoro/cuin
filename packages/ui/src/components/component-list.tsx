@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 import { type Accessor, For } from "solid-js";
-import type { Component } from "~/dataflow/payload";
+import type { SummaryComponent } from "~/dataflow/payload";
 import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import ComponentName from "./component-name";
 import { Package } from "./package/package";
@@ -8,7 +8,7 @@ import Separator from "./separator";
 import { UsageCount } from "./usage-count";
 
 type ComponentListProps = {
-  components: Accessor<Component[]>;
+  components: Accessor<SummaryComponent[]>;
 };
 
 export default function ComponentList(props: ComponentListProps) {

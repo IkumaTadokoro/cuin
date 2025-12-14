@@ -2,6 +2,7 @@ import { getPort } from "get-port-please";
 import { define } from "gunshi";
 import open from "open";
 import { createDevServer } from "../lib/server";
+import { createSpinner } from "../lib/spinner";
 
 const DEFAULT_PORT_RANGE = {
   MIN: 3214,
@@ -33,10 +34,13 @@ export const dev = define({
       portRange: [DEFAULT_PORT_RANGE.MIN, DEFAULT_PORT_RANGE.MAX],
       host,
     });
+    const spinner = createSpinner();
 
-    const server = createDevServer({
+    spinner.start("Analyzing...");
+    const server = await createDevServer({
       analyzeDir: path,
     });
+    spinner.stop();
 
     server.listen(port, host, async () => {
       await open(`http://${host}:${port}`);

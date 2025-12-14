@@ -14,6 +14,7 @@ import {
 const Meta = object({
   basePath: string(),
 });
+export type Meta = InferOutput<typeof Meta>;
 
 const Native = object({
   type: literal("native"),
@@ -67,10 +68,22 @@ export const Component = object({
 });
 export type Component = InferOutput<typeof Component>;
 
+export const ComponentSummary = object({
+  id: string(),
+  name: string(),
+  package: Package,
+  instanceCount: number(),
+});
+export type ComponentSummary = InferOutput<typeof ComponentSummary>;
+
 export const Payload = object({
   meta: Meta,
   components: array(Component),
 });
 export type Payload = InferOutput<typeof Payload>;
 
-export const JsonSchema = Payload;
+export const Summary = object({
+  meta: Meta,
+  components: array(ComponentSummary),
+});
+export type Summary = InferOutput<typeof Summary>;

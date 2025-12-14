@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import { createEffect, createMemo, For, Show } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { Code } from "~/components/code/code";
 import { useHeader } from "~/components/header/header-provider";
 import { CategoryIcon } from "~/components/icons";
@@ -7,8 +7,9 @@ import InstanceFilter from "~/components/instance-filter";
 import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
-import { useData } from "~/contexts/analysis";
+import { useComponentDetail, useMetaData } from "~/contexts/analysis";
 import { createInstanceStore } from "~/dataflow/instance";
+import type { TransformedComponent } from "~/dataflow/payload";
 import { getFileName } from "~/lib/get-file-name";
 import { Details } from "~/shared/ui/details/details";
 import { DetailsGroup } from "~/shared/ui/details/details-group";
@@ -17,19 +18,13 @@ import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
 
 const MAX_OPEN_ITEMS = 300;
+const INITIAL_RENDER_COUNT = 100;
+const CHUNK_SIZE = 100;
 
 export default function ComponentPage() {
-  const params = useParams();
-  const data = useData();
+  const params = useParams<{ id: string }>();
   const { setHeader } = useHeader();
-
-  const component = createMemo(() => {
-    const d = data();
-    if (!d) {
-      return;
-    }
-    return d.components.find((c) => c.id === params.id);
-  });
+  const component = useComponentDetail(() => params.id);
 
   createEffect(() => {
     const currentComponent = component();
@@ -48,36 +43,54 @@ export default function ComponentPage() {
   return (
     <Show
       fallback={
-        <div class="flex h-screen items-center justify-center">Loading...</div>
+        <div class="flex h-screen items-center justify-center">
+          {component.loading ? "Loading..." : "Component not found"}
+        </div>
       }
-      when={data()}
+      when={component()}
     >
-      <Show
-        fallback={
-          <div class="flex h-screen items-center justify-center">
-            Component not found
-          </div>
-        }
-        when={component()}
-      >
-        {(currentComponent) => (
-          <ComponentPageContent component={currentComponent()} />
-        )}
-      </Show>
+      {(currentComponent) => (
+        <ComponentPageContent component={currentComponent()} />
+      )}
     </Show>
   );
 }
 
-type ComponentType = NonNullable<
-  ReturnType<ReturnType<typeof useData>>
->["components"][number];
-
-function ComponentPageContent(props: { component: ComponentType }) {
-  const data = useData();
+function ComponentPageContent(props: { component: TransformedComponent }) {
+  const meta = useMetaData();
 
   const store = createInstanceStore({
     instances: () => props.component.instances,
   });
+
+  const [visibleCount, setVisibleCount] = createSignal(INITIAL_RENDER_COUNT);
+
+  createEffect(() => {
+    store.filteredInstances();
+    setVisibleCount(INITIAL_RENDER_COUNT);
+  });
+
+  onMount(() => {
+    const addMore = () => {
+      const filtered = store.filteredInstances();
+      setVisibleCount((c) => {
+        if (c >= filtered.length) {
+          return c;
+        }
+        const next = Math.min(c + CHUNK_SIZE, filtered.length);
+        if (next < filtered.length) {
+          requestIdleCallback(addMore);
+        }
+        return next;
+      });
+    };
+    requestIdleCallback(addMore);
+  });
+
+  const visibleInstances = () =>
+    store.filteredInstances().slice(0, visibleCount());
+
+  const isLoading = () => visibleCount() < store.filteredInstances().length;
 
   return (
     <div class="grid h-screen w-full grid-cols-[30%_1px_1fr] overflow-hidden px-0 2xl:px-12">
@@ -92,6 +105,11 @@ function ComponentPageContent(props: { component: ComponentType }) {
               <CategoryIcon class="text-lg text-subtext-color" />
               <p class="text-lg">{store.filteredInstances().length}</p>
               <p class="text-sm">usages</p>
+              <Show when={isLoading()}>
+                <span class="text-subtext-color text-xs">
+                  (Loading {visibleCount()}/{store.filteredInstances().length})
+                </span>
+              </Show>
             </div>
             <Spacer />
             <ToggleAllDetailsButton mode="open" />
@@ -100,7 +118,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
           <Separator />
           <ScrollArea class="min-h-0">
             <div class="grid max-w-full gap-2">
-              <For each={store.filteredInstances()}>
+              <For each={visibleInstances()}>
                 {(instance) => (
                   <Details
                     class="min-w-0"
@@ -113,7 +131,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
                     }
                   >
                     <Code
-                      basePath={data()?.meta.basePath || ""}
+                      basePath={meta()?.basePath || ""}
                       code={instance.raw}
                       filePath={instance.filePath}
                       span={instance.span}

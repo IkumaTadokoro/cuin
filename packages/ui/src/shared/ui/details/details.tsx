@@ -16,7 +16,7 @@ export const Details: Component<ParentProps<Props>> = (props) => {
 
   return (
     <details
-      class="min-w-0 rounded-md border border-brand-200"
+      class="details min-w-0 rounded-md border border-brand-200"
       open={props.open ?? false}
       ref={detailsRef}
     >
