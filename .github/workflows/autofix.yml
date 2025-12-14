@@ -50,4 +50,6 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm fix
+      - name: Configure git to skip hooks
+        run: git config core.hooksPath /dev/null
       - uses: autofix-ci/action@635ffb0c9798bd160680f18fd73371e355b85f27 # v1.3.2

@@ -220,7 +220,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "v${{ needs.check.outputs.version }}"
-          git push origin "v${{ needs.check.outputs.version }}"
+          git push --no-verify origin "v${{ needs.check.outputs.version }}"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
