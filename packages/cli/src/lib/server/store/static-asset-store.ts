@@ -6,6 +6,8 @@ import type { StaticAssetMeta } from "h3";
 import { lookup } from "mrmime";
 import { noop } from "../../noop";
 
+const COMPRESSION_EXT_REGEX = /\.(gz|br)$/;
+
 const resolveDistDir = () => {
   const currentFile = fileURLToPath(import.meta.url);
   const currentDir = dirname(currentFile);
@@ -26,16 +28,26 @@ const resolveDistDir = () => {
 };
 
 export type StaticAssetStore = {
-  getContents: (id: string) => Promise<string | undefined> | undefined;
+  getContents: (id: string) => Promise<Buffer | undefined> | undefined;
   getMeta: (id: string) => Promise<StaticAssetMeta | undefined>;
+};
+
+const getEncoding = (id: string) => {
+  if (id.endsWith(".gz")) {
+    return "gzip";
+  }
+  if (id.endsWith(".br")) {
+    return "br";
+  }
+  return;
 };
 
 export const createStaticAssetStore = (): StaticAssetStore => {
   const distDir = resolveDistDir();
-  const fileMap = new Map<string, Promise<string | undefined>>();
+  const fileMap = new Map<string, Promise<Buffer | undefined>>();
   const readCachedFile = (id: string) => {
     if (!fileMap.has(id)) {
-      fileMap.set(id, readFile(id, "utf-8").catch());
+      fileMap.set(id, readFile(id).catch());
     }
     return fileMap.get(id);
   };
@@ -46,9 +58,10 @@ export const createStaticAssetStore = (): StaticAssetStore => {
       return;
     }
     return {
-      type: lookup(id),
+      type: lookup(id.replace(COMPRESSION_EXT_REGEX, "")),
       size: stats.size,
       mtime: stats.mtimeMs,
+      encoding: getEncoding(id),
     };
   };
 

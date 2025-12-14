@@ -5,7 +5,7 @@ import type {
   NonNative,
   Package,
   Payload as PayloadSchema,
-  SummaryPayload as SummaryPayloadSchema,
+  Summary as SummaryPayloadSchema,
 } from "@cuin/schema";
 import { groupBy, orderBy } from "es-toolkit";
 

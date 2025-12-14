@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { visualizer } from "rollup-plugin-visualizer";
 import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
+import vitePluginCompression from "vite-plugin-compression2";
 import solid from "vite-plugin-solid";
 
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
       compiler: "solid",
       scale: 1,
     }),
+    vitePluginCompression(),
   ],
   resolve: {
     alias: {

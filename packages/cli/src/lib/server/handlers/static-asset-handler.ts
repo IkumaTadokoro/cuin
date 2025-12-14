@@ -7,6 +7,7 @@ export const StaticAssetHandler = (staticAssetStore: StaticAssetStore) =>
       fallthrough: true,
       getContents: staticAssetStore.getContents,
       getMeta: staticAssetStore.getMeta,
+      encodings: { gzip: ".gz" },
     });
     if (!result) {
       event.res.headers.set("Content-Type", "text/html; charset=utf-8");
