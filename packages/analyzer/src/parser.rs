@@ -749,7 +749,7 @@ impl LineIndex {
             Err(idx) => idx.saturating_sub(1),
         };
         let line = (line_idx + 1) as u32;
-        let col = (offset - self.line_starts[line_idx] + 1) as u32;
+        let col = offset - self.line_starts[line_idx] + 1;
         (line, col)
     }
 

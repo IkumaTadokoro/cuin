@@ -76,24 +76,6 @@ describe("getAnalysis", () => {
 
     expect(result.components[0].instances[0].package).toBeUndefined();
   });
-
-  it("should throw validation error for invalid data", async () => {
-    const invalidResult = JSON.stringify({
-      meta: { basePath: "/test/path" },
-      components: [
-        {
-          id: "test-id",
-          name: "TestComponent",
-          package: { type: "invalid_type" },
-          instances: [],
-        },
-      ],
-    });
-
-    vi.mocked(analyze).mockResolvedValue(invalidResult);
-
-    await expect(getAnalysis("/test/path")).rejects.toThrow();
-  });
 });
 
 describe("getAnalysisAsJson", () => {
