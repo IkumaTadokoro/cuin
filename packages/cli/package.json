@@ -29,19 +29,21 @@
   },
   "dependencies": {
     "@ikuma-t/cuin-analyzer": "workspace:*",
+    "destr": "catalog:",
     "get-port-please": "catalog:cli",
     "gunshi": "catalog:cli",
     "h3": "catalog:cli",
     "mrmime": "catalog:cli",
-    "open": "catalog:cli"
+    "open": "catalog:cli",
+    "yocto-spinner": "catalog:"
   },
   "devDependencies": {
     "@cuin/schema": "workspace:*",
-    "valibot": "catalog:",
     "@types/node": "catalog:",
     "tsdown": "catalog:build",
     "tsx": "catalog:build",
     "typescript": "catalog:",
+    "valibot": "catalog:",
     "vitest": "catalog:test"
   }
 }

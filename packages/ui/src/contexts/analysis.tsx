@@ -1,9 +1,4 @@
-import {
-  Component,
-  JsonSchema,
-  type Meta,
-  SummaryJsonSchema,
-} from "@cuin/schema";
+import { Component, type Meta, Summary } from "@cuin/schema";
 import type { Accessor, Resource } from "solid-js";
 import {
   createContext,
@@ -14,34 +9,10 @@ import {
 import { parse } from "valibot";
 import {
   type TransformedComponent,
-  type TransformedPayload,
   type TransformedSummary,
   transformComponent,
-  transformPayload,
   transformSummary,
 } from "~/dataflow/payload";
-
-const DataContext = createContext<Accessor<TransformedPayload | undefined>>();
-
-export function useData() {
-  const context = useContext(DataContext);
-  if (!context) {
-    throw new Error("useData must be used within DataProvider");
-  }
-  return context;
-}
-
-export const DataProvider: ParentComponent = (props) => {
-  const [data] = createResource(async () => {
-    const res = await fetch("/api/payload.json");
-    const json = await res.json();
-    return transformPayload(parse(JsonSchema, json));
-  });
-
-  return (
-    <DataContext.Provider value={data}>{props.children}</DataContext.Provider>
-  );
-};
 
 const SummaryDataContext =
   createContext<Accessor<TransformedSummary | undefined>>();
@@ -58,7 +29,7 @@ export const SummaryDataProvider: ParentComponent = (props) => {
   const [data] = createResource(async () => {
     const res = await fetch("/api/summary.json");
     const json = await res.json();
-    return transformSummary(parse(SummaryJsonSchema, json));
+    return transformSummary(parse(Summary, json));
   });
 
   return (

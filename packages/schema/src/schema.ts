@@ -87,6 +87,3 @@ export const Summary = object({
   components: array(ComponentSummary),
 });
 export type Summary = InferOutput<typeof Summary>;
-
-export const JsonSchema = Payload;
-export const SummaryJsonSchema = Summary;

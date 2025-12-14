@@ -1,10 +1,10 @@
-import { JsonSchema, type Payload, type Summary } from "@cuin/schema";
+import type { Payload, Summary } from "@cuin/schema";
 import { analyze } from "@ikuma-t/cuin-analyzer";
-import { parse } from "valibot";
+import { destr } from "destr";
 
 export const getAnalysis = async (path: string): Promise<Payload> => {
   const rawResult = await analyze(path);
-  return parse(JsonSchema, JSON.parse(rawResult));
+  return destr<Payload>(rawResult);
 };
 
 export const getAnalysisAsJson = async (path: string): Promise<string> => {

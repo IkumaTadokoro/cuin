@@ -6,6 +6,7 @@ catalog:
   '@changesets/cli': ^2.29.8
   '@iconify/json': ^2.2.417
   '@types/node': 24.8.0
+  destr: 2.0.5
   es-toolkit: 1.42.0
   lint-staged: ^16.2.7
   rollup-plugin-visualizer: ^6.0.5

@@ -45,6 +45,9 @@ catalogs:
     '@types/node':
       specifier: 24.8.0
       version: 24.8.0
+    destr:
+      specifier: 2.0.5
+      version: 2.0.5
     es-toolkit:
       specifier: 1.42.0
       version: 1.42.0
@@ -78,6 +81,9 @@ catalogs:
     vite-plugin-compression2:
       specifier: ^2.4.0
       version: 2.4.0
+    yocto-spinner:
+      specifier: ^1.0.0
+      version: 1.0.0
   test:
     '@solidjs/testing-library':
       specifier: 0.8.10
@@ -184,6 +190,9 @@ importers:
       '@ikuma-t/cuin-analyzer':
         specifier: workspace:*
         version: link:../analyzer
+      destr:
+        specifier: 'catalog:'
+        version: 2.0.5
       get-port-please:
         specifier: catalog:cli
         version: 3.2.0
@@ -199,6 +208,9 @@ importers:
       open:
         specifier: catalog:cli
         version: 10.2.0
+      yocto-spinner:
+        specifier: 'catalog:'
+        version: 1.0.0
     devDependencies:
       '@cuin/schema':
         specifier: workspace:*
@@ -2483,6 +2495,9 @@ packages:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
     engines: {node: '>=6'}
 
+  destr@2.0.5:
+    resolution: {integrity: sha512-ugFTXCtDZunbzasqBxrK93Ik/DRYsO6S/fedkWEMKqt04xZ4csmnmwGDBAb07QWNaGMAmnTIemsYZCksjATwsA==}
+
   detect-indent@6.1.0:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
@@ -3922,6 +3937,14 @@ packages:
   yargs@17.7.2:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
+
+  yocto-spinner@1.0.0:
+    resolution: {integrity: sha512-VPX8P/+Z2Fnpx8PC/JELbxp3QRrBxjAekio6yulGtA5gKt9YyRc5ycCb+NHgZCbZ0kx9KxwZp7gC6UlrCcCdSQ==}
+    engines: {node: '>=18.19'}
+
+  yoctocolors@2.1.2:
+    resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
+    engines: {node: '>=18'}
 
   zod@4.1.12:
     resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
@@ -6233,6 +6256,8 @@ snapshots:
 
   dequal@2.0.3: {}
 
+  destr@2.0.5: {}
+
   detect-indent@6.1.0: {}
 
   detect-libc@2.1.2: {}
@@ -7609,6 +7634,12 @@ snapshots:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.1.1
+
+  yocto-spinner@1.0.0:
+    dependencies:
+      yoctocolors: 2.1.2
+
+  yoctocolors@2.1.2: {}
 
   zod@4.1.12: {}
 
