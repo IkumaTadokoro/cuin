@@ -2,8 +2,7 @@ use oxc::ast::ast::{
     JSXAttributeItem, JSXAttributeName, JSXAttributeValue, JSXChild, JSXElementName, JSXExpression,
     JSXOpeningElement, JSXText,
 };
-use oxc::{allocator::Allocator, parser::Parser, span::SourceType};
-use oxc_ast_visit::Visit;
+use oxc::{allocator::Allocator, ast_visit::Visit, parser::Parser, span::SourceType};
 use oxc_syntax::module_record::{ImportImportName, ModuleRecord};
 
 use crate::AnalysisError;
@@ -138,7 +137,7 @@ impl<'a, 'b> Visit<'a> for JSXCollector<'b> {
         }
 
         // Continue default visiting behavior (visit child nodes as well)
-        oxc_ast_visit::walk::walk_variable_declarator(self, it);
+        oxc::ast_visit::walk::walk_variable_declarator(self, it);
     }
 
     fn visit_jsx_element(&mut self, it: &oxc::ast::ast::JSXElement<'a>) {
@@ -154,7 +153,7 @@ impl<'a, 'b> Visit<'a> for JSXCollector<'b> {
 
         // Recursively visit child JSX elements as well
         // This allows nested JSX elements to be collected individually
-        oxc_ast_visit::walk::walk_jsx_element(self, it);
+        oxc::ast_visit::walk::walk_jsx_element(self, it);
     }
 }
 
