@@ -7,7 +7,7 @@ import InstanceFilter from "~/components/instance-filter";
 import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
-import { useComponentDetail, useSummaryData } from "~/contexts/analysis";
+import { useComponentDetail, useMetaData } from "~/contexts/analysis";
 import { createInstanceStore } from "~/dataflow/instance";
 import type { TransformedComponent } from "~/dataflow/payload";
 import { getFileName } from "~/lib/get-file-name";
@@ -57,7 +57,7 @@ export default function ComponentPage() {
 }
 
 function ComponentPageContent(props: { component: TransformedComponent }) {
-  const summaryData = useSummaryData();
+  const meta = useMetaData();
 
   const store = createInstanceStore({
     instances: () => props.component.instances,
@@ -131,7 +131,7 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
                     }
                   >
                     <Code
-                      basePath={summaryData()?.meta.basePath || ""}
+                      basePath={meta()?.basePath || ""}
                       code={instance.raw}
                       filePath={instance.filePath}
                       span={instance.span}

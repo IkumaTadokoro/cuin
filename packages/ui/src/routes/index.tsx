@@ -7,24 +7,37 @@ import ComponentPackageFilter from "~/components/component-package-filter";
 import { useHeader } from "~/components/header/header-provider";
 import { ComponentIcon } from "~/components/icons";
 import Separator from "~/components/separator";
-import { useSummaryData } from "~/contexts/analysis";
+import {
+  SummaryDataProvider,
+  useMetaData,
+  useSummaryData,
+} from "~/contexts/analysis";
 import { createComponentListStore } from "~/dataflow/component";
 import { useComponentListUrlSync } from "~/dataflow/component/url-state";
 import { Spacer } from "~/shared/ui/space";
 
 export default function Index() {
+  return (
+    <SummaryDataProvider>
+      <IndexContent />
+    </SummaryDataProvider>
+  );
+}
+
+function IndexContent() {
   const { setHeader } = useHeader();
+  const meta = useMetaData();
   const data = useSummaryData();
 
   createEffect(() => {
-    const d = data();
-    if (d) {
+    const m = meta();
+    if (m) {
       setHeader({
         title: {
           icon: <ComponentIcon class="text-2xl" />,
           text: "Components",
         },
-        description: `All components used in ${d.meta.basePath}`,
+        description: `All components used in ${m.basePath}`,
         breadcrumbs: ["cuin"],
       });
     }

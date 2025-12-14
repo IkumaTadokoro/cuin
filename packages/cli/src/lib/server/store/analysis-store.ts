@@ -1,4 +1,4 @@
-import type { Component, Payload, Summary } from "@cuin/schema";
+import type { Component, Meta, Payload, Summary } from "@cuin/schema";
 import { getAnalysis, toSummary } from "../../analyze";
 
 type AnalysisCache = {
@@ -10,6 +10,7 @@ type AnalysisCache = {
 export type AnalysisStore = {
   getAnalysis: () => Payload;
   getSummary: () => Summary;
+  getMeta: () => Meta;
   getComponent: (id: string) => Component | undefined;
 };
 
@@ -41,6 +42,7 @@ export const createAnalysisStore = async (
   return {
     getAnalysis: (): Payload => store.analysis,
     getSummary: (): Summary => store.summary,
+    getMeta: (): Meta => store.analysis.meta,
     getComponent: (id: string): Component | undefined => getComponent(id),
   };
 };

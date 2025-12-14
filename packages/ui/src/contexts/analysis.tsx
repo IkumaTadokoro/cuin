@@ -1,4 +1,9 @@
-import { Component, JsonSchema, SummaryJsonSchema } from "@cuin/schema";
+import {
+  Component,
+  JsonSchema,
+  type Meta,
+  SummaryJsonSchema,
+} from "@cuin/schema";
 import type { Accessor, Resource } from "solid-js";
 import {
   createContext,
@@ -76,3 +81,27 @@ export function useComponentDetail(
   });
   return component;
 }
+
+const MetaDataContext = createContext<Accessor<Meta | undefined>>();
+
+export function useMetaData() {
+  const context = useContext(MetaDataContext);
+  if (!context) {
+    throw new Error("useMetaData must be used within MetaDataProvider");
+  }
+  return context;
+}
+
+export const MetaDataProvider: ParentComponent = (props) => {
+  const [data] = createResource(async () => {
+    const res = await fetch("/api/meta.json");
+    const json: Meta = await res.json();
+    return json;
+  });
+
+  return (
+    <MetaDataContext.Provider value={data}>
+      {props.children}
+    </MetaDataContext.Provider>
+  );
+};

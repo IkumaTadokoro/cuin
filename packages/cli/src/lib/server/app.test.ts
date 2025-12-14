@@ -19,6 +19,7 @@ const createMockAnalysisStore = (
   return {
     getAnalysis: () => payload,
     getSummary: () => summary,
+    getMeta: () => payload.meta,
     getComponent: (id) => components.get(id),
   };
 };
@@ -69,6 +70,21 @@ describe("createApp", () => {
             instanceCount: expect.any(Number),
           },
         ],
+      });
+    });
+  });
+
+  describe("GET /api/meta.json", () => {
+    it("should return meta with basePath", async () => {
+      const container = createMockContainer();
+      const app = createApp(container);
+
+      const res = await app.request("/api/meta.json");
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json).toMatchObject({
+        basePath: expect.any(String),
       });
     });
   });
