@@ -29,13 +29,13 @@
   },
   "dependencies": {
     "@ikuma-t/cuin-analyzer": "workspace:*",
-    "destr": "catalog:",
+    "destr": "catalog:cli",
     "get-port-please": "catalog:cli",
     "gunshi": "catalog:cli",
     "h3": "catalog:cli",
     "mrmime": "catalog:cli",
     "open": "catalog:cli",
-    "yocto-spinner": "catalog:"
+    "yocto-spinner": "catalog:cli"
   },
   "devDependencies": {
     "@cuin/schema": "workspace:*",

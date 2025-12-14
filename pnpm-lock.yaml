@@ -17,6 +17,9 @@ catalogs:
       specifier: 4.21.0
       version: 4.21.0
   cli:
+    destr:
+      specifier: 2.0.5
+      version: 2.0.5
     get-port-please:
       specifier: 3.2.0
       version: 3.2.0
@@ -32,6 +35,9 @@ catalogs:
     open:
       specifier: 10.2.0
       version: 10.2.0
+    yocto-spinner:
+      specifier: 1.0.0
+      version: 1.0.0
   default:
     '@biomejs/biome':
       specifier: 2.3.8
@@ -45,9 +51,6 @@ catalogs:
     '@types/node':
       specifier: 24.8.0
       version: 24.8.0
-    destr:
-      specifier: 2.0.5
-      version: 2.0.5
     es-toolkit:
       specifier: 1.42.0
       version: 1.42.0
@@ -81,9 +84,6 @@ catalogs:
     vite-plugin-compression2:
       specifier: ^2.4.0
       version: 2.4.0
-    yocto-spinner:
-      specifier: ^1.0.0
-      version: 1.0.0
   test:
     '@solidjs/testing-library':
       specifier: 0.8.10
@@ -191,7 +191,7 @@ importers:
         specifier: workspace:*
         version: link:../analyzer
       destr:
-        specifier: 'catalog:'
+        specifier: catalog:cli
         version: 2.0.5
       get-port-please:
         specifier: catalog:cli
@@ -209,7 +209,7 @@ importers:
         specifier: catalog:cli
         version: 10.2.0
       yocto-spinner:
-        specifier: 'catalog:'
+        specifier: catalog:cli
         version: 1.0.0
     devDependencies:
       '@cuin/schema':
