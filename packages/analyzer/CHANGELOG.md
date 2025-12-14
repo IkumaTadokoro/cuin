@@ -1,5 +1,11 @@
 # cuin-analyzer
 
+## 0.0.18
+
+### Patch Changes
+
+- f8b3b4c: perf: optimize performance
+
 ## 0.0.17
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @ikuma-t/cuin
 
+## 0.0.18
+
+### Patch Changes
+
+- 18177f9: fix: use correct package version
+- f8b3b4c: perf: optimize performance
+- c5a18b6: build: configure renovate
+- fd0aef6: refactor: details group expand logic and context
+- 8e70b77: perf: optimize ui bundle size
+- Updated dependencies [f8b3b4c]
+  - @ikuma-t/cuin-analyzer@0.0.18
+
 ## 0.0.17
 
 ### Patch Changes
