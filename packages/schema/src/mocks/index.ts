@@ -76,10 +76,10 @@ export const ComponentSummaryFactory = Factory.define<ComponentSummary>(
 
 export const PayloadFactory = Factory.define<Payload>(() => ({
   meta: MetaFactory.build(),
-  components: [],
+  components: [ComponentFactory.build()],
 }));
 
 export const SummaryFactory = Factory.define<Summary>(() => ({
   meta: MetaFactory.build(),
-  components: [],
+  components: [ComponentSummaryFactory.build()],
 }));
