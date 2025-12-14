@@ -20,7 +20,7 @@ jobs:
     name: Check Release
     runs-on: ubuntu-latest
     # Only run when Release PR is merged
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'chore: release')
+    if: "github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'chore: release')"
     outputs:
       should_publish: ${{ steps.check.outputs.should_publish }}
       version: ${{ steps.check.outputs.version }}
