@@ -79,6 +79,7 @@ pub struct AnalysisContext {
     project_context: ProjectContext,
     module_resolver: ModuleResolver,
     config: AnalyzerConfig,
+    workspace_root: PathBuf,
 }
 
 impl AnalysisContext {
@@ -87,11 +88,18 @@ impl AnalysisContext {
         module_resolver: ModuleResolver,
         config: AnalyzerConfig,
     ) -> Self {
+        let workspace_root = find_workspace_root(project_context.root())
+            .unwrap_or_else(|| project_context.root().to_path_buf());
         Self {
             project_context,
             module_resolver,
             config,
+            workspace_root,
         }
+    }
+
+    pub fn workspace_root(&self) -> &Path {
+        &self.workspace_root
     }
 
     pub fn project_context(&self) -> &ProjectContext {
@@ -158,10 +166,7 @@ impl AnalysisContext {
             .unwrap_or_else(|_| resolved.canonical_path().to_path_buf());
         let resolved_path_str = canonical_path.display().to_string();
 
-        let workspace_root = find_workspace_root(self.project_context.root())
-            .unwrap_or_else(|| self.project_context.root().to_path_buf());
-
-        let is_outside_project = canonical_path.strip_prefix(&workspace_root).is_err();
+        let is_outside_project = canonical_path.strip_prefix(self.workspace_root()).is_err();
         let is_in_node_modules = resolved_path_str.contains("node_modules");
 
         // Check if this is a workspace package
