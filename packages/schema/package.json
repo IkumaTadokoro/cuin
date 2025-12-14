@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/schema.d.ts",
       "import": "./dist/schema.js"
+    },
+    "./mocks": {
+      "types": "./dist/mocks/index.d.ts",
+      "import": "./dist/mocks/index.js"
     }
   },
   "scripts": {
@@ -21,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "fishery": "catalog:test",
     "tsdown": "catalog:build",
     "typescript": "catalog:",
     "vitest": "catalog:test"

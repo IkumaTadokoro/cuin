@@ -14,6 +14,7 @@ import {
 const Meta = object({
   basePath: string(),
 });
+export type Meta = InferOutput<typeof Meta>;
 
 const Native = object({
   type: literal("native"),

@@ -41,6 +41,7 @@ catalogs:
     jsdom: 27.3.0
     playwright: 1.56.1
     vitest: 4.0.15
+    fishery: 2.4.0
   ui:
     "@ark-ui/solid": 5.30.0
     "@shikijs/core": 3.19.0
