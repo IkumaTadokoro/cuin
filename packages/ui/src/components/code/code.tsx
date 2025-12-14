@@ -2,7 +2,6 @@ import type { Span } from "@cuin/schema";
 import { type Component, createEffect, createSignal, For } from "solid-js";
 import { useDetailsVisibility } from "~/shared/ui/details/details-visibility";
 import { OpenVscode } from "./open-vscode";
-import { codeToHtml } from "./shiki.bundle";
 
 type Props = {
   code: string;
@@ -21,6 +20,7 @@ export const Code: Component<Props> = (props) => {
   createEffect(async () => {
     if (isVisible() && !isHighlighted()) {
       setIsHighlighted(true);
+      const { codeToHtml } = await import("./shiki.bundle");
       const highlighted = await codeToHtml(props.code, {
         lang: "tsx",
         theme: "github-light",
