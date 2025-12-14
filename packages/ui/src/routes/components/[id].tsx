@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import { createEffect, For, Show } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { Code } from "~/components/code/code";
 import { useHeader } from "~/components/header/header-provider";
 import { CategoryIcon } from "~/components/icons";
@@ -18,6 +18,8 @@ import { ScrollArea } from "~/shared/ui/scroll-area/scroll-area";
 import { Spacer } from "~/shared/ui/space";
 
 const MAX_OPEN_ITEMS = 300;
+const INITIAL_RENDER_COUNT = 100;
+const CHUNK_SIZE = 100;
 
 export default function ComponentPage() {
   const params = useParams<{ id: string }>();
@@ -61,6 +63,35 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
     instances: () => props.component.instances,
   });
 
+  const [visibleCount, setVisibleCount] = createSignal(INITIAL_RENDER_COUNT);
+
+  createEffect(() => {
+    store.filteredInstances();
+    setVisibleCount(INITIAL_RENDER_COUNT);
+  });
+
+  onMount(() => {
+    const addMore = () => {
+      const filtered = store.filteredInstances();
+      setVisibleCount((c) => {
+        if (c >= filtered.length) {
+          return c;
+        }
+        const next = Math.min(c + CHUNK_SIZE, filtered.length);
+        if (next < filtered.length) {
+          requestIdleCallback(addMore);
+        }
+        return next;
+      });
+    };
+    requestIdleCallback(addMore);
+  });
+
+  const visibleInstances = () =>
+    store.filteredInstances().slice(0, visibleCount());
+
+  const isLoading = () => visibleCount() < store.filteredInstances().length;
+
   return (
     <div class="grid h-screen w-full grid-cols-[30%_1px_1fr] overflow-hidden px-0 2xl:px-12">
       <div class="flex flex-col overflow-y-auto border-neutral-border border-l px-4 py-4">
@@ -74,6 +105,11 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
               <CategoryIcon class="text-lg text-subtext-color" />
               <p class="text-lg">{store.filteredInstances().length}</p>
               <p class="text-sm">usages</p>
+              <Show when={isLoading()}>
+                <span class="text-subtext-color text-xs">
+                  (Loading {visibleCount()}/{store.filteredInstances().length})
+                </span>
+              </Show>
             </div>
             <Spacer />
             <ToggleAllDetailsButton mode="open" />
@@ -82,7 +118,7 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
           <Separator />
           <ScrollArea class="min-h-0">
             <div class="grid max-w-full gap-2">
-              <For each={store.filteredInstances()}>
+              <For each={visibleInstances()}>
                 {(instance) => (
                   <Details
                     class="min-w-0"
