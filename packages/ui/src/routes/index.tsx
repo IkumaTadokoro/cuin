@@ -7,14 +7,14 @@ import ComponentPackageFilter from "~/components/component-package-filter";
 import { useHeader } from "~/components/header/header-provider";
 import { ComponentIcon } from "~/components/icons";
 import Separator from "~/components/separator";
-import { useData } from "~/contexts/analysis";
+import { useSummaryData } from "~/contexts/analysis";
 import { createComponentListStore } from "~/dataflow/component";
 import { useComponentListUrlSync } from "~/dataflow/component/url-state";
 import { Spacer } from "~/shared/ui/space";
 
 export default function Index() {
   const { setHeader } = useHeader();
-  const data = useData();
+  const data = useSummaryData();
 
   createEffect(() => {
     const d = data();

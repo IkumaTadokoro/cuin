@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import { createEffect, createMemo, For, Show } from "solid-js";
+import { createEffect, For, Show } from "solid-js";
 import { Code } from "~/components/code/code";
 import { useHeader } from "~/components/header/header-provider";
 import { CategoryIcon } from "~/components/icons";
@@ -7,8 +7,9 @@ import InstanceFilter from "~/components/instance-filter";
 import { Package } from "~/components/package/package";
 import { PropsBadge } from "~/components/props-badge";
 import Separator from "~/components/separator";
-import { useData } from "~/contexts/analysis";
+import { useComponentDetail, useSummaryData } from "~/contexts/analysis";
 import { createInstanceStore } from "~/dataflow/instance";
+import type { TransformedComponent } from "~/dataflow/payload";
 import { getFileName } from "~/lib/get-file-name";
 import { Details } from "~/shared/ui/details/details";
 import { DetailsGroup } from "~/shared/ui/details/details-group";
@@ -19,17 +20,9 @@ import { Spacer } from "~/shared/ui/space";
 const MAX_OPEN_ITEMS = 300;
 
 export default function ComponentPage() {
-  const params = useParams();
-  const data = useData();
+  const params = useParams<{ id: string }>();
   const { setHeader } = useHeader();
-
-  const component = createMemo(() => {
-    const d = data();
-    if (!d) {
-      return;
-    }
-    return d.components.find((c) => c.id === params.id);
-  });
+  const component = useComponentDetail(() => params.id);
 
   createEffect(() => {
     const currentComponent = component();
@@ -48,32 +41,21 @@ export default function ComponentPage() {
   return (
     <Show
       fallback={
-        <div class="flex h-screen items-center justify-center">Loading...</div>
+        <div class="flex h-screen items-center justify-center">
+          {component.loading ? "Loading..." : "Component not found"}
+        </div>
       }
-      when={data()}
+      when={component()}
     >
-      <Show
-        fallback={
-          <div class="flex h-screen items-center justify-center">
-            Component not found
-          </div>
-        }
-        when={component()}
-      >
-        {(currentComponent) => (
-          <ComponentPageContent component={currentComponent()} />
-        )}
-      </Show>
+      {(currentComponent) => (
+        <ComponentPageContent component={currentComponent()} />
+      )}
     </Show>
   );
 }
 
-type ComponentType = NonNullable<
-  ReturnType<ReturnType<typeof useData>>
->["components"][number];
-
-function ComponentPageContent(props: { component: ComponentType }) {
-  const data = useData();
+function ComponentPageContent(props: { component: TransformedComponent }) {
+  const summaryData = useSummaryData();
 
   const store = createInstanceStore({
     instances: () => props.component.instances,
@@ -113,7 +95,7 @@ function ComponentPageContent(props: { component: ComponentType }) {
                     }
                   >
                     <Code
-                      basePath={data()?.meta.basePath || ""}
+                      basePath={summaryData()?.meta.basePath || ""}
                       code={instance.raw}
                       filePath={instance.filePath}
                       span={instance.span}

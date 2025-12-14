@@ -2,10 +2,10 @@ packages:
   - packages/*
 
 catalog:
-  '@biomejs/biome': 2.3.8
-  '@changesets/cli': ^2.29.8
-  '@iconify/json': ^2.2.417
-  '@types/node': 24.8.0
+  "@biomejs/biome": 2.3.8
+  "@changesets/cli": ^2.29.8
+  "@iconify/json": ^2.2.417
+  "@types/node": 24.8.0
   es-toolkit: 1.42.0
   lint-staged: ^16.2.7
   rollup-plugin-visualizer: ^6.0.5
@@ -16,12 +16,13 @@ catalog:
   ultracite: 6.2.1
   unplugin-icons: ^22.5.0
   valibot: 1.2.0
+  yocto-spinner: ^1.0.0
 
 catalogMode: strict
 
 catalogs:
   analyzer:
-    '@napi-rs/cli': 3.5.0
+    "@napi-rs/cli": 3.5.0
   build:
     tsdown: 0.15.12
     tsx: 4.21.0
@@ -32,24 +33,24 @@ catalogs:
     mrmime: 2.0.1
     open: 10.2.0
   test:
-    '@solidjs/testing-library': 0.8.10
-    '@testing-library/jest-dom': 6.9.1
-    '@testing-library/user-event': 14.6.1
-    '@vitest/browser-playwright': 4.0.15
-    '@vitest/ui': 4.0.15
+    "@solidjs/testing-library": 0.8.10
+    "@testing-library/jest-dom": 6.9.1
+    "@testing-library/user-event": 14.6.1
+    "@vitest/browser-playwright": 4.0.15
+    "@vitest/ui": 4.0.15
     jsdom: 27.3.0
     playwright: 1.56.1
     vitest: 4.0.15
   ui:
-    '@ark-ui/solid': 5.30.0
-    '@shikijs/core': 3.19.0
-    '@shikijs/engine-javascript': 3.19.0
-    '@shikijs/langs-precompiled': 3.19.0
-    '@shikijs/themes': 3.19.0
-    '@shikijs/types': 3.19.0
-    '@solid-primitives/scheduled': 1.5.2
-    '@solidjs/router': 0.15.4
-    '@tailwindcss/vite': 4.1.17
+    "@ark-ui/solid": 5.30.0
+    "@shikijs/core": 3.19.0
+    "@shikijs/engine-javascript": 3.19.0
+    "@shikijs/langs-precompiled": 3.19.0
+    "@shikijs/themes": 3.19.0
+    "@shikijs/types": 3.19.0
+    "@solid-primitives/scheduled": 1.5.2
+    "@solidjs/router": 0.15.4
+    "@tailwindcss/vite": 4.1.17
     class-variance-authority: 0.7.1
     solid-js: 1.9.10
     tailwindcss: 4.1.17

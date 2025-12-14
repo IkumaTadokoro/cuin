@@ -5,7 +5,7 @@ import { getAnalysis, getAnalysisAsJson } from "./analyze";
 vi.mock("@ikuma-t/cuin-analyzer");
 
 describe("getAnalysis", () => {
-  it("should validate camelCase JSON from analyzer", () => {
+  it("should validate camelCase JSON from analyzer", async () => {
     const camelCaseResult = JSON.stringify({
       meta: {
         basePath: "/test/path",
@@ -44,9 +44,9 @@ describe("getAnalysis", () => {
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(camelCaseResult);
+    vi.mocked(analyze).mockResolvedValue(camelCaseResult);
 
-    const result = getAnalysis("/test/path");
+    const result = await getAnalysis("/test/path");
 
     expect(result.meta.basePath).toBe("/test/path");
     expect(result.components).toHaveLength(1);
@@ -56,7 +56,7 @@ describe("getAnalysis", () => {
     expect(result.components[0].instances[0].props[0].propType).toBe("string");
   });
 
-  it("should handle optional package field in instance", () => {
+  it("should handle optional package field in instance", async () => {
     const camelCaseResult = JSON.stringify({
       meta: {
         basePath: "/test/path",
@@ -89,14 +89,14 @@ describe("getAnalysis", () => {
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(camelCaseResult);
+    vi.mocked(analyze).mockResolvedValue(camelCaseResult);
 
-    const result = getAnalysis("/test/path");
+    const result = await getAnalysis("/test/path");
 
     expect(result.components[0].instances[0].package).toBeUndefined();
   });
 
-  it("should throw validation error for invalid data", () => {
+  it("should throw validation error for invalid data", async () => {
     const invalidResult = JSON.stringify({
       meta: {
         basePath: "/test/path",
@@ -113,14 +113,14 @@ describe("getAnalysis", () => {
       ],
     });
 
-    vi.mocked(analyze).mockReturnValue(invalidResult);
+    vi.mocked(analyze).mockResolvedValue(invalidResult);
 
-    expect(() => getAnalysis("/test/path")).toThrow();
+    await expect(getAnalysis("/test/path")).rejects.toThrow();
   });
 });
 
 describe("getAnalysisAsJson", () => {
-  it("should return pretty printed JSON string", () => {
+  it("should return pretty printed JSON string", async () => {
     const camelCaseResult = JSON.stringify({
       meta: {
         basePath: "/test/path",
@@ -128,9 +128,9 @@ describe("getAnalysisAsJson", () => {
       components: [],
     });
 
-    vi.mocked(analyze).mockReturnValue(camelCaseResult);
+    vi.mocked(analyze).mockResolvedValue(camelCaseResult);
 
-    const result = getAnalysisAsJson("/test/path");
+    const result = await getAnalysisAsJson("/test/path");
 
     expect(result).toContain("{\n");
     expect(result).toContain("  ");

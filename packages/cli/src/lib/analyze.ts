@@ -1,20 +1,18 @@
-import type { Payload, SummaryPayload } from "@cuin/schema";
+import { JsonSchema, type Payload, type Summary } from "@cuin/schema";
 import { analyze } from "@ikuma-t/cuin-analyzer";
-import { validateAnalysisResult } from "./validate";
+import { parse } from "valibot";
 
-export const getAnalysis = (path: string): Payload => {
-  const rawResult = analyze(path);
-  const parsed = JSON.parse(rawResult);
-  const validated = validateAnalysisResult(parsed);
-  return validated;
+export const getAnalysis = async (path: string): Promise<Payload> => {
+  const rawResult = await analyze(path);
+  return parse(JsonSchema, JSON.parse(rawResult));
 };
 
-export const getAnalysisAsJson = (path: string): string => {
-  const result = getAnalysis(path);
+export const getAnalysisAsJson = async (path: string): Promise<string> => {
+  const result = await getAnalysis(path);
   return JSON.stringify(result, null, 2);
 };
 
-export const toSummary = (payload: Payload): SummaryPayload => ({
+export const toSummary = (payload: Payload): Summary => ({
   meta: payload.meta,
   components: payload.components.map((c) => ({
     id: c.id,

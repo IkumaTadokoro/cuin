@@ -1,6 +1,6 @@
 import { isSelected, type SelectionState } from "../../lib/selection-state";
 import { always, and, type Predicate } from "../../shared/lib/predicates";
-import type { Component, PackageKey } from "../payload";
+import type { PackageKey, SummaryComponent } from "../payload";
 
 export type FilterState = {
   nameFilter: string;
@@ -8,25 +8,29 @@ export type FilterState = {
 };
 
 const byName =
-  (query: string): Predicate<Component> =>
+  <T extends SummaryComponent>(query: string): Predicate<T> =>
   (c) =>
     c.name.toLowerCase().includes(query.toLowerCase());
 
 const byPackage =
-  (selection: SelectionState<PackageKey>): Predicate<Component> =>
+  <T extends SummaryComponent>(
+    selection: SelectionState<PackageKey>
+  ): Predicate<T> =>
   (c) =>
     isSelected(selection, c.package.key);
 
-export function buildPredicate(state: FilterState): Predicate<Component> {
+export function buildPredicate<T extends SummaryComponent>(
+  state: FilterState
+): Predicate<T> {
   return and(
     state.nameFilter === "" ? always() : byName(state.nameFilter),
     byPackage(state.packageFilter)
   );
 }
 
-export function filterComponents(
-  components: Component[],
+export function filterComponents<T extends SummaryComponent>(
+  components: T[],
   state: FilterState
-): Component[] {
+): T[] {
   return components.filter(buildPredicate(state));
 }

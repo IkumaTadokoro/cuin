@@ -81,11 +81,11 @@ export const Payload = object({
 });
 export type Payload = InferOutput<typeof Payload>;
 
-export const SummaryPayload = object({
+export const Summary = object({
   meta: Meta,
   components: array(ComponentSummary),
 });
-export type SummaryPayload = InferOutput<typeof SummaryPayload>;
+export type Summary = InferOutput<typeof Summary>;
 
 export const JsonSchema = Payload;
-export const SummaryJsonSchema = SummaryPayload;
+export const SummaryJsonSchema = Summary;

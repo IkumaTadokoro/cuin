@@ -7,7 +7,11 @@ import {
   type SelectionState,
   toggle,
 } from "../../lib/selection-state";
-import type { Component, PackageKey, PackageWithCount } from "../payload";
+import type {
+  PackageKey,
+  PackageWithCount,
+  SummaryComponent,
+} from "../payload";
 import { type FilterState, filterComponents } from "./filter";
 import {
   type SortKey,
@@ -17,7 +21,7 @@ import {
 } from "./sort";
 
 type DataSource = {
-  components: () => Component[];
+  components: () => SummaryComponent[];
   packages: () => PackageWithCount[];
 };
 
