@@ -3,6 +3,7 @@ import { ComponentHandler } from "./handlers/component-handler";
 import { ComponentSummaryHandler } from "./handlers/component-summary-handler";
 import { PayloadHandler } from "./handlers/payload-handler";
 import { StaticAssetHandler } from "./handlers/static-asset-handler";
+import { compressionMiddleware } from "./middleware/compression";
 import type { Container } from "./store/container";
 
 export const createApp = (container: Container): H3 => {
@@ -14,7 +15,7 @@ export const createApp = (container: Container): H3 => {
 };
 
 const createApiApp = (container: Container) => {
-  const api = new H3();
+  const api = new H3().use(compressionMiddleware);
   const { analysisStore } = container;
 
   api.get("/payload.json", PayloadHandler(analysisStore));
