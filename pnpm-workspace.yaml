@@ -2,10 +2,10 @@ packages:
   - packages/*
 
 catalog:
-  '@biomejs/biome': 2.3.8
-  '@changesets/cli': ^2.29.8
-  '@iconify/json': ^2.2.417
-  '@types/node': 24.8.0
+  "@biomejs/biome": 2.3.8
+  "@changesets/cli": ^2.29.8
+  "@iconify/json": ^2.2.417
+  "@types/node": 24.8.0
   es-toolkit: 1.43.0
   lint-staged: ^16.2.7
   rollup-plugin-visualizer: ^6.0.5
@@ -15,14 +15,13 @@ catalog:
   typescript: 5.9.3
   ultracite: 6.4.0
   unplugin-icons: ^22.5.0
-  valibot: 1.2.0
   vite-plugin-compression2: ^2.4.0
 
 catalogMode: strict
 
 catalogs:
   analyzer:
-    '@napi-rs/cli': 3.5.0
+    "@napi-rs/cli": 3.5.0
   build:
     tsdown: 0.15.12
     tsx: 4.21.0
@@ -35,11 +34,11 @@ catalogs:
     yocto-spinner: 1.0.0
     destr: 2.0.5
   test:
-    '@solidjs/testing-library': 0.8.10
-    '@testing-library/jest-dom': 6.9.1
-    '@testing-library/user-event': 14.6.1
-    '@vitest/browser-playwright': 4.0.15
-    '@vitest/ui': 4.0.15
+    "@solidjs/testing-library": 0.8.10
+    "@testing-library/jest-dom": 6.9.1
+    "@testing-library/user-event": 14.6.1
+    "@vitest/browser-playwright": 4.0.15
+    "@vitest/ui": 4.0.15
     fishery: 2.4.0
     jsdom: 27.3.0
     playwright: 1.56.1

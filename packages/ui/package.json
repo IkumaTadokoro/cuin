@@ -23,8 +23,7 @@
     "class-variance-authority": "catalog:ui",
     "es-toolkit": "catalog:",
     "solid-js": "catalog:ui",
-    "type-fest": "catalog:",
-    "valibot": "catalog:"
+    "type-fest": "catalog:"
   },
   "devDependencies": {
     "@iconify/json": "catalog:",

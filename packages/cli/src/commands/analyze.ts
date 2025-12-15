@@ -20,6 +20,7 @@ export const analyze = define({
       process.stdout.write(`${json}\n`);
     } catch (error) {
       process.stderr.write(`Analysis failed: ${error}\n`);
+      console.log("hoge");
       process.exit(1);
     }
   },

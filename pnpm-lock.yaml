@@ -78,9 +78,6 @@ catalogs:
     unplugin-icons:
       specifier: ^22.5.0
       version: 22.5.0
-    valibot:
-      specifier: 1.2.0
-      version: 1.2.0
     vite-plugin-compression2:
       specifier: ^2.4.0
       version: 2.4.0
@@ -227,18 +224,11 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
-      valibot:
-        specifier: 'catalog:'
-        version: 1.2.0(typescript@5.9.3)
       vitest:
         specifier: catalog:test
         version: 4.0.15(@types/node@24.8.0)(@vitest/browser-playwright@4.0.15)(@vitest/ui@4.0.15)(jiti@2.6.1)(jsdom@27.3.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 
   packages/schema:
-    dependencies:
-      valibot:
-        specifier: 'catalog:'
-        version: 1.2.0(typescript@5.9.3)
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -297,9 +287,6 @@ importers:
       type-fest:
         specifier: 'catalog:'
         version: 5.3.1
-      valibot:
-        specifier: 'catalog:'
-        version: 1.2.0(typescript@5.9.3)
     devDependencies:
       '@iconify/json':
         specifier: 'catalog:'
@@ -7424,6 +7411,7 @@ snapshots:
   valibot@1.2.0(typescript@5.9.3):
     optionalDependencies:
       typescript: 5.9.3
+    optional: true
 
   vfile-message@4.0.3:
     dependencies:

@@ -16,7 +16,6 @@
         "^@vitejs/",
         "^h3",
         "^gunshi",
-        "^valibot",
         "^unplugin-icons",
         "^typescript$"
       ],

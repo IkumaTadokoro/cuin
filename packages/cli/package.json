@@ -43,7 +43,6 @@
     "tsdown": "catalog:build",
     "tsx": "catalog:build",
     "typescript": "catalog:",
-    "valibot": "catalog:",
     "vitest": "catalog:test"
   }
 }

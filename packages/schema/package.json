@@ -20,9 +20,6 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest --passWithNoTests"
   },
-  "dependencies": {
-    "valibot": "catalog:"
-  },
   "devDependencies": {
     "@types/node": "catalog:",
     "fishery": "catalog:test",
