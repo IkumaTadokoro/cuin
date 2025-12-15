@@ -87,7 +87,7 @@ jobs:
           PLAYWRIGHT_VERSION=$(pnpm list playwright --depth=0 --json | jq -r '.[0].version')
           echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
       - name: Cache Playwright browsers
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
