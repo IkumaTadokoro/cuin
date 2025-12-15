@@ -46,11 +46,11 @@ catalogs:
     vitest: 4.0.15
   ui:
     "@ark-ui/solid": 5.30.0
-    "@shikijs/core": 3.19.0
-    "@shikijs/engine-javascript": 3.19.0
-    "@shikijs/langs-precompiled": 3.19.0
-    "@shikijs/themes": 3.19.0
-    "@shikijs/types": 3.19.0
+    "@shikijs/core": 3.20.0
+    "@shikijs/engine-javascript": 3.20.0
+    "@shikijs/langs-precompiled": 3.20.0
+    "@shikijs/themes": 3.20.0
+    "@shikijs/types": 3.20.0
     "@solid-primitives/scheduled": 1.5.2
     "@solidjs/router": 0.15.4
     "@tailwindcss/vite": 4.1.18
