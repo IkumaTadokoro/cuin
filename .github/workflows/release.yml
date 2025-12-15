@@ -95,7 +95,7 @@ jobs:
         shell: bash
 
       - name: Upload artifact
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: bindings-${{ matrix.settings.target }}
           path: packages/analyzer/bindings/*.node
@@ -103,7 +103,7 @@ jobs:
 
       - name: Upload JS bindings
         if: matrix.settings.target == 'x86_64-apple-darwin'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: js-bindings
           path: |
@@ -127,13 +127,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Download x64 binary
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: bindings-x86_64-apple-darwin
           path: packages/analyzer/bindings
 
       - name: Download arm64 binary
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: bindings-aarch64-apple-darwin
           path: packages/analyzer/bindings
@@ -143,7 +143,7 @@ jobs:
         run: pnpm napi universalize --output-dir bindings
 
       - name: Upload universal binary
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: bindings-universal-apple-darwin
           path: packages/analyzer/bindings/*.darwin-universal.node
@@ -174,12 +174,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Download all artifacts
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           path: packages/analyzer/artifacts
 
       - name: Download JS bindings
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: js-bindings
           path: packages/analyzer/bindings
