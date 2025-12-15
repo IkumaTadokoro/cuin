@@ -1,4 +1,4 @@
-import { Component, type Meta, Summary } from "@cuin/schema";
+import type { Component, Meta, Summary } from "@cuin/schema";
 import type { Accessor, Resource } from "solid-js";
 import {
   createContext,
@@ -6,7 +6,6 @@ import {
   type ParentComponent,
   useContext,
 } from "solid-js";
-import { parse } from "valibot";
 import {
   type TransformedComponent,
   type TransformedSummary,
@@ -29,7 +28,7 @@ export const SummaryDataProvider: ParentComponent = (props) => {
   const [data] = createResource(async () => {
     const res = await fetch("/api/summary.json");
     const json = await res.json();
-    return transformSummary(parse(Summary, json));
+    return transformSummary(json as Summary);
   });
 
   return (
@@ -48,7 +47,7 @@ export function useComponentDetail(
       return;
     }
     const json = await res.json();
-    return transformComponent(parse(Component, json));
+    return transformComponent(json as Component);
   });
   return component;
 }

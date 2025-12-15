@@ -1,89 +1,65 @@
-import {
-  array,
-  type InferOutput,
-  literal,
-  nullable,
-  number,
-  object,
-  optional,
-  string,
-  union,
-  variant,
-} from "valibot";
+export type Meta = {
+  basePath: string;
+};
 
-const Meta = object({
-  basePath: string(),
-});
-export type Meta = InferOutput<typeof Meta>;
+export type Native = {
+  type: "native";
+};
 
-const Native = object({
-  type: literal("native"),
-});
-export type Native = InferOutput<typeof Native>;
+export type NonNative = {
+  type: "internal" | "external";
+  name: string;
+  version: string;
+};
 
-const NonNative = object({
-  type: union([literal("internal"), literal("external")]),
-  name: string(),
-  version: string(),
-});
-export type NonNative = InferOutput<typeof NonNative>;
+export type Package = Native | NonNative;
 
-export const Package = variant("type", [Native, NonNative]);
-export type Package = InferOutput<typeof Package>;
+export type Props = {
+  key: string;
+  raw: string;
+  propType: string;
+  value?: string;
+};
 
-const Props = object({
-  key: string(),
-  raw: string(),
-  propType: string(),
-  value: optional(string()),
-});
-export type Props = InferOutput<typeof Props>;
+export type Span = {
+  start: number;
+  end: number;
+  startLine: number;
+  endLine: number;
+  startCol: number;
+  endCol: number;
+};
 
-const Span = object({
-  start: number(),
-  end: number(),
-  startLine: number(),
-  endLine: number(),
-  startCol: number(),
-  endCol: number(),
-});
-export type Span = InferOutput<typeof Span>;
+export type Instance = {
+  filePath: string;
+  props: Props[];
+  raw: string;
+  span: Span;
+  importSpecifier: string | null;
+  resolvedPath: string;
+  package?: Package;
+};
 
-const Instance = object({
-  filePath: string(),
-  props: array(Props),
-  raw: string(),
-  span: Span,
-  importSpecifier: nullable(string()),
-  resolvedPath: string(),
-  package: optional(Package),
-});
-export type Instance = InferOutput<typeof Instance>;
+export type Component = {
+  id: string;
+  name: string;
+  package: Package;
+  instances: Instance[];
+};
 
-export const Component = object({
-  id: string(),
-  name: string(),
-  package: Package,
-  instances: array(Instance),
-});
-export type Component = InferOutput<typeof Component>;
+export type ComponentSummary = {
+  id: string;
+  name: string;
+  package: Package;
+  instanceCount: number;
+};
 
-export const ComponentSummary = object({
-  id: string(),
-  name: string(),
-  package: Package,
-  instanceCount: number(),
-});
-export type ComponentSummary = InferOutput<typeof ComponentSummary>;
+export type Payload = {
+  meta: Meta;
+  components: Component[];
+};
 
-export const Payload = object({
-  meta: Meta,
-  components: array(Component),
-});
-export type Payload = InferOutput<typeof Payload>;
-
-export const Summary = object({
-  meta: Meta,
-  components: array(ComponentSummary),
-});
-export type Summary = InferOutput<typeof Summary>;
+export type Summary = {
+  meta: Meta;
+  components: ComponentSummary[];
+};

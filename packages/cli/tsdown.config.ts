@@ -14,7 +14,7 @@ export default defineConfig({
   sourcemap: false,
   treeshake: true,
   external: ["@ikuma-t/cuin-analyzer"],
-  noExternal: ["@cuin/schema", "valibot"],
+  noExternal: ["@cuin/schema"],
 
   async onSuccess() {
     const uiOutDir = fileURLToPath(new URL("../ui/dist", import.meta.url));
