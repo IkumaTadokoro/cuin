@@ -29,9 +29,7 @@ jobs:
           filters: |
             autofix:
               - ".github/workflows/autofix.yml"
-              - "packages/cli/**"
-              - "packages/ui/**"
-              - "packages/schema/**"
+              - "packages/cuin/**"
               - "package.json"
               - "pnpm-lock.yaml"
               - "pnpm-workspace.yaml"

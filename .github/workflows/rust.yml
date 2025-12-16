@@ -30,7 +30,7 @@ jobs:
             rust:
               - ".github/workflows/rust.yml"
               - "packages/analyzer/**"
-              - "packages/cli/**"
+              - "packages/cuin/**"
               - "Cargo.toml"
               - "Cargo.lock"
 

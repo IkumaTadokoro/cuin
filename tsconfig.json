@@ -2,10 +2,7 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/cli"
-    },
-    {
-      "path": "./packages/ui"
+      "path": "./packages/cuin"
     }
   ],
   "compilerOptions": {

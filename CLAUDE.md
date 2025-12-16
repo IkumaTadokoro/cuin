@@ -8,29 +8,26 @@ cuin is a Component Usage Inspector tool for React projects that analyzes and vi
 
 ### Architecture
 
-This project uses a pnpm workspace monorepo structure with three packages:
+This project uses a pnpm workspace monorepo structure with two packages:
 
 - **packages/analyzer**: Core analysis engine written in Rust (NAPI-RS)
   - Uses OXC (Oxidation Compiler) to parse JSX/TSX files
   - Analyzes component usage locations, props, and import sources
   - Provides Node.js bindings via NAPI-RS
 
-- **packages/cli**: TypeScript CLI tool
+- **packages/cuin**: TypeScript CLI tool + Web UI
   - Executes analysis using the analyzer package
   - Starts a development server (h3) to serve the UI
   - Uses `gunshi` framework for command-line argument parsing
-
-- **packages/ui**: Web interface built with SolidJS
-  - Uses SolidStart (Vinxi) for SPA/SSR rendering
-  - Visualizes analysis results
-  - Displays component usage locations and props statistics
+  - Web interface built with SolidJS (@solidjs/router, @ark-ui/solid)
+  - Visualizes analysis results and component usage patterns
 
 ### Key Technologies
 
 - **Rust**: OXC, NAPI-RS, rayon (parallel processing)
-- **TypeScript**: tsdown (build), tsx (development)
-- **SolidJS**: SolidStart, Vinxi, @ark-ui/solid
-- **Build Tools**: Turbo (monorepo build), Biome + Ultracite (lint/format)
+- **TypeScript**: tsdown (CLI build), tsx (development)
+- **SolidJS**: @solidjs/router, @ark-ui/solid
+- **Build Tools**: Turbo (monorepo build), Vite (UI build), Biome + Ultracite (lint/format)
 
 ## Development Commands
 
@@ -43,8 +40,8 @@ pnpm build
 # Build analyzer only (Rust)
 cd packages/analyzer && pnpm build
 
-# Build CLI only
-cd packages/cli && pnpm build
+# Build cuin (CLI + UI)
+cd packages/cuin && pnpm build
 ```
 
 ### Development
@@ -63,11 +60,11 @@ pnpm dev:cli
 # Run all tests
 pnpm test
 
-# Run UI tests only
-cd packages/ui && pnpm test
+# Run cuin tests only
+cd packages/cuin && pnpm test
 
-# Run UI tests with UI
-cd packages/ui && pnpm test:ui
+# Run cuin tests with UI
+cd packages/cuin && pnpm test:ui
 
 # Run analyzer (Rust) tests
 cd packages/analyzer && pnpm test
@@ -89,8 +86,8 @@ cd packages/analyzer && pnpm fix
 ### Running Single Tests
 
 ```bash
-# Vitest (UI)
-cd packages/ui && pnpm test -- <test-file-pattern>
+# Vitest (cuin)
+cd packages/cuin && pnpm test -- <test-file-pattern>
 
 # Cargo (analyzer)
 cd packages/analyzer && cargo test <test-name>
@@ -100,30 +97,30 @@ cd packages/analyzer && cargo test <test-name>
 
 ### Analysis Flow
 
-1. **CLI** (`packages/cli/src/commands/dev.ts`): User specifies path and runs command
+1. **CLI** (`packages/cuin/src/commands/dev.ts`): User specifies path and runs command
 2. **Analyzer** (`packages/analyzer/src/lib.rs`): Calls `analyze()` function via NAPI
 3. **Service** (`packages/analyzer/src/service.rs`): Walks project tree to collect files
 4. **Parser** (`packages/analyzer/src/parser.rs`): Parses JSX elements and imports using OXC
 5. **Resolver** (`packages/analyzer/src/resolver.rs`): Resolves import paths and retrieves package info
 6. **Analyze** (`packages/analyzer/src/analyze.rs`): Links component definitions to usage locations, computes props statistics
 7. **Result** (`packages/analyzer/src/result.rs`): Serializes to JSON and returns
-8. **UI**: Fetches results via CLI server and visualizes them
+8. **UI** (`packages/cuin/src/ui/`): Fetches results via CLI server and visualizes them
 
 ### Dependency Management
 
 - `pnpm-workspace.yaml` uses `catalog` to centrally manage common dependency versions
 - Separated by package type: `catalog:analyzer`, `catalog:cli`, `catalog:ui`, `catalog:build`, `catalog:test`
-- Turbo dependencies defined in `turbo.json` (`@ikuma-t/cuin#build` depends on `@cuin/ui#build`)
+- Turbo dependencies defined in `turbo.json`
 
 ### Rust Build Process
 
 - `packages/analyzer` uses NAPI-RS to generate Node.js bindings
 - Build artifacts output to `bindings/` directory
-- CLI depends on `packages/analyzer` as the `cuin-analyzer` package
+- CLI depends on `packages/analyzer` as the `@ikuma-t/cuin-analyzer` package
 
 ### SolidJS Routing
 
-- File-based routing located in `packages/ui/src/routes` directory
+- File-based routing located in `packages/cuin/src/ui/routes` directory
 - `app.tsx` uses `DataProvider` and `HeaderProvider` for global state management
 
 ## Important Notes
