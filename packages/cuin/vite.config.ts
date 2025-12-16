@@ -1,0 +1,39 @@
+import { resolve } from "node:path";
+import tailwindcss from "@tailwindcss/vite";
+import { visualizer } from "rollup-plugin-visualizer";
+import Icons from "unplugin-icons/vite";
+import { defineConfig } from "vite";
+import vitePluginCompression from "vite-plugin-compression2";
+import solid from "vite-plugin-solid";
+
+export default defineConfig({
+  root: "src/ui",
+  plugins: [
+    solid(),
+    tailwindcss(),
+    Icons({
+      compiler: "solid",
+      scale: 1,
+    }),
+    vitePluginCompression(),
+  ],
+  resolve: {
+    alias: {
+      "~": resolve(__dirname, "./src/ui"),
+    },
+  },
+  build: {
+    outDir: "../../dist/public",
+    emptyOutDir: true,
+    rollupOptions: {
+      plugins: [
+        visualizer({
+          filename: "stats.html",
+          open: false,
+          gzipSize: true,
+          brotliSize: true,
+        }),
+      ],
+    },
+  },
+});

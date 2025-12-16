@@ -6,7 +6,7 @@
   "scripts": {
     "prepare": "simple-git-hooks",
     "build": "turbo run build",
-    "dev:ui": "turbo run dev --filter=@cuin/ui",
+    "dev:ui": "turbo run dev:ui --filter=@ikuma-t/cuin",
     "dev:cli": "turbo run dev --filter=@ikuma-t/cuin",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",

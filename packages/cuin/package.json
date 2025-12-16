@@ -1,0 +1,81 @@
+{
+  "name": "@ikuma-t/cuin",
+  "version": "0.0.18",
+  "description": "Component Usage Inspector for React Project",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "build": "pnpm build:cli && pnpm build:ui",
+    "build:ui": "vite build",
+    "build:cli": "tsdown",
+    "start": "node dist/index.js",
+    "dev": "NODE_ENV=development tsx src/index.ts",
+    "dev:ui": "vite",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit"
+  },
+  "bin": "bin.mjs",
+  "files": [
+    "bin.mjs",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IkumaTadokoro/cuin.git",
+    "directory": "packages/cuin"
+  },
+  "keywords": [],
+  "author": "ikuma-t",
+  "license": "MIT",
+  "packageManager": "pnpm@10.25.0",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "dependencies": {
+    "@ark-ui/solid": "catalog:ui",
+    "@ikuma-t/cuin-analyzer": "workspace:*",
+    "@shikijs/core": "catalog:ui",
+    "@shikijs/engine-javascript": "catalog:ui",
+    "@shikijs/langs-precompiled": "catalog:ui",
+    "@shikijs/themes": "catalog:ui",
+    "@shikijs/types": "catalog:ui",
+    "@solid-primitives/scheduled": "catalog:ui",
+    "@solidjs/router": "catalog:ui",
+    "class-variance-authority": "catalog:ui",
+    "destr": "catalog:cli",
+    "es-toolkit": "catalog:",
+    "get-port-please": "catalog:cli",
+    "gunshi": "catalog:cli",
+    "h3": "catalog:cli",
+    "mrmime": "catalog:cli",
+    "open": "catalog:cli",
+    "solid-js": "catalog:ui",
+    "type-fest": "catalog:",
+    "yocto-spinner": "catalog:cli"
+  },
+  "devDependencies": {
+    "@iconify/json": "catalog:",
+    "@solidjs/testing-library": "catalog:test",
+    "@tailwindcss/vite": "catalog:ui",
+    "@testing-library/jest-dom": "catalog:test",
+    "@testing-library/user-event": "catalog:test",
+    "@types/hast": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:test",
+    "@vitest/ui": "catalog:test",
+    "fishery": "catalog:test",
+    "jsdom": "catalog:test",
+    "playwright": "catalog:test",
+    "rollup-plugin-visualizer": "catalog:",
+    "tailwindcss": "catalog:ui",
+    "tsdown": "catalog:build",
+    "tsx": "catalog:build",
+    "typescript": "catalog:",
+    "unplugin-icons": "catalog:",
+    "vite": "catalog:ui",
+    "vite-plugin-compression2": "catalog:",
+    "vite-plugin-solid": "catalog:ui",
+    "vitest": "catalog:test"
+  }
+}

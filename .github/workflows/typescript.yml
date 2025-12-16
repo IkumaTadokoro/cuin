@@ -29,9 +29,7 @@ jobs:
           filters: |
             typescript:
               - ".github/workflows/typescript.yml"
-              - "packages/cli/**"
-              - "packages/ui/**"
-              - "packages/schema/**"
+              - "packages/cuin/**"
               - "package.json"
               - "pnpm-lock.yaml"
               - "pnpm-workspace.yaml"
@@ -49,7 +47,6 @@ jobs:
           node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter="@cuin/schema" build
       - run: pnpm typecheck
 
   build:
@@ -65,8 +62,6 @@ jobs:
           node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter="@cuin/schema" build
-      - run: pnpm --filter="@cuin/ui" build
       - run: pnpm --filter="@ikuma-t/cuin" build
 
   test:
@@ -93,13 +88,12 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter="@cuin/schema" build
       - name: Install Playwright with deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
-        working-directory: packages/ui
+        working-directory: packages/cuin
       - name: Install Playwright OS deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps chromium
-        working-directory: packages/ui
-      - run: pnpm --filter="@cuin/schema" --filter="@cuin/ui" test
+        working-directory: packages/cuin
+      - run: pnpm --filter="@ikuma-t/cuin" test

@@ -30,7 +30,7 @@ jobs:
       - name: Check if should publish
         id: check
         run: |
-          PACKAGE_VERSION=$(node -p "require('./packages/cli/package.json').version")
+          PACKAGE_VERSION=$(node -p "require('./packages/cuin/package.json').version")
           PUBLISHED_VERSION=$(npm view @ikuma-t/cuin version 2>/dev/null || echo "0.0.0")
           echo "Local version: $PACKAGE_VERSION"
           echo "Published version: $PUBLISHED_VERSION"
@@ -198,14 +198,11 @@ jobs:
           pnpm napi pre-publish --tag-style npm --no-gh-release
           pnpm publish --no-git-checks --access public --provenance
 
-      - name: Build UI
-        run: pnpm build --filter="@cuin/ui"
-
       - name: Build CLI
         run: pnpm build --filter="@ikuma-t/cuin"
 
       - name: Publish @ikuma-t/cuin
-        working-directory: packages/cli
+        working-directory: packages/cuin
         run: pnpm publish --no-git-checks --access public --provenance
 
   github-release:

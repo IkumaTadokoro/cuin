@@ -36,13 +36,12 @@ pnpm build
 
 ## Project Structure
 
-This project uses a pnpm workspace monorepo with three packages:
+This project uses a pnpm workspace monorepo with two packages:
 
 | Package | Description | Technology |
 |---------|-------------|------------|
 | `packages/analyzer` | Core analysis engine | Rust + NAPI-RS |
-| `packages/cli` | Command-line interface | TypeScript |
-| `packages/ui` | Web interface | SolidJS + SolidStart |
+| `packages/cuin` | CLI + Web interface | TypeScript + SolidJS |
 
 ## Development Commands
 

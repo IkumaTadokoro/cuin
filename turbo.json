@@ -4,17 +4,9 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "bindings/**", ".output/**"]
-    },
-    "@cuin/schema#build": {
-      "outputs": ["dist/**"]
-    },
-    "@cuin/ui#build": {
-      "dependsOn": ["@cuin/schema#build"],
-      "outputs": [".output/**"]
+      "outputs": ["dist/**", "bindings/**"]
     },
     "@ikuma-t/cuin#build": {
-      "dependsOn": ["@cuin/schema#build", "@cuin/ui#build"],
       "outputs": ["dist/**"]
     },
     "dev": {
