@@ -1,0 +1,75 @@
+name: PR Labeler
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add labels based on PR title
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const labelConfig = {
+              feature: { color: 'a2eeef', description: 'New feature' },
+              fix: { color: 'd73a4a', description: 'Bug fix' },
+              performance: { color: 'fbca04', description: 'Performance improvement' },
+              documentation: { color: '0075ca', description: 'Documentation update' },
+              dependencies: { color: '0366d6', description: 'Dependency update' },
+              chore: { color: 'fef2c0', description: 'Maintenance' }
+            };
+
+            const title = context.payload.pull_request.title;
+            const labels = [];
+
+            if (/^feat(\(.+\))?!?:/.test(title)) {
+              labels.push('feature');
+            } else if (/^fix(\(.+\))?!?:/.test(title)) {
+              labels.push('fix');
+            } else if (/^perf(\(.+\))?!?:/.test(title)) {
+              labels.push('performance');
+            } else if (/^docs(\(.+\))?!?:/.test(title)) {
+              labels.push('documentation');
+            } else if (/^chore\(deps\)!?:/.test(title)) {
+              labels.push('dependencies');
+            } else if (/^(chore|ci|build|refactor|style|test)(\(.+\))?!?:/.test(title)) {
+              labels.push('chore');
+            }
+
+            if (labels.length > 0) {
+              for (const label of labels) {
+                try {
+                  await github.rest.issues.getLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: label
+                  });
+                } catch (e) {
+                  if (e.status === 404) {
+                    await github.rest.issues.createLabel({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      name: label,
+                      color: labelConfig[label].color,
+                      description: labelConfig[label].description
+                    });
+                    console.log(`Created label: ${label}`);
+                  }
+                }
+              }
+
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels
+              });
+              console.log(`Added labels: ${labels.join(', ')}`);
+            } else {
+              console.log('No matching prefix found in PR title');
+            }
