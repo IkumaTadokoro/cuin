@@ -1,5 +1,12 @@
 # @ikuma-t/cuin
 
+## 0.0.19
+
+### Patch Changes
+
+- 501ccae: refactor: re-organize packages
+  - @ikuma-t/cuin-analyzer@0.0.19
+
 ## 0.0.18
 
 ### Patch Changes
