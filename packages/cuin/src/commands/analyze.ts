@@ -12,11 +12,11 @@ export const analyze = define({
       default: process.cwd(),
     },
   },
-  run: (ctx) => {
+  run: async (ctx) => {
     const { path } = ctx.values;
 
     try {
-      const json = getAnalysisAsJson(path);
+      const json = await getAnalysisAsJson(path);
       process.stdout.write(`${json}\n`);
     } catch (error) {
       process.stderr.write(`Analysis failed: ${error}\n`);
