@@ -1,5 +1,16 @@
 # @ikuma-t/cuin
 
+## 0.0.20
+
+### Patch Changes
+
+- 1582fd2: fix: move UI dependencies to devDependencies to reduce install size
+
+  - Move SolidJS, Shiki, Ark UI and other UI packages to devDependencies
+  - UI is bundled at build time, so runtime dependencies are not required
+  - Extract dist directory resolution logic to shared module
+  - @ikuma-t/cuin-analyzer@0.0.20
+
 ## 0.0.19
 
 ### Patch Changes
