@@ -187,12 +187,37 @@ importers:
 
   packages/cuin:
     dependencies:
-      '@ark-ui/solid':
-        specifier: catalog:ui
-        version: 5.30.0(solid-js@1.9.10)
       '@ikuma-t/cuin-analyzer':
         specifier: workspace:*
         version: link:../analyzer
+      destr:
+        specifier: catalog:cli
+        version: 2.0.5
+      get-port-please:
+        specifier: catalog:cli
+        version: 3.2.0
+      gunshi:
+        specifier: catalog:cli
+        version: 0.27.0
+      h3:
+        specifier: catalog:cli
+        version: 2.0.1-rc.6
+      mrmime:
+        specifier: catalog:cli
+        version: 2.0.1
+      open:
+        specifier: catalog:cli
+        version: 11.0.0
+      yocto-spinner:
+        specifier: catalog:cli
+        version: 1.0.0
+    devDependencies:
+      '@ark-ui/solid':
+        specifier: catalog:ui
+        version: 5.30.0(solid-js@1.9.10)
+      '@iconify/json':
+        specifier: 'catalog:'
+        version: 2.2.417
       '@shikijs/core':
         specifier: catalog:ui
         version: 3.20.0
@@ -214,43 +239,6 @@ importers:
       '@solidjs/router':
         specifier: catalog:ui
         version: 0.15.4(solid-js@1.9.10)
-      class-variance-authority:
-        specifier: catalog:ui
-        version: 0.7.1
-      destr:
-        specifier: catalog:cli
-        version: 2.0.5
-      es-toolkit:
-        specifier: 'catalog:'
-        version: 1.43.0
-      get-port-please:
-        specifier: catalog:cli
-        version: 3.2.0
-      gunshi:
-        specifier: catalog:cli
-        version: 0.27.0
-      h3:
-        specifier: catalog:cli
-        version: 2.0.1-rc.6
-      mrmime:
-        specifier: catalog:cli
-        version: 2.0.1
-      open:
-        specifier: catalog:cli
-        version: 11.0.0
-      solid-js:
-        specifier: catalog:ui
-        version: 1.9.10
-      type-fest:
-        specifier: 'catalog:'
-        version: 5.3.1
-      yocto-spinner:
-        specifier: catalog:cli
-        version: 1.0.0
-    devDependencies:
-      '@iconify/json':
-        specifier: 'catalog:'
-        version: 2.2.417
       '@solidjs/testing-library':
         specifier: catalog:test
         version: 0.8.10(@solidjs/router@0.15.4(solid-js@1.9.10))(solid-js@1.9.10)
@@ -275,6 +263,12 @@ importers:
       '@vitest/ui':
         specifier: catalog:test
         version: 4.0.15(vitest@4.0.15)
+      class-variance-authority:
+        specifier: catalog:ui
+        version: 0.7.1
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.43.0
       fishery:
         specifier: catalog:test
         version: 2.4.0
@@ -287,6 +281,9 @@ importers:
       rollup-plugin-visualizer:
         specifier: 'catalog:'
         version: 6.0.5(rolldown@1.0.0-beta.45)(rollup@4.53.2)
+      solid-js:
+        specifier: catalog:ui
+        version: 1.9.10
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.18
@@ -296,6 +293,9 @@ importers:
       tsx:
         specifier: catalog:build
         version: 4.21.0
+      type-fest:
+        specifier: 'catalog:'
+        version: 5.3.1
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
