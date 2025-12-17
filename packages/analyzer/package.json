@@ -1,6 +1,6 @@
 {
   "name": "@ikuma-t/cuin-analyzer",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "component usage analyzer",
   "type": "module",
   "main": "bindings/index.js",

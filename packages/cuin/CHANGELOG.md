@@ -1,5 +1,16 @@
 # @ikuma-t/cuin
 
+## 0.0.19
+
+### Patch Changes
+
+- 501ccae: refactor: re-organize packages
+- 7591ebb: fix: analyze command
+
+  - Add `await` to `getAnalysisAsJson` call
+  - Suppress `header` and `usage` output via `rendering` option
+  - @ikuma-t/cuin-analyzer@0.0.19
+
 ## 0.0.18
 
 ### Patch Changes
