@@ -1,22 +1,11 @@
 import { readFile, stat } from "node:fs/promises";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import path, { join } from "node:path";
 import type { StaticAssetMeta } from "h3";
 import { lookup } from "mrmime";
+import { DIST_DIR } from "src/lib/dist-dir";
 import { noop } from "../../noop";
 
 const COMPRESSION_EXT_REGEX = /\.(gz|br)$/;
-
-const resolveDistDir = () => {
-  if (process.env.NODE_ENV !== "development") {
-    const entryDir = dirname(process.argv[1] ?? "");
-    return resolve(entryDir, "public");
-  }
-
-  const currentFile = fileURLToPath(import.meta.url);
-  const currentDir = dirname(currentFile);
-  return resolve(currentDir, "../../../../dist/public");
-};
 
 export type StaticAssetStore = {
   getContents: (id: string) => Promise<Uint8Array | undefined> | undefined;
@@ -34,7 +23,7 @@ const getEncoding = (id: string) => {
 };
 
 export const createStaticAssetStore = (): StaticAssetStore => {
-  const distDir = resolveDistDir();
+  const assetDir = path.join(DIST_DIR, "public");
   const fileMap = new Map<string, Promise<Uint8Array | undefined>>();
   const readCachedFile = (id: string) => {
     if (!fileMap.has(id)) {
@@ -44,7 +33,7 @@ export const createStaticAssetStore = (): StaticAssetStore => {
   };
 
   const getMeta = async (id: string) => {
-    const stats = await stat(join(distDir, id)).catch(noop);
+    const stats = await stat(join(assetDir, id)).catch(noop);
     if (!stats?.isFile()) {
       return;
     }
@@ -57,7 +46,7 @@ export const createStaticAssetStore = (): StaticAssetStore => {
   };
 
   return {
-    getContents: (id: string) => readCachedFile(join(distDir, id)),
+    getContents: (id: string) => readCachedFile(join(assetDir, id)),
     getMeta,
   };
 };
