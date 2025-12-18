@@ -3,6 +3,9 @@
 import { describe, expect, it } from "vitest";
 import {
   ComponentFactory,
+  ExternalPackageFactory,
+  InstanceFactory,
+  NativePackageFactory,
   PayloadFactory,
   SummaryFactory,
 } from "../../types/mocks";
@@ -118,6 +121,42 @@ describe("createApp", () => {
       const res = await app.request("/api/components/non-existent.json");
 
       expect(res.status).toBe(404);
+    });
+
+    it("should return instances sorted by package name then file path", async () => {
+      const instances = [
+        InstanceFactory.build({
+          filePath: "z-file.tsx",
+          package: ExternalPackageFactory.build({ name: "b-package" }),
+        }),
+        InstanceFactory.build({
+          filePath: "a-file.tsx",
+          package: ExternalPackageFactory.build({ name: "b-package" }),
+        }),
+        InstanceFactory.build({
+          filePath: "m-file.tsx",
+          package: ExternalPackageFactory.build({ name: "a-package" }),
+        }),
+        InstanceFactory.build({
+          filePath: "native.tsx",
+          package: NativePackageFactory.build(),
+        }),
+      ];
+
+      const container = createMockContainer(
+        PayloadFactory.build({
+          components: [ComponentFactory.build({ id: "1", instances })],
+        })
+      );
+      const app = await createApp({ container });
+
+      const res = await app.request("/api/components/1.json");
+      const json = await res.json();
+
+      expect(json.instances[0].filePath).toBe("native.tsx");
+      expect(json.instances[1].filePath).toBe("m-file.tsx");
+      expect(json.instances[2].filePath).toBe("a-file.tsx");
+      expect(json.instances[3].filePath).toBe("z-file.tsx");
     });
   });
 });

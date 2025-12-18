@@ -1,6 +1,7 @@
 import { useParams } from "@solidjs/router";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { Code } from "~/components/code/code";
+import { CopyButton } from "~/components/copy-button/copy-button";
 import { useHeader } from "~/components/header/header-provider";
 import { CategoryIcon } from "~/components/icons";
 import InstanceFilter from "~/components/instance-filter";
@@ -100,7 +101,7 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
       <div class="h-full bg-brand-200" />
       <div class="flex flex-col gap-4 overflow-hidden border-neutral-border border-r px-4 py-6">
         <DetailsGroup>
-          <div class="grid grid-cols-[auto_1fr_max-content_max-content] items-center gap-2">
+          <div class="grid grid-cols-[auto_1fr_max-content_max-content_max-content] items-center gap-2">
             <div class="flex items-center gap-2">
               <CategoryIcon class="text-lg text-subtext-color" />
               <p class="text-lg">{store.filteredInstances().length}</p>
@@ -112,6 +113,11 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
               </Show>
             </div>
             <Spacer />
+            <CopyButton
+              componentName={props.component.name}
+              componentPackage={props.component.package}
+              instances={store.filteredInstances()}
+            />
             <ToggleAllDetailsButton mode="open" />
             <ToggleAllDetailsButton mode="close" />
           </div>
