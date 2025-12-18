@@ -1,5 +1,19 @@
 # @ikuma-t/cuin
 
+## 0.1.0
+
+### Minor Changes
+
+- decd973: Add copy button to component detail page for exporting filtered results as Markdown
+
+  - Copy filtered component usage results to clipboard in Markdown format
+  - Output includes component name, package info, usage summary grouped by package, and detailed code snippets
+  - Tooltip shows on hover with instant display and arrow indicator
+
+### Patch Changes
+
+- @ikuma-t/cuin-analyzer@0.1.0
+
 ## 0.0.20
 
 ### Patch Changes
