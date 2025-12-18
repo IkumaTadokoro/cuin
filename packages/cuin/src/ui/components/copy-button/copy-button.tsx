@@ -31,7 +31,11 @@ export const CopyButton: Component<Props> = (props) => {
   const isDisabled = () => props.instances.length === 0;
 
   return (
-    <Tooltip.Root closeDelay={0} openDelay={300}>
+    <Tooltip.Root
+      closeDelay={0}
+      openDelay={0}
+      positioning={{ placement: "top" }}
+    >
       <Tooltip.Trigger
         class="flex cursor-pointer items-center gap-1 rounded-sm border border-brand-200 bg-brand-50 px-2 py-1 font-mono text-brand-700 text-xs hover:bg-brand-100 disabled:cursor-not-allowed disabled:opacity-50"
         disabled={isDisabled()}
@@ -52,6 +56,9 @@ export const CopyButton: Component<Props> = (props) => {
         )}
       </Tooltip.Trigger>
       <Tooltip.Positioner>
+        <Tooltip.Arrow>
+          <Tooltip.ArrowTip class="fill-neutral-800" />
+        </Tooltip.Arrow>
         <Tooltip.Content class="rounded bg-neutral-800 px-2 py-1 text-white text-xs shadow-lg">
           Copy filtered results as Markdown
         </Tooltip.Content>

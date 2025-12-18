@@ -28,7 +28,7 @@ const createComponent = (
 });
 
 describe("formatAsMarkdown", () => {
-  it("詳細なMarkdown形式にフォーマット", () => {
+  it("formats instances as detailed Markdown", () => {
     const instances: Instance[] = [
       createInstance({
         filePath: "src/App.tsx",
@@ -59,7 +59,7 @@ describe("formatAsMarkdown", () => {
     expect(result).toContain("```");
   });
 
-  it("パッケージ別にグループ化される", () => {
+  it("groups instances by package", () => {
     const instances: Instance[] = [
       createInstance({
         filePath: "src/App.tsx",
@@ -81,7 +81,7 @@ describe("formatAsMarkdown", () => {
     expect(result).toContain("### my-lib@1.0.0 (1 usages)");
   });
 
-  it("nativeパッケージの場合", () => {
+  it("handles native package", () => {
     const instances: Instance[] = [
       createInstance({
         package: { type: "native" },
@@ -97,7 +97,7 @@ describe("formatAsMarkdown", () => {
     expect(result).toContain("### native (1 usages)");
   });
 
-  it("パッケージがない場合は(no package)と表示", () => {
+  it("displays (no package) when package is undefined", () => {
     const instances: Instance[] = [
       createInstance({
         package: undefined,
@@ -109,7 +109,7 @@ describe("formatAsMarkdown", () => {
     expect(result).toContain("### (no package) (1 usages)");
   });
 
-  it("空のインスタンス配列の場合", () => {
+  it("handles empty instances array", () => {
     const result = formatAsMarkdown([], createComponent({ name: "Empty" }));
 
     expect(result).toContain("# Empty (@ark-ui/solid[2.0.0])");
