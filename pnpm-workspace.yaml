@@ -29,7 +29,7 @@ catalogs:
   cli:
     destr: 2.0.5
     get-port-please: 3.2.0
-    gunshi: 0.27.0
+    gunshi: 0.27.3
     h3: 2.0.1-rc.6
     mrmime: 2.0.1
     open: 11.0.0
