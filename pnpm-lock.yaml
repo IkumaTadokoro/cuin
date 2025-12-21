@@ -24,8 +24,8 @@ catalogs:
       specifier: 3.2.0
       version: 3.2.0
     gunshi:
-      specifier: 0.27.3
-      version: 0.27.3
+      specifier: 0.27.4
+      version: 0.27.4
     h3:
       specifier: 2.0.1-rc.6
       version: 2.0.1-rc.6
@@ -198,7 +198,7 @@ importers:
         version: 3.2.0
       gunshi:
         specifier: catalog:cli
-        version: 0.27.3
+        version: 0.27.4
       h3:
         specifier: catalog:cli
         version: 2.0.1-rc.6
@@ -2661,8 +2661,8 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  gunshi@0.27.3:
-    resolution: {integrity: sha512-9UEef9Y6q3jbdrzMjGf+c+jFr1oIp0HibY841dzXy5ZBG67Xqy03y7GVMLa98G0WVzYH5lQSkJgIwKOCkjkrGA==}
+  gunshi@0.27.4:
+    resolution: {integrity: sha512-HDekNK7ada8zuk7WMlXdKgbl8Kuqs2aARAP6V2Ubwc0LmqifPzdsjTZIBNLlPbajrZIJhZsl8A/Wyinioqcz9A==}
     engines: {node: '>= 20'}
 
   h3@2.0.1-rc.6:
@@ -6404,7 +6404,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  gunshi@0.27.3:
+  gunshi@0.27.4:
     dependencies:
       args-tokens: 0.23.0
 
