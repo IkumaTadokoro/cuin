@@ -76,8 +76,8 @@ catalogs:
       specifier: 5.9.3
       version: 5.9.3
     ultracite:
-      specifier: 6.4.1
-      version: 6.4.1
+      specifier: 6.4.2
+      version: 6.4.2
     unplugin-icons:
       specifier: ^22.5.0
       version: 22.5.0
@@ -177,7 +177,7 @@ importers:
         version: 2.6.3
       ultracite:
         specifier: 'catalog:'
-        version: 6.4.1(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))
+        version: 6.4.2(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))
 
   packages/analyzer:
     devDependencies:
@@ -3617,8 +3617,8 @@ packages:
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
-  ultracite@6.4.1:
-    resolution: {integrity: sha512-RgkWJcrKH57OGWOK8C2huohLxDa70DYVWM0FmmISRhvoWCngK5E13DkPSujvDoD7b5BgzOkNwsmiIKBmlZo94A==}
+  ultracite@6.4.2:
+    resolution: {integrity: sha512-Xa6DoPQ9ay7j1H9lNH0SAeiJAgMSEv8zQPlEO+lK8xerQLtVhkTJj6rPkdnVuGSZff7FuPmdyoP8wr2cUfQW9A==}
     hasBin: true
 
   unconfig-core@7.4.1:
@@ -7296,7 +7296,7 @@ snapshots:
 
   ufo@1.6.1: {}
 
-  ultracite@6.4.1(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3)):
+  ultracite@6.4.2(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3)):
     dependencies:
       '@clack/prompts': 0.11.0
       '@trpc/server': 11.8.0(typescript@5.9.3)
