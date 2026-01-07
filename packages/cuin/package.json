@@ -8,8 +8,8 @@
     "build": "pnpm build:cli && pnpm build:ui",
     "build:ui": "vite build",
     "build:cli": "tsdown",
-    "start": "node dist/index.js",
-    "dev": "NODE_ENV=development pnpm build && node --watch dist/index.js",
+    "start": "node dist/index.mjs",
+    "dev": "NODE_ENV=development pnpm build && node --watch dist/index.mjs",
     "dev:ui": "vite",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@ikuma-t/cuin-analyzer": "workspace:*",
+    "chokidar": "catalog:cli",
     "destr": "catalog:cli",
     "get-port-please": "catalog:cli",
     "gunshi": "catalog:cli",
