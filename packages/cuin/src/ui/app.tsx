@@ -1,7 +1,9 @@
 import { Route, Router } from "@solidjs/router";
 import type { JSX } from "solid-js";
 import { lazy, Suspense } from "solid-js";
+import { AnalysisStatus } from "./components/analysis-status";
 import { MetaDataProvider } from "./contexts/analysis";
+import { AnalysisEventsProvider } from "./contexts/events";
 import "./app.css";
 import Header from "./components/header/header";
 import { HeaderProvider } from "./components/header/header-provider";
@@ -37,16 +39,19 @@ function Layout(props: { children?: JSX.Element }) {
         </div>
       }
     >
-      <MetaDataProvider>
-        <HeaderProvider>
-          <div class="flex h-screen flex-col items-stretch font-mono">
-            <Header />
-            <main class="flex flex-1 items-stretch justify-stretch">
-              {props.children}
-            </main>
-          </div>
-        </HeaderProvider>
-      </MetaDataProvider>
+      <AnalysisEventsProvider>
+        <MetaDataProvider>
+          <HeaderProvider>
+            <div class="flex h-screen flex-col items-stretch font-mono">
+              <Header />
+              <main class="flex flex-1 items-stretch justify-stretch">
+                {props.children}
+              </main>
+            </div>
+            <AnalysisStatus />
+          </HeaderProvider>
+        </MetaDataProvider>
+      </AnalysisEventsProvider>
     </Suspense>
   );
 }

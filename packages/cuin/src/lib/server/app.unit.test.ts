@@ -25,6 +25,8 @@ const createMockAnalysisStore = (
     getSummary: () => summary,
     getMeta: () => payload.meta,
     getComponent: (id) => components.get(id),
+    update: () => {},
+    reanalyze: async () => {},
   };
 };
 
@@ -33,10 +35,14 @@ const createMockStaticAssetStore = (): StaticAssetStore => ({
   getMeta: (_id: string) => Promise.resolve(undefined),
 });
 
-const createMockContainer = (payload = PayloadFactory.build()): Container => ({
-  analysisStore: createMockAnalysisStore(payload),
-  staticAssetStore: createMockStaticAssetStore(),
-});
+const createMockContainer = (payload = PayloadFactory.build()): Container => {
+  const { createAnalysisEventEmitter } = require("./events");
+  return {
+    analysisStore: createMockAnalysisStore(payload),
+    staticAssetStore: createMockStaticAssetStore(),
+    eventEmitter: createAnalysisEventEmitter(),
+  };
+};
 
 describe("createApp", () => {
   describe("GET /api/payload.json", () => {

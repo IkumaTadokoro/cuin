@@ -2,6 +2,7 @@ import { H3, withBase } from "h3";
 import type { ViteDevServer } from "vite";
 import { ComponentHandler } from "./handlers/component-handler";
 import { ComponentSummaryHandler } from "./handlers/component-summary-handler";
+import { EventsHandler } from "./handlers/events-handler";
 import { MetaHandler } from "./handlers/meta-handler";
 import { PayloadHandler } from "./handlers/payload-handler";
 import { StaticAssetHandler } from "./handlers/static-asset-handler";
@@ -34,12 +35,13 @@ export const createApp = async ({
 
 const createApiApp = (container: Container) => {
   const api = new H3().use(compressionMiddleware);
-  const { analysisStore } = container;
+  const { analysisStore, eventEmitter } = container;
 
   api.get("/payload.json", PayloadHandler(analysisStore));
   api.get("/summary.json", ComponentSummaryHandler(analysisStore));
   api.get("/meta.json", MetaHandler(analysisStore));
   api.get("/components/:id.json", ComponentHandler(analysisStore));
+  api.get("/events", EventsHandler(eventEmitter));
 
   return api;
 };
