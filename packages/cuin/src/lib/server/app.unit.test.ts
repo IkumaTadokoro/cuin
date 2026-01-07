@@ -10,6 +10,7 @@ import {
   SummaryFactory,
 } from "../../types/mocks";
 import { createApp } from "./app";
+import { createAnalysisEventEmitter } from "./events";
 import type { AnalysisStore } from "./store/analysis-store";
 import type { Container } from "./store/container";
 import type { StaticAssetStore } from "./store/static-asset-store";
@@ -36,7 +37,6 @@ const createMockStaticAssetStore = (): StaticAssetStore => ({
 });
 
 const createMockContainer = (payload = PayloadFactory.build()): Container => {
-  const { createAnalysisEventEmitter } = require("./events");
   return {
     analysisStore: createMockAnalysisStore(payload),
     staticAssetStore: createMockStaticAssetStore(),
