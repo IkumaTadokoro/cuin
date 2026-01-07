@@ -1,6 +1,7 @@
 import type { Accessor, Resource } from "solid-js";
 import {
   createContext,
+  createEffect,
   createResource,
   type ParentComponent,
   useContext,
@@ -12,6 +13,7 @@ import {
   transformSummary,
 } from "~/dataflow/payload";
 import type { Component, Meta, Summary } from "../../types/schema";
+import { useAnalysisEvents } from "./events";
 
 const SummaryDataContext =
   createContext<Accessor<TransformedSummary | undefined>>();
@@ -25,10 +27,19 @@ export function useSummaryData() {
 }
 
 export const SummaryDataProvider: ParentComponent = (props) => {
-  const [data] = createResource(async () => {
+  const [data, { refetch }] = createResource(async () => {
     const res = await fetch("/api/summary.json");
     const json = await res.json();
     return transformSummary(json as Summary);
+  });
+
+  const { lastEvent } = useAnalysisEvents();
+
+  createEffect(() => {
+    const event = lastEvent();
+    if (event?.type === "analysis-complete") {
+      refetch();
+    }
   });
 
   return (
@@ -41,7 +52,7 @@ export const SummaryDataProvider: ParentComponent = (props) => {
 export function useComponentDetail(
   id: Accessor<string>
 ): Resource<TransformedComponent | undefined> {
-  const [component] = createResource(id, async (componentId) => {
+  const [component, { refetch }] = createResource(id, async (componentId) => {
     const res = await fetch(`/api/components/${componentId}.json`);
     if (!res.ok) {
       return;
@@ -49,6 +60,16 @@ export function useComponentDetail(
     const json = await res.json();
     return transformComponent(json as Component);
   });
+
+  const { lastEvent } = useAnalysisEvents();
+
+  createEffect(() => {
+    const event = lastEvent();
+    if (event?.type === "analysis-complete") {
+      refetch();
+    }
+  });
+
   return component;
 }
 
@@ -63,10 +84,19 @@ export function useMetaData() {
 }
 
 export const MetaDataProvider: ParentComponent = (props) => {
-  const [data] = createResource(async () => {
+  const [data, { refetch }] = createResource(async () => {
     const res = await fetch("/api/meta.json");
     const json: Meta = await res.json();
     return json;
+  });
+
+  const { lastEvent } = useAnalysisEvents();
+
+  createEffect(() => {
+    const event = lastEvent();
+    if (event?.type === "analysis-complete") {
+      refetch();
+    }
   });
 
   return (

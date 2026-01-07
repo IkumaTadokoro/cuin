@@ -12,6 +12,8 @@ export type AnalysisStore = {
   getSummary: () => Summary;
   getMeta: () => Meta;
   getComponent: (id: string) => Component | undefined;
+  update: (newAnalysis: Payload) => void;
+  reanalyze: () => Promise<void>;
 };
 
 export const createAnalysisStore = async (
@@ -30,7 +32,7 @@ export const createAnalysisStore = async (
       return cached;
     }
 
-    const component = analysis.components.find((c) => c.id === id);
+    const component = store.analysis.components.find((c) => c.id === id);
     if (!component) {
       return;
     }
@@ -39,10 +41,23 @@ export const createAnalysisStore = async (
     return component;
   };
 
+  const update = (newAnalysis: Payload) => {
+    store.analysis = newAnalysis;
+    store.summary = toSummary(newAnalysis);
+    store.components.clear();
+  };
+
+  const reanalyze = async () => {
+    const newAnalysis = await getAnalysis(analyzeDir);
+    update(newAnalysis);
+  };
+
   return {
     getAnalysis: (): Payload => store.analysis,
     getSummary: (): Summary => store.summary,
     getMeta: (): Meta => store.analysis.meta,
     getComponent: (id: string): Component | undefined => getComponent(id),
+    update,
+    reanalyze,
   };
 };

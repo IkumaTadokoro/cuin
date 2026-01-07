@@ -15,9 +15,11 @@ export const createServer = async (options: DevServerOptions) => {
 
   if (isDev()) {
     const { createDevServer } = await import("./dev-server");
-    return createDevServer(container);
+    const server = await createDevServer(container);
+    return { server, container };
   }
 
   const app = await createApp({ container });
-  return createHttpServer(toNodeHandler(app));
+  const server = createHttpServer(toNodeHandler(app));
+  return { server, container };
 };
