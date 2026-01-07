@@ -1,6 +1,6 @@
 {
   "name": "@ikuma-t/cuin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Component Usage Inspector for React Project",
   "type": "module",
   "private": false,
