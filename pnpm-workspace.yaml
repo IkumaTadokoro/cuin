@@ -14,7 +14,7 @@ catalog:
   turbo: 2.7.3
   type-fest: 5.3.1
   typescript: 5.9.3
-  ultracite: 7.0.8
+  ultracite: 7.0.9
   unplugin-icons: ^22.5.0
   vite-plugin-compression2: ^2.4.0
 
