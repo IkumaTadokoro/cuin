@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 // eslint-disable-next-line antfu/no-top-level-await
-await import("./dist/index.js");
+await import("./dist/index.mjs");
