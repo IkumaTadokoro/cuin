@@ -71,6 +71,8 @@ export const ComponentSummaryFactory = Factory.define<ComponentSummary>(
     name: "TestComponent",
     package: NativePackageFactory.build(),
     instanceCount: 0,
+    usedInPackages: [],
+    instanceCountByPackage: {},
   })
 );
 

@@ -56,6 +56,8 @@ export type SummaryComponent = {
     key: PackageKey;
   } & Package;
   instanceCount: number;
+  usedInPackages: Array<{ key: PackageKey } & Package>;
+  instanceCountByPackage: Map<PackageKey, number>;
 };
 
 export const transformComponent = (component: ComponentSchema): Component => ({
@@ -77,6 +79,16 @@ export const transformSummaryComponent = (
     key: PackageKey(component.package),
     ...component.package,
   },
+  usedInPackages: component.usedInPackages.map((pkg) => ({
+    key: PackageKey(pkg),
+    ...pkg,
+  })),
+  instanceCountByPackage: new Map(
+    Object.entries(component.instanceCountByPackage).map(([key, count]) => [
+      key as PackageKey,
+      count,
+    ])
+  ),
 });
 
 export type PackageWithCount = Package & {

@@ -1,20 +1,24 @@
 // biome-ignore-all lint/style/noMagicNumbers: test assertions
 import { describe, expect, it } from "vitest";
-import type { Component, PackageKey } from "../payload";
+import type { PackageKey, SummaryComponent } from "../payload";
 import { type SortState, sortComponents } from "./sort";
 
 const pkgKey = "external:pkg@1.0.0" as PackageKey;
 
-const createComponent = (name: string, instanceCount: number): Component => ({
+const createComponent = (
+  name: string,
+  instanceCount: number
+): SummaryComponent => ({
   id: name,
   name,
   package: { key: pkgKey, type: "external", name: "pkg", version: "1.0.0" },
   instanceCount,
-  instances: [],
+  usedInPackages: [],
+  instanceCountByPackage: new Map(),
 });
 
 describe("sortComponents", () => {
-  const components: Component[] = [
+  const components: SummaryComponent[] = [
     createComponent("Card", 5),
     createComponent("Button", 10),
     createComponent("Modal", 3),

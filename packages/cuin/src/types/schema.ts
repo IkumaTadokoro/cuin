@@ -52,6 +52,8 @@ export type ComponentSummary = {
   name: string;
   package: Package;
   instanceCount: number;
+  usedInPackages: Package[];
+  instanceCountByPackage: Record<string, number>;
 };
 
 export type Payload = {
