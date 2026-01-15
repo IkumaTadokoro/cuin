@@ -54,7 +54,7 @@ impl Analyzer {
             .filter_map(|element| {
                 let binding = parsed_file.find_binding_for_element(element);
                 let definition = context.identify_component(element, binding)?;
-                let usage_package = context.resolve_package_for_file(element.location());
+                let usage_package = context.resolve_package_with_type_for_file(element.location());
 
                 Some(ComponentUsage::new(
                     definition,
@@ -117,6 +117,26 @@ impl AnalysisContext {
     pub fn resolve_package_for_file(&self, source_file: &SourceLocation) -> Option<Package> {
         self.module_resolver
             .resolve_package_for_path(source_file.file().canonical())
+    }
+
+    pub fn resolve_package_with_type_for_file(
+        &self,
+        source_file: &SourceLocation,
+    ) -> Option<(Package, bool)> {
+        let package = self
+            .module_resolver
+            .resolve_package_for_path(source_file.file().canonical())?;
+
+        let canonical_path = std::fs::canonicalize(source_file.file().canonical())
+            .unwrap_or_else(|_| source_file.file().canonical().to_path_buf());
+        let resolved_path_str = canonical_path.display().to_string();
+
+        let is_outside_project = canonical_path.strip_prefix(self.workspace_root()).is_err();
+        let is_in_node_modules = resolved_path_str.contains("node_modules");
+        let is_workspace_package = !is_in_node_modules && !is_outside_project;
+        let is_external = is_outside_project || (is_in_node_modules && !is_workspace_package);
+
+        Some((package, is_external))
     }
 
     pub fn identify_component(
@@ -240,7 +260,7 @@ impl ComponentUsage {
         definition: ComponentDefinition,
         occurrence: JSXElementOccurrence,
         binding: Option<ImportBinding>,
-        usage_package: Option<Package>,
+        usage_package: Option<(Package, bool)>,
     ) -> Self {
         let mut simplified_props: Vec<SimplifiedProp> = Vec::new();
 
@@ -264,12 +284,13 @@ impl ComponentUsage {
             }
         }
 
-        let usage_package_schema =
-            usage_package.map(|package| match definition.identity().source() {
-                ComponentSource::External { .. } => UsagePackageSchema::External { package },
-                ComponentSource::Internal { .. } => UsagePackageSchema::Internal { package },
-                ComponentSource::Native => UsagePackageSchema::Internal { package },
-            });
+        let usage_package_schema = usage_package.map(|(package, is_external)| {
+            if is_external {
+                UsagePackageSchema::External { package }
+            } else {
+                UsagePackageSchema::Internal { package }
+            }
+        });
 
         Self {
             definition,

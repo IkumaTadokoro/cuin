@@ -5,6 +5,7 @@ import type { PackageKey, SummaryComponent } from "../payload";
 export type FilterState = {
   nameFilter: string;
   packageFilter: SelectionState<PackageKey>;
+  usedByPackageFilter: SelectionState<PackageKey>;
 };
 
 const byName =
@@ -19,12 +20,23 @@ const byPackage =
   (c) =>
     isSelected(selection, c.package.key);
 
+const byUsedInPackage =
+  <T extends SummaryComponent>(
+    selection: SelectionState<PackageKey>
+  ): Predicate<T> =>
+  (c) => {
+    if (selection.type === "all") return true;
+    if (selection.type === "none") return false;
+    return c.usedInPackages.some((pkg) => isSelected(selection, pkg.key));
+  };
+
 export function buildPredicate<T extends SummaryComponent>(
   state: FilterState
 ): Predicate<T> {
   return and(
     state.nameFilter === "" ? always() : byName(state.nameFilter),
-    byPackage(state.packageFilter)
+    byPackage(state.packageFilter),
+    byUsedInPackage(state.usedByPackageFilter)
   );
 }
 

@@ -1,10 +1,13 @@
 // biome-ignore-all lint/style/noMagicNumbers: test assertions
 import { describe, expect, it } from "vitest";
 import { nonEmptySetOf } from "../../lib/selection-state";
-import type { Component, PackageKey } from "../payload";
+import type { PackageKey, SummaryComponent } from "../payload";
 import { type FilterState, filterComponents } from "./filter";
 
-const createComponent = (name: string, packageKey: PackageKey): Component => ({
+const createComponent = (
+  name: string,
+  packageKey: PackageKey
+): SummaryComponent => ({
   id: name,
   name,
   package: {
@@ -14,7 +17,8 @@ const createComponent = (name: string, packageKey: PackageKey): Component => ({
     version: "1.0.0",
   },
   instanceCount: 1,
-  instances: [],
+  usedInPackages: [],
+  instanceCountByPackage: new Map(),
 });
 
 const pkgA = "external:pkg-a@1.0.0" as PackageKey;
@@ -22,7 +26,7 @@ const pkgB = "external:pkg-b@1.0.0" as PackageKey;
 const pkgC = "external:pkg-c@1.0.0" as PackageKey;
 
 describe("filterComponents", () => {
-  const components: Component[] = [
+  const components: SummaryComponent[] = [
     createComponent("Button", pkgA),
     createComponent("Input", pkgA),
     createComponent("Card", pkgB),
@@ -34,6 +38,7 @@ describe("filterComponents", () => {
       const filters: FilterState = {
         nameFilter: "",
         packageFilter: { type: "all" },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -45,6 +50,7 @@ describe("filterComponents", () => {
       const filters: FilterState = {
         nameFilter: "button",
         packageFilter: { type: "all" },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -57,6 +63,7 @@ describe("filterComponents", () => {
       const filters: FilterState = {
         nameFilter: "ut",
         packageFilter: { type: "all" },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -71,6 +78,7 @@ describe("filterComponents", () => {
       const filters: FilterState = {
         nameFilter: "",
         packageFilter: { type: "all" },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -82,6 +90,7 @@ describe("filterComponents", () => {
       const filters: FilterState = {
         nameFilter: "",
         packageFilter: { type: "none" },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -96,6 +105,7 @@ describe("filterComponents", () => {
           type: "some",
           values: nonEmptySetOf<PackageKey>(pkgA),
         },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -111,6 +121,7 @@ describe("filterComponents", () => {
           type: "some",
           values: nonEmptySetOf<PackageKey>(pkgA, pkgC),
         },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -128,6 +139,7 @@ describe("filterComponents", () => {
           type: "some",
           values: nonEmptySetOf<PackageKey>(pkgA),
         },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);
@@ -143,6 +155,7 @@ describe("filterComponents", () => {
           type: "some",
           values: nonEmptySetOf<PackageKey>(pkgA),
         },
+        usedByPackageFilter: { type: "all" },
       };
 
       const result = filterComponents(components, filters);

@@ -31,6 +31,7 @@ export function createComponentListStore(dataSource: DataSource) {
   const [state, setState] = createStore<StoreState>({
     nameFilter: "",
     packageFilter: initialSelection<PackageKey>(),
+    usedByPackageFilter: initialSelection<PackageKey>(),
     sortKey: "name",
     sortOrder: "asc",
   });
@@ -39,12 +40,41 @@ export function createComponentListStore(dataSource: DataSource) {
     dataSource.packages().map((pkg) => pkg.key)
   );
 
+  const nameFilteredComponents = createMemo(() => {
+    const components = dataSource.components();
+    if (state.nameFilter === "") return components;
+    return components.filter((c) =>
+      c.name.toLowerCase().includes(state.nameFilter.toLowerCase())
+    );
+  });
+
   const filteredComponents = createMemo(() =>
     filterComponents(dataSource.components(), state)
   );
 
+  const componentsWithFilteredCounts = createMemo(() => {
+    const filtered = filteredComponents();
+    const usedByFilter = state.usedByPackageFilter;
+
+    if (usedByFilter.type === "all") return filtered;
+
+    return filtered
+      .map((component) => {
+        let filteredCount = 0;
+        if (usedByFilter.type === "some") {
+          for (const [pkgKey, count] of component.instanceCountByPackage) {
+            if (isSelected(usedByFilter, pkgKey)) {
+              filteredCount += count;
+            }
+          }
+        }
+        return { ...component, instanceCount: filteredCount };
+      })
+      .filter((c) => c.instanceCount > 0);
+  });
+
   const sortedComponents = createMemo(() =>
-    sortComponents(filteredComponents(), state)
+    sortComponents(componentsWithFilteredCounts(), state)
   );
 
   const setNameFilter = (query: string) => {
@@ -88,9 +118,19 @@ export function createComponentListStore(dataSource: DataSource) {
     setState(newState);
   };
 
+  const getUsedByPackageFilter = (): SelectionState<PackageKey> =>
+    state.usedByPackageFilter;
+
+  const setUsedByPackageFilter = (
+    selection: SelectionState<PackageKey>
+  ): void => {
+    setState("usedByPackageFilter", selection);
+  };
+
   return {
     state,
     allPackageKeys,
+    nameFilteredComponents,
     filteredComponents,
     sortedComponents,
     setNameFilter,
@@ -103,5 +143,7 @@ export function createComponentListStore(dataSource: DataSource) {
     getPackageFilter,
     setPackageFilter,
     setStoreState,
+    getUsedByPackageFilter,
+    setUsedByPackageFilter,
   };
 }

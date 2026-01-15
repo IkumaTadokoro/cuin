@@ -4,6 +4,7 @@ import { ComponentListCount } from "~/components/component-list-count";
 import { ComponentNameFilter } from "~/components/component-name-filter";
 import { ComponentOrderSelect } from "~/components/component-order-select";
 import ComponentPackageFilter from "~/components/component-package-filter";
+import ComponentUsedByPackageFilter from "~/components/component-used-by-package-filter";
 import { useHeader } from "~/components/header/header-provider";
 import { ComponentIcon } from "~/components/icons";
 import Separator from "~/components/separator";
@@ -64,6 +65,11 @@ function IndexContent() {
           allPackages={() => data()?.packages ?? []}
           onSelectionChange={store.setPackageFilter}
           selection={store.getPackageFilter}
+        />
+        <ComponentUsedByPackageFilter
+          components={store.nameFilteredComponents}
+          onSelectionChange={store.setUsedByPackageFilter}
+          selection={store.getUsedByPackageFilter}
         />
       </div>
       <div class="h-full bg-brand-200" />

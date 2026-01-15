@@ -28,12 +28,17 @@ export function useComponentListUrlSync(
     untrack(() => {
       const nameFilter = parseAsString(params.name);
       const packageFilter = deserializeSelectionState(params.packages, keys);
+      const usedByPackageFilter = deserializeSelectionState(
+        params.usedBy,
+        keys
+      );
       const sortKey = parseSortKey(params.sort);
       const sortOrder = parseSortOrder(params.order);
 
       store.setStoreState({
         nameFilter,
         packageFilter,
+        usedByPackageFilter,
         sortKey,
         sortOrder,
       });
@@ -47,11 +52,18 @@ export function useComponentListUrlSync(
       return;
     }
 
-    const { nameFilter, packageFilter, sortKey, sortOrder } = store.state;
+    const {
+      nameFilter,
+      packageFilter,
+      usedByPackageFilter,
+      sortKey,
+      sortOrder,
+    } = store.state;
 
     const newParams: Record<string, string | undefined> = {
       name: nameFilter || undefined,
       packages: serializeSelectionState(packageFilter),
+      usedBy: serializeSelectionState(usedByPackageFilter),
       sort: sortKey !== "name" ? sortKey : undefined,
       order: sortOrder !== "asc" ? sortOrder : undefined,
     };
