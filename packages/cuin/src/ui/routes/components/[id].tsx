@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import { Code } from "~/components/code/code";
 import { CopyButton } from "~/components/copy-button/copy-button";
 import { useHeader } from "~/components/header/header-provider";
