@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import { createEffect, createSignal, For, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import { Code } from "~/components/code/code";
 import { CopyButton } from "~/components/copy-button/copy-button";
 import { useHeader } from "~/components/header/header-provider";
@@ -66,25 +66,23 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
 
   const [visibleCount, setVisibleCount] = createSignal(INITIAL_RENDER_COUNT);
 
+  const addMore = () => {
+    const filtered = store.filteredInstances();
+    setVisibleCount((c) => {
+      if (c >= filtered.length) {
+        return c;
+      }
+      const next = Math.min(c + CHUNK_SIZE, filtered.length);
+      if (next < filtered.length) {
+        requestIdleCallback(addMore);
+      }
+      return next;
+    });
+  };
+
   createEffect(() => {
     store.filteredInstances();
     setVisibleCount(INITIAL_RENDER_COUNT);
-  });
-
-  onMount(() => {
-    const addMore = () => {
-      const filtered = store.filteredInstances();
-      setVisibleCount((c) => {
-        if (c >= filtered.length) {
-          return c;
-        }
-        const next = Math.min(c + CHUNK_SIZE, filtered.length);
-        if (next < filtered.length) {
-          requestIdleCallback(addMore);
-        }
-        return next;
-      });
-    };
     requestIdleCallback(addMore);
   });
 
