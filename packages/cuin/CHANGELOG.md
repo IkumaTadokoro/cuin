@@ -1,5 +1,29 @@
 # @ikuma-t/cuin
 
+## 0.4.0
+
+### Minor Changes
+
+- fad5a50: Add UsedBy package filter and fix package type detection
+
+  Added a new UsedBy package filter to the component list page that allows users to filter components based on which packages use them. The filter displays packages with usage counts and updates the component list dynamically.
+
+  Fixed two package type detection issues:
+
+  1. Same packages appearing as duplicates with different internal/external types - now merged using MergedPackageKey with internal-priority icon display
+  2. Instance packages showing incorrect types - now correctly determined based on usage location rather than component source location
+
+### Patch Changes
+
+- 3e37d16: Fix lazy loading stopping at 100 items when filters are changed
+
+  Previously, when users changed filters on the component detail page, the lazy loading would stop at 100 items even when more filtered results were available. This occurred because the `addMore` function was only called in `onMount`, which executes once on initial mount.
+
+  Fixed by moving the `addMore` function outside of `onMount` and calling it within `createEffect`, ensuring lazy loading restarts automatically whenever the filtered instances change.
+
+- Updated dependencies [fad5a50]
+  - @ikuma-t/cuin-analyzer@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
