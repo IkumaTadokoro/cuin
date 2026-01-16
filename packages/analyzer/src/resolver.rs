@@ -1,7 +1,9 @@
 #![allow(dead_code)]
 
 use dashmap::DashMap;
-use oxc_resolver::{ResolveOptions, Resolver, TsconfigOptions, TsconfigReferences};
+use oxc_resolver::{
+    ResolveOptions, Resolver, TsconfigDiscovery, TsconfigOptions, TsconfigReferences,
+};
 use serde::Deserialize;
 use std::fs;
 use std::hash::Hash;
@@ -93,10 +95,10 @@ impl ModuleResolver {
         }
 
         let resolver = Arc::new(Resolver::new(ResolveOptions {
-            tsconfig: Some(TsconfigOptions {
+            tsconfig: Some(TsconfigDiscovery::Manual(TsconfigOptions {
                 config_file: tsconfig_path.to_path_buf(),
                 references: TsconfigReferences::Auto,
-            }),
+            })),
             extensions: vec![".jsx".into(), ".tsx".into(), ".js".into(), ".ts".into()],
             condition_names: vec!["node".into(), "import".into()],
             ..ResolveOptions::default()
