@@ -15,7 +15,7 @@ catalog:
   type-fest: 5.4.0
   typescript: 5.9.3
   ultracite: 7.0.10
-  unplugin-icons: ^22.5.0
+  unplugin-icons: ^23.0.0
   vite-plugin-compression2: ^2.4.0
 
 catalogMode: strict
