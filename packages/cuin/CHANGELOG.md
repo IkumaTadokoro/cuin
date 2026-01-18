@@ -1,5 +1,17 @@
 # @ikuma-t/cuin
 
+## 0.5.0
+
+### Minor Changes
+
+- b22555e: Add folder view mode to group component instances by file
+
+  Add a new folder view mode to the component detail page that groups usage instances by file path. This provides a more organized view when components are used across multiple files. Users can toggle between folder view and flat view using the new DisplayModeToggle component.
+
+### Patch Changes
+
+- @ikuma-t/cuin-analyzer@0.5.0
+
 ## 0.4.0
 
 ### Minor Changes
