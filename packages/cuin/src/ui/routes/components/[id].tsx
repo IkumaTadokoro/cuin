@@ -70,7 +70,7 @@ function ComponentPageContent(props: { component: TransformedComponent }) {
     instances: () => props.component.instances,
   });
 
-  const initialDisplayMode: DisplayMode = 'folder'
+  const initialDisplayMode: DisplayMode = "folder";
   const [displayMode, setDisplayMode] =
     createSignal<DisplayMode>(initialDisplayMode);
   const [visibleCount, setVisibleCount] = createSignal(INITIAL_RENDER_COUNT);
