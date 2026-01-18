@@ -24,12 +24,12 @@ type PropType =
   | "mixed"
   | "spread";
 
-type PropsBadgeProps = {
+interface PropsBadgeProps {
   key: string;
   value?: string;
   raw: string;
   propType: PropType | (string & {});
-};
+}
 
 export const PropsBadge: Component<PropsBadgeProps> = (props) => {
   const propsValue =
@@ -84,10 +84,10 @@ export const PropsBadge: Component<PropsBadgeProps> = (props) => {
           </Switch>
         </div>
       </div>
-      <div class="border-brand-200 border-r bg-brand-50 font-semibold">
-        <div class="px-1.5 py-1">{props.key}</div>
+      <div class="flex h-full items-center border-brand-200 border-r bg-brand-50 px-1.5 py-1 font-semibold">
+        {props.key}
       </div>
-      <div class="rounded-r-sm bg-default-background px-2 py-1">
+      <div class="rounded-r-sm bg-default-background px-2 py-1 text-default-color">
         {propsValue}
       </div>
     </div>

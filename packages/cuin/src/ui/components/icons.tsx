@@ -1,12 +1,16 @@
 // biome-ignore-all lint/performance/noBarrelFile: unplugin-icons requires barrel file pattern
 export { default as SpreadIcon } from "~icons/bi/three-dots";
+export { default as AlignLeftIcon } from "~icons/bx/align-left";
 export { default as Html5Icon } from "~icons/bx/bxl-html5";
 export { default as CategoryIcon } from "~icons/bx/category";
 export { default as CheckIcon } from "~icons/bx/check";
 export { default as ChevronDownIcon } from "~icons/bx/chevron-down";
 export { default as CopyIcon } from "~icons/bx/copy";
+export { default as FolderIcon } from "~icons/bx/folder";
+export { default as GridIcon } from "~icons/bx/grid-alt";
 export { default as InfoSquareIcon } from "~icons/bx/info-square";
 export { default as LinkExternalIcon } from "~icons/bx/link-external";
+export { default as ListIcon } from "~icons/bx/list-ul";
 export { default as PackageIcon } from "~icons/bx/package";
 export { default as SearchIcon } from "~icons/bx/search";
 export { default as XIcon } from "~icons/bx/x";
