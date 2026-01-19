@@ -58,8 +58,8 @@ catalogs:
       specifier: 24.10.9
       version: 24.10.9
     es-toolkit:
-      specifier: 1.43.0
-      version: 1.43.0
+      specifier: 1.44.0
+      version: 1.44.0
     lint-staged:
       specifier: ^16.2.7
       version: 16.2.7
@@ -274,7 +274,7 @@ importers:
         version: 0.7.1
       es-toolkit:
         specifier: 'catalog:'
-        version: 1.43.0
+        version: 1.44.0
       fishery:
         specifier: catalog:test
         version: 2.4.0
@@ -2424,6 +2424,9 @@ packages:
 
   es-toolkit@1.43.0:
     resolution: {integrity: sha512-SKCT8AsWvYzBBuUqMk4NPwFlSdqLpJwmy6AP322ERn8W2YLIB6JBXnwMI2Qsh2gfphT3q7EKAxKb23cvFHFwKA==}
+
+  es-toolkit@1.44.0:
+    resolution: {integrity: sha512-6penXeZalaV88MM3cGkFZZfOoLGWshWWfdy0tWw/RlVVyhvMaWSBTOvXNeiW3e5FwdS5ePW0LGEu17zT139ktg==}
 
   esbuild@0.27.1:
     resolution: {integrity: sha512-yY35KZckJJuVVPXpvjgxiCuVEJT67F6zDeVTv4rizyPrfGBUpZQsvmxnN+C371c2esD/hNMjj4tpBhuueLN7aA==}
@@ -6072,6 +6075,8 @@ snapshots:
   es-module-lexer@1.7.0: {}
 
   es-toolkit@1.43.0: {}
+
+  es-toolkit@1.44.0: {}
 
   esbuild@0.27.1:
     optionalDependencies:
