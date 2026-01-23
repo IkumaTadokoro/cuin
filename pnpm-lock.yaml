@@ -30,8 +30,8 @@ catalogs:
       specifier: 0.27.5
       version: 0.27.5
     h3:
-      specifier: 2.0.1-rc.10
-      version: 2.0.1-rc.10
+      specifier: 2.0.1-rc.11
+      version: 2.0.1-rc.11
     mrmime:
       specifier: 2.0.1
       version: 2.0.1
@@ -207,7 +207,7 @@ importers:
         version: 0.27.5
       h3:
         specifier: catalog:cli
-        version: 2.0.1-rc.10
+        version: 2.0.1-rc.11
       mrmime:
         specifier: catalog:cli
         version: 2.0.1
@@ -2480,9 +2480,6 @@ packages:
       picomatch:
         optional: true
 
-  fetchdts@0.1.7:
-    resolution: {integrity: sha512-YoZjBdafyLIop9lSxXVI33oLD5kN31q4Td+CasofLLYeLXRFeOsuOw0Uo+XNRi9PZlbfdlN2GmRtm4tCEQ9/KA==}
-
   fflate@0.8.2:
     resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
@@ -2555,8 +2552,8 @@ packages:
     resolution: {integrity: sha512-ExdnmI90hQ/eR1wnUc5rVom+K16F1hSpbYrplpt6rrJhXLprVGK9/E63bk7Rju27hAqc3WvpCa8PeY95R165fw==}
     engines: {node: '>= 20'}
 
-  h3@2.0.1-rc.10:
-    resolution: {integrity: sha512-RRBdk2129a8VScELLANGX7QADPusn+V1GYY4q3wY+/K1nvfdgSrA0XxqkSR7f0MyWSjPvpqrUVvgUhHbMq+3oA==}
+  h3@2.0.1-rc.11:
+    resolution: {integrity: sha512-2myzjCqy32c1As9TjZW9fNZXtLqNedjFSrdFy2AjFBQQ3LzrnGoDdFDYfC0tV2e4vcyfJ2Sfo/F6NQhO2Ly/Mw==}
     engines: {node: '>=20.11.1'}
     peerDependencies:
       crossws: ^0.4.1
@@ -6146,8 +6143,6 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
-  fetchdts@0.1.7: {}
-
   fflate@0.8.2: {}
 
   fill-range@7.1.1:
@@ -6220,9 +6215,8 @@ snapshots:
     dependencies:
       args-tokens: 0.23.0
 
-  h3@2.0.1-rc.10:
+  h3@2.0.1-rc.11:
     dependencies:
-      fetchdts: 0.1.7
       rou3: 0.7.12
       srvx: 0.10.1
 
