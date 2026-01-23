@@ -30,8 +30,8 @@ catalogs:
       specifier: 0.27.5
       version: 0.27.5
     h3:
-      specifier: 2.0.1-rc.8
-      version: 2.0.1-rc.8
+      specifier: 2.0.1-rc.10
+      version: 2.0.1-rc.10
     mrmime:
       specifier: 2.0.1
       version: 2.0.1
@@ -207,7 +207,7 @@ importers:
         version: 0.27.5
       h3:
         specifier: catalog:cli
-        version: 2.0.1-rc.8
+        version: 2.0.1-rc.10
       mrmime:
         specifier: catalog:cli
         version: 2.0.1
@@ -2480,6 +2480,9 @@ packages:
       picomatch:
         optional: true
 
+  fetchdts@0.1.7:
+    resolution: {integrity: sha512-YoZjBdafyLIop9lSxXVI33oLD5kN31q4Td+CasofLLYeLXRFeOsuOw0Uo+XNRi9PZlbfdlN2GmRtm4tCEQ9/KA==}
+
   fflate@0.8.2:
     resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
@@ -2552,8 +2555,8 @@ packages:
     resolution: {integrity: sha512-ExdnmI90hQ/eR1wnUc5rVom+K16F1hSpbYrplpt6rrJhXLprVGK9/E63bk7Rju27hAqc3WvpCa8PeY95R165fw==}
     engines: {node: '>= 20'}
 
-  h3@2.0.1-rc.8:
-    resolution: {integrity: sha512-IIMQG7qnXx1Ls75suuMHH4xtcvTFxsUguDIZB+dgdYr1RftLj59FkeWF1dOr+jnejDs8Eo+ZKV1CMqogFeqGRQ==}
+  h3@2.0.1-rc.10:
+    resolution: {integrity: sha512-RRBdk2129a8VScELLANGX7QADPusn+V1GYY4q3wY+/K1nvfdgSrA0XxqkSR7f0MyWSjPvpqrUVvgUhHbMq+3oA==}
     engines: {node: '>=20.11.1'}
     peerDependencies:
       crossws: ^0.4.1
@@ -3285,8 +3288,8 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
-  srvx@0.10.0:
-    resolution: {integrity: sha512-NqIsR+wQCfkvvwczBh8J8uM4wTZx41K2lLSEp/3oMp917ODVVMtW5Me4epCmQ3gH8D+0b+/t4xxkUKutyhimTA==}
+  srvx@0.10.1:
+    resolution: {integrity: sha512-A//xtfak4eESMWWydSRFUVvCTQbSwivnGCEf8YGPe2eHU0+Z6znfUTCPF0a7oV3sObSOcrXHlL6Bs9vVctfXdg==}
     engines: {node: '>=20.16.0'}
     hasBin: true
 
@@ -6143,6 +6146,8 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
+  fetchdts@0.1.7: {}
+
   fflate@0.8.2: {}
 
   fill-range@7.1.1:
@@ -6215,10 +6220,11 @@ snapshots:
     dependencies:
       args-tokens: 0.23.0
 
-  h3@2.0.1-rc.8:
+  h3@2.0.1-rc.10:
     dependencies:
+      fetchdts: 0.1.7
       rou3: 0.7.12
-      srvx: 0.10.0
+      srvx: 0.10.1
 
   hast-util-to-html@9.0.5:
     dependencies:
@@ -6930,7 +6936,7 @@ snapshots:
 
   sprintf-js@1.0.3: {}
 
-  srvx@0.10.0: {}
+  srvx@0.10.1: {}
 
   stackback@0.0.2: {}
 
