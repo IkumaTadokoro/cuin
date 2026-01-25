@@ -11,8 +11,8 @@ catalogs:
       version: 3.5.1
   build:
     tsdown:
-      specifier: 0.20.0
-      version: 0.20.0
+      specifier: 0.20.1
+      version: 0.20.1
     tsx:
       specifier: 4.21.0
       version: 4.21.0
@@ -295,7 +295,7 @@ importers:
         version: 4.1.18
       tsdown:
         specifier: catalog:build
-        version: 0.20.0(publint@0.3.16)(typescript@5.9.3)
+        version: 0.20.1(publint@0.3.16)(typescript@5.9.3)
       tsx:
         specifier: catalog:build
         version: 4.21.0
@@ -3451,8 +3451,8 @@ packages:
       zod:
         optional: true
 
-  tsdown@0.20.0:
-    resolution: {integrity: sha512-VLf5wZFyHBTdV0aN3pjRlY5bmwnrZcxOT3pjSYy2JwSgo8zY51xycPWVCkeeyOxllCwrlrO1pTYr7B8j7z/yqA==}
+  tsdown@0.20.1:
+    resolution: {integrity: sha512-Wo1BzqNQVZ6SFQV8rjQBwMmNubO+yV3F+vp2WNTjEaS4S5CT1C1dHtUbeFMrCEasZpGy5w6TshpehNnfTe8QBQ==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -7086,7 +7086,7 @@ snapshots:
       valibot: 1.2.0(typescript@5.9.3)
       zod: 4.3.5
 
-  tsdown@0.20.0(publint@0.3.16)(typescript@5.9.3):
+  tsdown@0.20.1(publint@0.3.16)(typescript@5.9.3):
     dependencies:
       ansis: 4.2.0
       cac: 6.7.14
