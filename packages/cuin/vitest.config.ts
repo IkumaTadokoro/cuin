@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [solid(), Icons({ compiler: "solid", scale: 1 })],
   resolve: {
     alias: {
-      "~": resolve(__dirname, "./src/ui"),
+      "~": resolve(import.meta.dirname, "./src/ui"),
     },
   },
   test: {

@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "~": resolve(__dirname, "./src/ui"),
+      "~": resolve(import.meta.dirname, "./src/ui"),
     },
   },
   build: {
