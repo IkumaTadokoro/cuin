@@ -27,8 +27,8 @@ catalogs:
       specifier: 3.2.0
       version: 3.2.0
     gunshi:
-      specifier: 0.27.5
-      version: 0.27.5
+      specifier: 0.27.6
+      version: 0.27.6
     h3:
       specifier: 2.0.1-rc.11
       version: 2.0.1-rc.11
@@ -204,7 +204,7 @@ importers:
         version: 3.2.0
       gunshi:
         specifier: catalog:cli
-        version: 0.27.5
+        version: 0.27.6
       h3:
         specifier: catalog:cli
         version: 2.0.1-rc.11
@@ -2191,10 +2191,6 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  args-tokens@0.23.0:
-    resolution: {integrity: sha512-VZETsQmpEGO7A9adjfIOTyZuxKzurUas9kh1Hm0WGhFq8dOyw50P6OjiTwKyURwnmDabw0DbFjI+BUucJfCtnQ==}
-    engines: {node: '>= 20'}
-
   aria-query@5.3.0:
     resolution: {integrity: sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==}
 
@@ -2616,8 +2612,8 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  gunshi@0.27.5:
-    resolution: {integrity: sha512-ExdnmI90hQ/eR1wnUc5rVom+K16F1hSpbYrplpt6rrJhXLprVGK9/E63bk7Rju27hAqc3WvpCa8PeY95R165fw==}
+  gunshi@0.27.6:
+    resolution: {integrity: sha512-8+TfJPzDE9XjUkdxpQQNbdxHWZ1VuIjWIRMTht4id4qdo/mIRWLdxQd61m9gvPkPf5kg0LuIxEobCsWJVYjoPA==}
     engines: {node: '>= 20'}
 
   h3@2.0.1-rc.11:
@@ -5931,8 +5927,6 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  args-tokens@0.23.0: {}
-
   aria-query@5.3.0:
     dependencies:
       dequal: 2.0.3
@@ -6308,9 +6302,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  gunshi@0.27.5:
-    dependencies:
-      args-tokens: 0.23.0
+  gunshi@0.27.6: {}
 
   h3@2.0.1-rc.11:
     dependencies:
