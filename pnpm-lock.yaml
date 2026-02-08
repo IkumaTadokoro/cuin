@@ -30,8 +30,8 @@ catalogs:
       specifier: 0.27.6
       version: 0.27.6
     h3:
-      specifier: 2.0.1-rc.11
-      version: 2.0.1-rc.11
+      specifier: 2.0.1-rc.12
+      version: 2.0.1-rc.12
     mrmime:
       specifier: 2.0.1
       version: 2.0.1
@@ -207,7 +207,7 @@ importers:
         version: 0.27.6
       h3:
         specifier: catalog:cli
-        version: 2.0.1-rc.11
+        version: 2.0.1-rc.12
       mrmime:
         specifier: catalog:cli
         version: 2.0.1
@@ -2619,9 +2619,10 @@ packages:
     resolution: {integrity: sha512-8+TfJPzDE9XjUkdxpQQNbdxHWZ1VuIjWIRMTht4id4qdo/mIRWLdxQd61m9gvPkPf5kg0LuIxEobCsWJVYjoPA==}
     engines: {node: '>= 20'}
 
-  h3@2.0.1-rc.11:
-    resolution: {integrity: sha512-2myzjCqy32c1As9TjZW9fNZXtLqNedjFSrdFy2AjFBQQ3LzrnGoDdFDYfC0tV2e4vcyfJ2Sfo/F6NQhO2Ly/Mw==}
+  h3@2.0.1-rc.12:
+    resolution: {integrity: sha512-J4OKk8DnBrS9tDVj5w9rJXEd3VH6bj9EulwWefk47JxX5U85yHiQA8LmYh9eZoaqeJy+eqxuODa5wqLeLMum/A==}
     engines: {node: '>=20.11.1'}
+    hasBin: true
     peerDependencies:
       crossws: ^0.4.1
     peerDependenciesMeta:
@@ -3356,8 +3357,8 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
-  srvx@0.10.1:
-    resolution: {integrity: sha512-A//xtfak4eESMWWydSRFUVvCTQbSwivnGCEf8YGPe2eHU0+Z6znfUTCPF0a7oV3sObSOcrXHlL6Bs9vVctfXdg==}
+  srvx@0.11.2:
+    resolution: {integrity: sha512-u6NbjE84IJwm1XUnJ53WqylLTQ3BdWRw03lcjBNNeMBD+EFjkl0Cnw1RVaGSqRAo38pOHOPXJH30M6cuTINUxw==}
     engines: {node: '>=20.16.0'}
     hasBin: true
 
@@ -6311,10 +6312,10 @@ snapshots:
 
   gunshi@0.27.6: {}
 
-  h3@2.0.1-rc.11:
+  h3@2.0.1-rc.12:
     dependencies:
       rou3: 0.7.12
-      srvx: 0.10.1
+      srvx: 0.11.2
 
   hast-util-to-html@9.0.5:
     dependencies:
@@ -7027,7 +7028,7 @@ snapshots:
 
   sprintf-js@1.0.3: {}
 
-  srvx@0.10.1: {}
+  srvx@0.11.2: {}
 
   stackback@0.0.2: {}
 
