@@ -30,8 +30,8 @@ catalogs:
       specifier: 0.27.6
       version: 0.27.6
     h3:
-      specifier: 2.0.1-rc.12
-      version: 2.0.1-rc.12
+      specifier: 2.0.1-rc.13
+      version: 2.0.1-rc.13
     mrmime:
       specifier: 2.0.1
       version: 2.0.1
@@ -207,7 +207,7 @@ importers:
         version: 0.27.6
       h3:
         specifier: catalog:cli
-        version: 2.0.1-rc.12
+        version: 2.0.1-rc.13
       mrmime:
         specifier: catalog:cli
         version: 2.0.1
@@ -2619,8 +2619,8 @@ packages:
     resolution: {integrity: sha512-8+TfJPzDE9XjUkdxpQQNbdxHWZ1VuIjWIRMTht4id4qdo/mIRWLdxQd61m9gvPkPf5kg0LuIxEobCsWJVYjoPA==}
     engines: {node: '>= 20'}
 
-  h3@2.0.1-rc.12:
-    resolution: {integrity: sha512-J4OKk8DnBrS9tDVj5w9rJXEd3VH6bj9EulwWefk47JxX5U85yHiQA8LmYh9eZoaqeJy+eqxuODa5wqLeLMum/A==}
+  h3@2.0.1-rc.13:
+    resolution: {integrity: sha512-1g+GVBDFygRwLEw6CIbFME99M1QiHZfE0bCzXbqOKEDHz23L/RlMJZkIwQl/mJMAauA9G3oO9pSL4tKDpvgagQ==}
     engines: {node: '>=20.11.1'}
     hasBin: true
     peerDependencies:
@@ -6312,7 +6312,7 @@ snapshots:
 
   gunshi@0.27.6: {}
 
-  h3@2.0.1-rc.12:
+  h3@2.0.1-rc.13:
     dependencies:
       rou3: 0.7.12
       srvx: 0.11.2
