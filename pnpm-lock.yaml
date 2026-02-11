@@ -73,8 +73,8 @@ catalogs:
       specifier: 2.8.3
       version: 2.8.3
     type-fest:
-      specifier: 5.4.3
-      version: 5.4.3
+      specifier: 5.4.4
+      version: 5.4.4
     typescript:
       specifier: 5.9.3
       version: 5.9.3
@@ -301,7 +301,7 @@ importers:
         version: 4.21.0
       type-fest:
         specifier: 'catalog:'
-        version: 5.4.3
+        version: 5.4.4
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3569,8 +3569,8 @@ packages:
   typanion@3.14.0:
     resolution: {integrity: sha512-ZW/lVMRabETuYCd9O9ZvMhAh8GslSqaUjxmK/JLPCh6l73CvLBiuXswj/+7LdnWOgYsQ130FqLzFz5aGT4I3Ug==}
 
-  type-fest@5.4.3:
-    resolution: {integrity: sha512-AXSAQJu79WGc79/3e9/CR77I/KQgeY1AhNvcShIH4PTcGYyC4xv6H4R4AUOwkPS5799KlVDAu8zExeCrkGquiA==}
+  type-fest@5.4.4:
+    resolution: {integrity: sha512-JnTrzGu+zPV3aXIUhnyWJj4z/wigMsdYajGLIYakqyOW1nPllzXEJee0QQbHj+CTIQtXGlAjuK0UY+2xTyjVAw==}
     engines: {node: '>=20'}
 
   typescript@5.9.3:
@@ -7201,7 +7201,7 @@ snapshots:
 
   typanion@3.14.0: {}
 
-  type-fest@5.4.3:
+  type-fest@5.4.4:
     dependencies:
       tagged-tag: 1.0.0
 
