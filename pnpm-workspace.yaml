@@ -2,7 +2,7 @@ packages:
   - packages/*
 
 catalog:
-  '@biomejs/biome': 2.3.14
+  '@biomejs/biome': 2.3.15
   '@changesets/cli': ^2.29.8
   '@iconify/json': ^2.2.417
   '@types/hast': ^3.0.4
