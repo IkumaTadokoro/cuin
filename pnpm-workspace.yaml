@@ -30,7 +30,7 @@ catalogs:
     chokidar: 5.0.0
     destr: 2.0.5
     get-port-please: 3.2.0
-    gunshi: 0.28.2
+    gunshi: 0.29.2
     h3: 2.0.1-rc.14
     mrmime: 2.0.1
     open: 11.0.0
