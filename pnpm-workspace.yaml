@@ -52,7 +52,7 @@ catalogs:
     '@shikijs/langs-precompiled': 3.22.0
     '@shikijs/themes': 3.22.0
     '@shikijs/types': 3.22.0
-    '@solid-primitives/scheduled': 1.5.2
+    '@solid-primitives/scheduled': 1.5.3
     '@solidjs/router': 0.15.4
     '@tailwindcss/vite': 4.2.0
     class-variance-authority: 0.7.1
