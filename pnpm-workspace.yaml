@@ -31,7 +31,7 @@ catalogs:
     destr: 2.0.5
     get-port-please: 3.2.0
     gunshi: 0.29.2
-    h3: 2.0.1-rc.14
+    h3: 2.0.1-rc.15
     mrmime: 2.0.1
     open: 11.0.0
     yocto-spinner: 1.1.0
