@@ -27,7 +27,7 @@ export const GroupedUsageList: SolidComponent<{
                   <CategoryIcon class="text-lg text-subtext-color" />
                   <p>{group.instances.length}</p>
                   <p class="text-subtext-color">
-                    usage{group.instances.length !== 1 ? "s" : ""}
+                    usage{group.instances.length === 1 ? "" : "s"}
                   </p>
                 </div>
                 {group.instances[0].package && (
