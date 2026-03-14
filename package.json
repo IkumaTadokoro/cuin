@@ -16,7 +16,7 @@
   "keywords": [],
   "author": "ikuma-t",
   "license": "MIT",
-  "packageManager": "pnpm@10.32.0",
+  "packageManager": "pnpm@10.32.1",
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
