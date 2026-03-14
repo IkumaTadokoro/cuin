@@ -64,8 +64,8 @@ export function useComponentListUrlSync(
       name: nameFilter || undefined,
       packages: serializeSelectionState(packageFilter),
       usedBy: serializeSelectionState(usedByPackageFilter),
-      sort: sortKey !== "name" ? sortKey : undefined,
-      order: sortOrder !== "asc" ? sortOrder : undefined,
+      sort: sortKey === "name" ? undefined : sortKey,
+      order: sortOrder === "asc" ? undefined : sortOrder,
     };
 
     setSearchParams(newParams, { replace: true });
