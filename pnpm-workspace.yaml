@@ -24,7 +24,7 @@ catalogs:
   analyzer:
     '@napi-rs/cli': 3.5.1
   build:
-    tsdown: 0.21.2
+    tsdown: 0.21.3
     tsx: 4.21.0
   cli:
     chokidar: 5.0.0
