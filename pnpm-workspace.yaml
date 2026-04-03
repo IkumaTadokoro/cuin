@@ -46,7 +46,7 @@ catalogs:
     playwright: 1.58.2
     vitest: 4.1.2
   ui:
-    '@ark-ui/solid': 5.34.1
+    '@ark-ui/solid': 5.35.0
     '@shikijs/core': 3.23.0
     '@shikijs/engine-javascript': 3.23.0
     '@shikijs/langs-precompiled': 3.23.0
