@@ -138,8 +138,8 @@ catalogs:
       specifier: 1.5.3
       version: 1.5.3
     '@solidjs/router':
-      specifier: 0.15.4
-      version: 0.15.4
+      specifier: 0.16.1
+      version: 0.16.1
     '@tailwindcss/vite':
       specifier: 4.2.2
       version: 4.2.2
@@ -244,10 +244,10 @@ importers:
         version: 1.5.3(solid-js@1.9.12)
       '@solidjs/router':
         specifier: catalog:ui
-        version: 0.15.4(solid-js@1.9.12)
+        version: 0.16.1(solid-js@1.9.12)
       '@solidjs/testing-library':
         specifier: catalog:test
-        version: 0.8.10(@solidjs/router@0.15.4(solid-js@1.9.12))(solid-js@1.9.12)
+        version: 0.8.10(@solidjs/router@0.16.1(solid-js@1.9.12))(solid-js@1.9.12)
       '@tailwindcss/vite':
         specifier: catalog:ui
         version: 4.2.2(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
@@ -1709,8 +1709,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solidjs/router@0.15.4':
-    resolution: {integrity: sha512-WOpgg9a9T638cR+5FGbFi/IV4l2FpmBs1GpIMSPa0Ce9vyJN7Wts+X2PqMf9IYn0zUj2MlSJtm1gp7/HI/n5TQ==}
+  '@solidjs/router@0.16.1':
+    resolution: {integrity: sha512-IhyjedgC6LRpw/8CPGGI89FrV+r0xTHzOl2c4CRyzYQ1bLepJxbVI1LLKvsavMWY5TRBRacV7hAeOhuTXkjiqg==}
     peerDependencies:
       solid-js: ^1.8.6
 
@@ -5159,16 +5159,16 @@ snapshots:
     dependencies:
       solid-js: 1.9.12
 
-  '@solidjs/router@0.15.4(solid-js@1.9.12)':
+  '@solidjs/router@0.16.1(solid-js@1.9.12)':
     dependencies:
       solid-js: 1.9.12
 
-  '@solidjs/testing-library@0.8.10(@solidjs/router@0.15.4(solid-js@1.9.12))(solid-js@1.9.12)':
+  '@solidjs/testing-library@0.8.10(@solidjs/router@0.16.1(solid-js@1.9.12))(solid-js@1.9.12)':
     dependencies:
       '@testing-library/dom': 10.4.1
       solid-js: 1.9.12
     optionalDependencies:
-      '@solidjs/router': 0.15.4(solid-js@1.9.12)
+      '@solidjs/router': 0.16.1(solid-js@1.9.12)
 
   '@standard-schema/spec@1.1.0': {}
 
