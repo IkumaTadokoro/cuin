@@ -7,8 +7,8 @@ settings:
 catalogs:
   analyzer:
     '@napi-rs/cli':
-      specifier: 3.5.1
-      version: 3.5.1
+      specifier: 3.6.0
+      version: 3.6.0
   build:
     tsdown:
       specifier: 0.21.7
@@ -186,7 +186,7 @@ importers:
     devDependencies:
       '@napi-rs/cli':
         specifier: catalog:analyzer
-        version: 3.5.1(@emnapi/runtime@1.7.1)(@types/node@24.12.0)(node-addon-api@7.1.1)
+        version: 3.6.0(@emnapi/runtime@1.7.1)(@types/node@24.12.0)(node-addon-api@7.1.1)
 
   packages/cuin:
     dependencies:
@@ -981,8 +981,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@napi-rs/cli@3.5.1':
-    resolution: {integrity: sha512-XBfLQRDcB3qhu6bazdMJsecWW55kR85l5/k0af9BIBELXQSsCFU0fzug7PX8eQp6vVdm7W/U3z6uP5WmITB2Gw==}
+  '@napi-rs/cli@3.6.0':
+    resolution: {integrity: sha512-aA8m4+9XxnK1+0sr4GplZP0Ze90gkzO8sMKaplOK0zXbLnzsLl6O2BQQt6rTCcTRzIN24wrrByakr/imM+CxhA==}
     engines: {node: '>= 16'}
     hasBin: true
     peerDependencies:
@@ -2499,8 +2499,8 @@ packages:
   electron-to-chromium@1.5.250:
     resolution: {integrity: sha512-/5UMj9IiGDMOFBnN4i7/Ry5onJrAGSbOGo3s9FEKmwobGq6xw832ccET0CE3CkkMBZ8GJSlUIesZofpyurqDXw==}
 
-  emnapi@1.7.1:
-    resolution: {integrity: sha512-wlLK2xFq+T+rCBlY6+lPlFVDEyE93b7hSn9dMrfWBIcPf4ArwUvymvvMnN9M5WWuiryYQe9M+UJrkqw4trdyRA==}
+  emnapi@1.9.2:
+    resolution: {integrity: sha512-OdUoQe/8so7FvubnE/DNV9sNNSFwDYQiK4ZCAz4agMnD1s6faLuDn2gzxfJrmMoKfxZhhsckqGNwqPnS5K140A==}
     peerDependencies:
       node-addon-api: '>= 6.1.0'
     peerDependenciesMeta:
@@ -2535,9 +2535,6 @@ packages:
 
   es-module-lexer@2.0.0:
     resolution: {integrity: sha512-5POEcUuZybH7IdmGsD8wlf0AI55wMecM9rVBTI/qEAy2c1kTOm3DjFYjrBdI2K3BaJjJYfYFeRtM0t9ssnRuxw==}
-
-  es-toolkit@1.43.0:
-    resolution: {integrity: sha512-SKCT8AsWvYzBBuUqMk4NPwFlSdqLpJwmy6AP322ERn8W2YLIB6JBXnwMI2Qsh2gfphT3q7EKAxKb23cvFHFwKA==}
 
   es-toolkit@1.45.1:
     resolution: {integrity: sha512-/jhoOj/Fx+A+IIyDNOvO3TItGmlMKhtX8ISAHKE90c4b/k1tqaqEZ+uUqfpU8DMnW5cgNJv606zS55jGvza0Xw==}
@@ -4648,7 +4645,7 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@napi-rs/cli@3.5.1(@emnapi/runtime@1.7.1)(@types/node@24.12.0)(node-addon-api@7.1.1)':
+  '@napi-rs/cli@3.6.0(@emnapi/runtime@1.7.1)(@types/node@24.12.0)(node-addon-api@7.1.1)':
     dependencies:
       '@inquirer/prompts': 8.0.2(@types/node@24.12.0)
       '@napi-rs/cross-toolchain': 1.0.3
@@ -4656,11 +4653,11 @@ snapshots:
       '@octokit/rest': 22.0.1
       clipanion: 4.0.0-rc.4(typanion@3.14.0)
       colorette: 2.0.20
-      emnapi: 1.7.1(node-addon-api@7.1.1)
-      es-toolkit: 1.43.0
+      emnapi: 1.9.2(node-addon-api@7.1.1)
+      es-toolkit: 1.45.1
       js-yaml: 4.1.1
       obug: 2.1.1
-      semver: 7.7.3
+      semver: 7.7.4
       typanion: 3.14.0
     optionalDependencies:
       '@emnapi/runtime': 1.7.1
@@ -6230,7 +6227,7 @@ snapshots:
 
   electron-to-chromium@1.5.250: {}
 
-  emnapi@1.7.1(node-addon-api@7.1.1):
+  emnapi@1.9.2(node-addon-api@7.1.1):
     optionalDependencies:
       node-addon-api: 7.1.1
 
@@ -6255,8 +6252,6 @@ snapshots:
   environment@1.1.0: {}
 
   es-module-lexer@2.0.0: {}
-
-  es-toolkit@1.43.0: {}
 
   es-toolkit@1.45.1: {}
 
