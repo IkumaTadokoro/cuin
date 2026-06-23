@@ -1,5 +1,17 @@
 # @ikuma-t/cuin
 
+## 0.6.0
+
+### Minor Changes
+
+- 60fe2f9: Add Zed editor link alongside VSCode link
+
+  Add a new `OpenZed` link to the code preview that opens the file in Zed via the `zed://file` scheme. The new icon is displayed side by side with the existing VSCode link so users can choose their preferred editor.
+
+### Patch Changes
+
+- @ikuma-t/cuin-analyzer@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes
