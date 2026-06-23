@@ -2,6 +2,7 @@ import { type Component, createEffect, createSignal, For } from "solid-js";
 import { useDetailsVisibility } from "~/shared/ui/details/details-visibility";
 import type { Span } from "../../../types/schema";
 import { OpenVscode } from "./open-vscode";
+import { OpenZed } from "./open-zed";
 
 type Props = {
   code: string;
@@ -63,8 +64,9 @@ export const Code: Component<Props> = (props) => {
           </code>
         </pre>
       )}
-      <div class="absolute right-2 bottom-2">
+      <div class="absolute right-2 bottom-2 flex items-center gap-1">
         <OpenVscode absPath={location} basePath={props.basePath} />
+        <OpenZed absPath={location} basePath={props.basePath} />
       </div>
     </div>
   );

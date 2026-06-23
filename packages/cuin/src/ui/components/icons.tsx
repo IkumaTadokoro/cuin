@@ -21,5 +21,6 @@ export { default as StringIcon } from "~icons/codicon/symbol-string";
 export { default as MarkdownIcon } from "~icons/mdi/language-markdown";
 export { default as ReactIcon } from "~icons/mdi/react";
 export { default as VSCodeIcon } from "~icons/simple-icons/visualstudiocode";
+export { default as ZedIcon } from "~icons/simple-icons/zedindustries";
 export { default as ComponentIcon } from "~icons/tabler/components";
 export { default as FunctionIcon } from "~icons/tabler/math-function";
