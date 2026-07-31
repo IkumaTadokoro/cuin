@@ -56,7 +56,7 @@ catalogs:
     '@solidjs/router': 0.16.3
     '@tailwindcss/vite': 4.2.2
     class-variance-authority: 0.7.1
-    solid-js: 1.9.12
+    solid-js: 1.9.14
     tailwindcss: 4.2.2
     vite: 7.3.1
     vite-plugin-solid: 2.11.11
