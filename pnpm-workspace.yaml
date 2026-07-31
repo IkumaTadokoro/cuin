@@ -59,4 +59,4 @@ catalogs:
     solid-js: 1.9.14
     tailwindcss: 4.2.2
     vite: 7.3.6
-    vite-plugin-solid: 2.11.11
+    vite-plugin-solid: 2.11.14
