@@ -83,7 +83,7 @@ jobs:
           PLAYWRIGHT_VERSION=$(pnpm list playwright --depth=0 --json --filter="@ikuma-t/cuin" | jq -r '.[0].devDependencies.playwright.version')
           echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
       - name: Cache Playwright browsers
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
