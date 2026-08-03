@@ -7,8 +7,8 @@ settings:
 catalogs:
   analyzer:
     '@napi-rs/cli':
-      specifier: 3.8.1
-      version: 3.8.1
+      specifier: 3.8.2
+      version: 3.8.2
   build:
     tsdown:
       specifier: 0.21.7
@@ -186,7 +186,7 @@ importers:
     devDependencies:
       '@napi-rs/cli':
         specifier: catalog:analyzer
-        version: 3.8.1(@types/node@24.12.0)(node-addon-api@7.1.1)
+        version: 3.8.2(@types/node@24.12.0)(node-addon-api@7.1.1)
 
   packages/cuin:
     dependencies:
@@ -981,8 +981,8 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@napi-rs/cli@3.8.1':
-    resolution: {integrity: sha512-XDtwn0o6XGLxzMoL7FrTDA7jz7t6UUAI+QreICK5QgDOqeZJODmLv0p77kzQNyfKbXVomAw1u2SC5Zzsr07gig==}
+  '@napi-rs/cli@3.8.2':
+    resolution: {integrity: sha512-iFmp3Lo/ipXoJI1I/6V/xU4hQV42bXS3A7j8C+Wt3LOtYY7HFCilkhyUkN1igLJFXWMICq95kNxhNcwzNRd+Kw==}
     engines: {node: ^20.17.0 || ^22.13.0 || >= 23.5.0}
     hasBin: true
     peerDependencies:
@@ -2818,10 +2818,6 @@ packages:
     resolution: {integrity: sha512-PMSmkqxr106Xa156c2M265Z+FTrPl+oxd/rgOQy2tijQeK5TxQ43psO1ZCwhVOSdnn+RzkzlRz/eY4BgJBYVpg==}
     hasBin: true
 
-  js-yaml@4.1.1:
-    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
-    hasBin: true
-
   js-yaml@4.3.1:
     resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
     hasBin: true
@@ -4318,7 +4314,7 @@ snapshots:
   '@changesets/parse@0.4.2':
     dependencies:
       '@changesets/types': 6.1.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
 
   '@changesets/pre@2.0.2':
     dependencies:
@@ -4689,7 +4685,7 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@napi-rs/cli@3.8.1(@types/node@24.12.0)(node-addon-api@7.1.1)':
+  '@napi-rs/cli@3.8.2(@types/node@24.12.0)(node-addon-api@7.1.1)':
     dependencies:
       '@inquirer/prompts': 8.5.2(@types/node@24.12.0)
       '@napi-rs/cross-toolchain': 1.0.3
@@ -6580,10 +6576,6 @@ snapshots:
       argparse: 1.0.10
       esprima: 4.0.1
 
-  js-yaml@4.1.1:
-    dependencies:
-      argparse: 2.0.1
-
   js-yaml@4.3.1:
     dependencies:
       argparse: 2.0.1
@@ -7029,7 +7021,7 @@ snapshots:
       birpc: 4.0.0
       dts-resolver: 2.1.3
       get-tsconfig: 4.13.7
-      obug: 2.1.1
+      obug: 2.1.4
       picomatch: 4.0.4
       rolldown: 1.0.0-rc.12
     optionalDependencies:
