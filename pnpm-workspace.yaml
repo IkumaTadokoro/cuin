@@ -22,7 +22,7 @@ catalogMode: strict
 
 catalogs:
   analyzer:
-    '@napi-rs/cli': 3.8.1
+    '@napi-rs/cli': 3.8.2
   build:
     tsdown: 0.21.7
     tsx: 4.21.0
