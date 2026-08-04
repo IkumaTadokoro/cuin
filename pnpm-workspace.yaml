@@ -34,7 +34,7 @@ catalogs:
     h3: 2.0.1-rc.15
     mrmime: 2.0.1
     open: 11.0.0
-    yocto-spinner: 1.1.0
+    yocto-spinner: 1.2.2
   test:
     '@solidjs/testing-library': 0.8.10
     '@testing-library/jest-dom': 6.9.1
