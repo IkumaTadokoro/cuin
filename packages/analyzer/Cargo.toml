@@ -19,7 +19,7 @@ dashmap = "6.1"
 ignore = "0.4"
 napi = { version = "3", optional = true }
 napi-derive = { version = "3", features = ["type-def"], optional = true }
-oxc = { version = "0.94.0", default-features = false, features = ["ast_visit"] }
+oxc = { version = "0.143.0", default-features = false, features = ["ast_visit"] }
 oxc_resolver = "11.9.0"
 oxc_syntax = "0.94.0"
 rayon = "1.10"
