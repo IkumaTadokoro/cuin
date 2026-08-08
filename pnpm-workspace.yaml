@@ -25,7 +25,7 @@ catalogs:
     '@napi-rs/cli': 3.8.2
   build:
     tsdown: 0.22.14
-    tsx: 4.23.7
+    tsx: 4.23.8
   cli:
     chokidar: 5.0.0
     destr: 2.0.5
