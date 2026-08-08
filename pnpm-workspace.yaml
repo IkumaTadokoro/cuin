@@ -38,7 +38,7 @@ catalogs:
   test:
     '@solidjs/testing-library': 0.8.10
     '@testing-library/jest-dom': 6.9.1
-    '@testing-library/user-event': 14.6.1
+    '@testing-library/user-event': 14.6.3
     '@vitest/browser-playwright': 4.1.10
     '@vitest/ui': 4.1.10
     fishery: 2.4.0
