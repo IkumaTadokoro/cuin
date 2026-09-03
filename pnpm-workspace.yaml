@@ -58,5 +58,5 @@ catalogs:
     class-variance-authority: 0.7.1
     solid-js: 1.9.14
     tailwindcss: 4.2.2
-    vite: 7.3.6
+    vite: 8.2.2
     vite-plugin-solid: 2.11.14
